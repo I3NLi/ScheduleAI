@@ -9,12 +9,19 @@ require('./bootstrap');
 
 import Vue from 'vue';
 import iView from 'iview';
-import 'iview/dist/styles/iview.css';
 // import "bootstrap-sass";
-import App from './App.vue';
+import Vuebar from 'vuebar';
+// import InputTag from 'vue-input-tag'
 
 Vue.config.productionTip = false;
+
+import 'iview/dist/styles/iview.css';
+
+Vue.use(Vuebar);
 Vue.use(iView);
+
+
+import App from './App.vue';
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -27,3 +34,4 @@ const app = new Vue({
     template: '<App/>',
     components: { App },
 });
+console.log("start");

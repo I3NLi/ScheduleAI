@@ -79,11 +79,12 @@ return [
         ],
         'mongodb' => [
             'driver'   => 'mongodb',
-            'host'     => 'localhost',
-            'port'     => 27017,
-            'database' => 'task',
-            'username' => '',
-            'password' => '',
+            'host'     => env('DB_HOST', 'localhost'),
+            'port'     => env('DB_PORT', '27017'),
+            'database' => env('DB_DATABASE', 'forge'),
+            // 'dsn' => 'mongodb://::1:27017',
+            'username' => env('DB_USERNAME', 'admin'),
+            'password' => env('DB_PASSWORD', 'password'),
         ],
 
     ],
