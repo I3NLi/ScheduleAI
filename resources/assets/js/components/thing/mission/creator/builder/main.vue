@@ -1,0 +1,230 @@
+<template>
+  <div id="builder">
+    <input type="text" id="title" v-model="modules.Attribut.title" placeholder="Title"/>
+    <!-- <h2 id="title" contenteditable="true" @keydown.enter="change_title" v-on:blur="change_title" >{{modules.Attribut.title}}</h2> -->
+    <hr/>
+    Father Id: #{{data.id}}
+    <Collapse v-model="Collapse">
+      <!-- <Panel name="Modul">
+      Modul
+      <Tree :data="modul" slot="content" show-checkbox></Tree>
+    </Panel> -->
+    <Panel v-for="(module,key) in modules" :name="key">
+      {{key}}
+      <component slot="content" :is="key" :data="module" :permissions="modules.Permissions"/>
+    </Panel>
+  </Collapse>
+  <div class='c_input'>
+    <c-input :data='this.data.template.Contact' :ziel='ziel'/>
+  </div>
+  <br/>
+  <Button
+  type="success"
+  long
+  @click="create">SUBMIT</Button>
+  <br/>
+  <br/>
+  <br/>
+
+</div>
+
+</template>
+
+<script>
+import Attribut from './attribut/main';
+// import repeat from './repeat/main';
+import Mission from '../../missionComponent/Editor/Editor';
+//import File from '../file/main';
+// import Database from './database/main';
+import Contact from '../../../../contact/panel/panel';
+import cInput from '../../../../contact/input/input'
+import Permissions from './permissions/main'
+
+function in_array(string,array){
+  for(let item in array){
+    if(array[item]==string){
+      return true;
+    }
+  }
+  return false;
+}
+
+
+
+
+
+
+
+export default {
+  name: 'mission',
+  props:{
+    data:Object,
+  },
+  data() {
+    return {
+      Collapse:this.data.template.Collapse,
+      // modules:this.data.template,
+      ziel:{
+        type:"missionBuilder",
+        id:this.data.id,
+      },
+
+      // modules:{//根据id远程读入，模板的信息
+      //   Attribut:{
+      //     title:"undefined",
+      //     fatherId:this.data.id,
+      //     time:{
+      //       type:'once',
+      //       data:{
+      //         startCondition:'immediately',
+      //         startTime:new Date(),
+      //         workTimeType:"inherit",
+      //         workTime:0,
+      //       },
+      //     },
+      //     planTimeCost:0,
+      //     importance:"2",
+      //     tags:[],
+      //   },
+      //   Mission:[],
+      //   Owner:[],
+      //   // Database:{},
+      //   // Contact:{},
+      // },
+      //   modul:[
+      //     {
+      //       title: 'Attribut',
+      //       expand: true,
+      //       multiple:false,
+      //       children: [
+      //         {
+      //           title: 'default',
+      //           expand: true,
+      //           multiple:false,
+      //           children: [
+      //           ]
+      //         },
+      //         {
+      //           title: 'repeat',
+      //           expand: true,
+      //           multiple:false,
+      //           children: [
+      //           ]
+      //         },
+      //       ]
+      //     },
+      //     {
+      //       title: 'Mission',
+      //       expand: true,
+      //       children: [
+      //       ]
+      //     },
+      //     {
+      //       title: 'File',
+      //       expand: true,
+      //       children: [
+      //       ]
+      //     },
+      //     {
+      //       title: 'Database',
+      //       expand: true,
+      //       children: [
+      //       ]
+      //     },
+      //     {
+      //       title: 'Contact',
+      //       expand: true,
+      //       children: [
+      //       ]
+      //     },
+      //
+      //   ]
+    };
+  },
+  computed:{
+    // permissions(){
+    //   //根据Permission数组下的user->role->permission生成user->permission
+    // },
+    modules:function (){
+      let result={};
+      for(let module in this.data.template){
+        if(typeof this.data.template[module]=="array"||typeof this.data.template[module]=="object"){
+          // console.log(module+":"+typeof( this.data.template[module]));
+          if(!in_array(module,this.data.template.Modules)){
+            // console.log(module+":false");
+            continue;
+
+          }
+          result[module]=this.data.template[module];
+        }
+        // console.log(result);
+
+      }
+      return result;
+    },
+
+  },
+  methods:{
+
+    create:function (){
+      let vm=this;
+      let data={
+        'data':vm.data.template
+      }
+      window.axios.post('/api/thing/create/'+vm.data.id, data)
+      .then(function (response) {
+        console.log(response);
+        vm.after_create(response.data._id);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    },
+    change_title(){
+      window.focus();
+      return false;
+    },
+    after_create(id){
+      let vm=this;
+      console.log(id);
+      window.axios.get('/api/thing/get/'+id)
+      .then(function (response) {
+        if(response.data[0]._id==id){
+        console.log("任务创建成功");
+        window.app.thing.activeThingNode.refresh();
+        window.app.thing.set_mode(id,"editor");
+        }else{
+          console.log("任务未创建 延时1s");
+          setTimeout(vm.after_create(id),1000)
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    }
+  },
+  components: {
+    Attribut,
+    Mission,
+    Contact,
+    cInput,
+    Permissions,
+    //File,
+  },
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped >
+/*nav{ height: 42px; border: 1px red; }*/
+.c_input{
+  position: fixed;
+  bottom: 0px;
+}
+#title{
+  width: 100%;
+  font-size: 24px;
+}
+</style>
