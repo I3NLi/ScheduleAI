@@ -1,16 +1,32 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+<p align="center"><img src="#" alt="这里是logo"></p>
 
-<p align="center">
+<!-- <p align="center">
 <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+</p> -->
 
-## About Laravel
+## About PrivateSecretary
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+PrivateSecretary 致力于通过算法为用户提供智能的日程规划与文档管理
+使用PrivateSecretary ：
 
+- 你不再需要为日程规划而发愁，PrivateSecretary 会在任何活动更改的时候为您重新规划日程
+- 你不再会因为拖延症而把生活搞得一团糟，PrivateSecretary 会在必要的时间提醒您去工作
+- 你不需要因为需要大量的输入，我们通过各种方式简化您的操作
+- 你不再需要担心因为使用各种沟通软件，造成需要用的文件，重要的信息淹没在闲谈中找起来困难而烦恼
+- 你不在需要担心各种杂谈信息是你无法专注在重要的工作上，PrivateSecretary 会为您职能的截留并制作成汇报单程先给您
+
+同时PrivateSecretary 也是：
+
+- 一个允许用户通过简单的操作高度自定义个OA框架
+- 一个企业展示嗯面
+- 一个劳务买卖平台
+
+
+
+<!--
 - [Simple, fast routing engine](https://laravel.com/docs/routing).
 - [Powerful dependency injection container](https://laravel.com/docs/container).
 - Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
@@ -19,9 +35,15 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 - [Robust background job processing](https://laravel.com/docs/queues).
 - [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked. -->
 
-## Learning Laravel
+
+## installation
+
+- 详见[wiki](https://github.com/lbnlbn1234/PrivateSecretary/wiki/installation).
+
+
+<!-- ## Learning Laravel
 
 Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
 
@@ -50,4 +72,4 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT). -->

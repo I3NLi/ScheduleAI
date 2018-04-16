@@ -25,9 +25,9 @@ class ThingsSeeder extends Seeder
       //生成10个根事件
       for($i=0;$i<rand(1,10);$i++){
         $tmp=$this->new_thing(0,$this->RandTime(15),$owner);
-        //填充自时间
-        for($m=0,$m<rand(1,10);$m++){
-          //十分之3的几率产生下属子事件
+        //填充自时�?
+        for($m=0;$m<rand(1,10);$m++){
+          //十分�?3的几率产生下属子事件
           if(4>rand(1,10)) {
             $tmp=$this->new_thing($tmp->_id,$this->RandTime(15),$owner);
           } else{
@@ -42,8 +42,8 @@ class ThingsSeeder extends Seeder
 
   }
   /*
-  生成一个随机的time填充
-  @day 最大日期
+  生成�?个随机的time填充
+  @day �?大日�?
   */
   private function RandTime($day){
     $TmpStartTime=Date();
@@ -59,11 +59,12 @@ class ThingsSeeder extends Seeder
       "type"=>'once',
       "data"=>[
         "startCondition"=>'immediately',
-        "startTime":date_format($TmpStartTime,DATE_ATOM);,
-        "endTime":date_format($TmpTmpEndTime,DATE_ATOM);,
+        "startTime"=>date_format($TmpStartTime,DATE_ATOM),
+        "endTime"=>date_format($TmpTmpEndTime,DATE_ATOM),
         "workTimeType"=>"inherit",
         "workTime"=>$tmpInteval,
       ],
+        ];
       return $time;
     }
     private function new_thing($fid,$time,$owner){
@@ -71,14 +72,13 @@ class ThingsSeeder extends Seeder
       [//根据id远程读入，模板的信息
         "Attribut"=>[
           "title"=>"undefined",
-          "fatherId":$fid,
-          "time"=>$time;
-        ],
+          "fatherId"=>$fid,
+        "time"=>$time,
         "workTimeCost"=>0,
         "planTimeCost"=>0,
         "importance"=>"2",
         "tags"=>[],
-      ],
+            ],
       "Mission"=>[
         [
           "type"=>"m_text",
@@ -104,7 +104,7 @@ class ThingsSeeder extends Seeder
         "Mission",
         "Permissions",
         "Contact",
-      ],//记录启用的模块
+      ],//记录启用的模�?
 
     ];
     return Thing::create($query);
