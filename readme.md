@@ -42,6 +42,8 @@ Laravel is accessible, yet powerful, providing tools needed for large, robust ap
 
 - 详见[wiki](https://github.com/lbnlbn1234/PrivateSecretary/wiki/installation).
 
+## 更多其他资料
+- [google 云端硬盘](https://drive.google.com/open?id=1t5kTDkfd7QAD7P3MaeV8hUqKyh3A6xKo)
 
 <!-- ## Learning Laravel
 
