@@ -52,6 +52,15 @@ axios.interceptors.response.use(
     //请求错误时做些事
     console.log(error);
     switch (error.response.status) {
+      case 403:
+      // 未授权异常
+      alert("系统拒绝：您没有访问权限。");
+      break;
+
+      case 404:
+      alert("您访问的资源不存在。");
+      break;
+
       case 401://未授权
       // this.$Notice.error({
       //   title: 'Notification title',

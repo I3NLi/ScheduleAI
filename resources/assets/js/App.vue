@@ -81,6 +81,7 @@ export default {
       console.log("try logout");
       axios.post('/logout', {})
       .then(function (response) {
+        location.reload();
         console.log("logout");
       })
       .catch(function (error) {
@@ -97,7 +98,7 @@ export default {
     organization,
     contact,
   },
-  
+
 
 
 };
