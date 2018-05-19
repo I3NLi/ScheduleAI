@@ -1,6 +1,6 @@
 <template>
-  <div id="chart-container" style="width: 100%;height:100%;">
-  </div>
+<div id="chart-container" style="width: 100%;height:100%;">
+</div>
 </template>
 
 <script>
@@ -18,31 +18,47 @@ export default {
     let data = [];
     let dataCount = 10;
     let startTime = +new Date();
-    let categories = ['周一', '周二', '周三'];
-    let types = [
-      {name: 'JS Heap', color: '#7b9ce1'},
-      {name: 'Documents', color: '#bd6d6c'},
-      {name: 'Nodes', color: '#75d874'},
-      {name: 'Listeners', color: '#e0bc78'},
-      {name: 'GPU Memory', color: '#dc77dc'},
-      {name: 'GPU', color: '#72b362'}
+    let now = new Date();
+    let categories = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    //设定任务类型
+    let types = [{
+        name: 'JS Heap',
+        color: '#7b9ce1'
+      },
+      {
+        name: 'Documents',
+        color: '#bd6d6c'
+      },
+      {
+        name: 'Nodes',
+        color: '#75d874'
+      },
+      {
+        name: 'Listeners',
+        color: '#e0bc78'
+      },
+      {
+        name: 'GPU Memory',
+        color: '#dc77dc'
+      },
+      {
+        name: 'GPU',
+        color: '#72b362'
+      }
     ];
 
-    let tmpInteval=[new Date(),new Date()];//设置当天的起点与终点
-    tmpInteval[0].setHours(0,0,0,0);
-    tmpInteval[1].setHours(23,59,59,999);
-    function checkMin(i)
-    {
-      if (i<10)
-      return "0" + i;
+    function checkMin(i) {
+      if (i < 10)
+        return "0" + i;
       else return i;
     }
     // Generate mock data
-    echarts.util.each(categories, function (category, index) {
+    echarts.util.each(categories, function(category, index) {
+      //修改此处以填入真实数据
       let baseTime = startTime;
       for (let i = 0; i < dataCount; i++) {
         let typeItem = types[Math.round(Math.random() * (types.length - 1))];
-        let duration = Math.round(Math.random() * 10000);
+        let duration = Math.round(Math.random() * 10000000);
         data.push({
           name: typeItem.name,
           value: [
@@ -57,14 +73,14 @@ export default {
             }
           }
         });
-        baseTime += Math.round(Math.random() * 2000);
+        baseTime += Math.round(Math.random() * 2000000);
       }
     });
 
     function renderItem(params, api) {
       let categoryIndex = api.value(0);
-      let start = api.coord([categoryIndex,api.value(1)]);
-      let end = api.coord([categoryIndex,api.value(2)]);
+      let start = api.coord([categoryIndex, api.value(1)]);
+      let end = api.coord([categoryIndex, api.value(2)]);
       let width = api.size([1, 1])[0] * 0.6;
 
       return {
@@ -85,14 +101,8 @@ export default {
     }
 
     return {
-      option : {
+      option: {
         tooltip: {
-          // formatter: function (val) {
-          //    let date=new Date(val);
-          // return {
-          //   {date.getHours()+":"+checkMin(date.getMinutes())}
-          //   };
-          // }
 
         },
         title: {
@@ -105,39 +115,47 @@ export default {
         dataZoom: [{
           type: 'inside',
           filterMode: 'weakFilter',
-          orient:'vertical',
+          orient: 'vertical',
         }],
         grid: {
           //height:300
         },
         xAxis: {
           data: categories,
-          splitLine:{
-            show:true,
+          splitLine: {
+            show: true,
           },
 
         },
         yAxis: {
-          min: startTime,
+          // min: startTime,
           // min: tmpInteval[0],
           // max: tmpInteval[1],
-          inverse:true,
+          inverse: true,
           scale: true,
+          min: function() {
+            let date = new Date();
+            return date.setHours(0, 0, 0, 0);
+          },
+          max: function() {
+            let date = new Date();
+            return date.setHours(23, 59, 59, 999);
+          },
           axisLabel: {
-            formatter: function (val) {
-              let date=new Date(val);
-              return date.getHours()+":"+checkMin(date.getMinutes());
+            formatter: function(val) {
+              let date = new Date(val);
+              return date.getHours() + ":" + checkMin(date.getMinutes());
             }
           },
-          axisPointer:{
-            show:true,
-            snap:false,
-            label:{
-              show:true,
-              formatter:function (params) {
+          axisPointer: {
+            show: true,
+            snap: false,
+            label: {
+              show: true,
+              formatter: function(params) {
                 // 假设此轴的 type 为 'time'。
-                let date=new Date(params.value);
-                return date.getHours()+":"+checkMin(date.getMinutes());
+                let date = new Date(params.value);
+                return date.getHours() + ":" + checkMin(date.getMinutes());
               },
             }
           }
@@ -157,19 +175,38 @@ export default {
             x: 0,
             y: [1, 2]
           },
-          markLine : {
+          markLine: {
             lineStyle: {
               normal: {
                 type: 'solid'
               }
             },
-            // symbol:[none,none],
-            data : [
-               {
-              name: '当前时间',
-              yAxis: new Date(),
-             }
-            ]
+            data: [{
+              yAxis: now,
+              name: "now",
+              tooltip: {
+                trigger: 'item',
+                formatter: function(val) {
+                  return "Now:" + now.toLocaleTimeString();
+                }
+              },
+              label:{
+                position:"start",
+                formatter: function(val) {
+                  return now.getHours() + ":" + checkMin(now.getMinutes())
+                }
+              },
+            }]
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: function(val) {
+              return val.name + "<br/>" +
+                "Start:" + new Date(val.value[1]).toLocaleTimeString() + "<br/>" +
+                "End  :" + new Date(val.value[2]).toLocaleTimeString() + "<br/>" +
+                "Use  :" + (val.value[3] / 1000 / 60).toFixed(0) + " min <br/>";
+            }
+
           },
           data: data,
         }]
@@ -177,7 +214,7 @@ export default {
     };
   },
 
-  mounted () {
+  mounted() {
     $chart = document.getElementById('chart-container');
     //  $chart = this.$el.querySelector('.chart-container');
     chart = echarts.init($chart);

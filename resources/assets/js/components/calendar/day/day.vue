@@ -11,7 +11,7 @@
       </div>
     </div>
 
-      <div style="width: 400px;" class="inline-block fullheight">
+      <!-- <div style="width: 400px;" class="inline-block fullheight">
         <div v-bar="{
           preventParentScroll: true,
           scrollThrottle: 30,
@@ -20,7 +20,7 @@
             <mission/>
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
   </template>
 
