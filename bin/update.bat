@@ -1,4 +1,4 @@
-echo on
 cd ..
-npm update
+call npm update
+call docker-compose exec workspace composer install
 pause
