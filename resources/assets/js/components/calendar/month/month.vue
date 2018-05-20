@@ -8,6 +8,7 @@ import fullcalendar from "./components/vue-fullcalendar/fullCalendar";
 
 // import fullcalendar from 'vue-fullCalendar';
 export default {
+  name: 'month',
   data () {
     return {
       currentDate :new Date(),
@@ -21,7 +22,7 @@ export default {
 
   },
   methods: {
-    
+
   },
   components:{
     fullcalendar,
