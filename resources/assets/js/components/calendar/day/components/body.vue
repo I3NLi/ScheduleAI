@@ -14,7 +14,6 @@ let $chart = null
 export default {
   name: 'daybody',
   data() {
-
     let data = [];
     let dataCount = 10;
     let startTime = +new Date();
@@ -101,9 +100,9 @@ export default {
     }
 
     return {
+      chart : null,
       option: {
         tooltip: {
-
         },
         title: {
           // text: 'Profile',
@@ -190,8 +189,8 @@ export default {
                   return "Now:" + now.toLocaleTimeString();
                 }
               },
-              label:{
-                position:"start",
+              label: {
+                position: "start",
                 formatter: function(val) {
                   return now.getHours() + ":" + checkMin(now.getMinutes())
                 }
@@ -213,13 +212,31 @@ export default {
       },
     };
   },
-
+  watch: {
+    // 观察option的变化
+    option: {
+      handler(newVal, oldVal) {
+        if (this.chart) {
+          if (newVal) {
+            this.chart.setOption(newVal);
+          } else {
+            this.chart.setOption(oldVal);
+          }
+        } else {
+            this.init();
+        }
+      },
+      deep: true //对象内部属性的监听，关键。
+    }
+  },
   mounted() {
-    $chart = document.getElementById('chart-container');
-    //  $chart = this.$el.querySelector('.chart-container');
-    chart = echarts.init($chart);
+    chart=echarts.init(document.getElementById('chart-container'));
     // 使用刚指定的配置项和数据显示图表。
     chart.setOption(this.option);
+    setInterval(function() {
+      // 每分钟刷新一次
+      },
+    60000);//1 min
   }
 };
 </script>
