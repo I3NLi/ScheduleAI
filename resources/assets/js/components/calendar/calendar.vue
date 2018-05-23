@@ -1,14 +1,14 @@
 <template>
   <div class="content">
-    <!-- <center>
+    <center>
       <br/>
       <ButtonGroup>
-        <Button disabled>Day</Button>
+        <Button v-on:click="mode='day'">Day</Button>
         <Button disabled>Week</Button>
-        <Button >Month</Button>
+        <Button v-on:click="mode='month'">Month</Button>
         <Button disabled>Year</Button>
       </ButtonGroup>
-    </center> -->
+    </center>
 
     <component :is="mode" class="full"/>
 
