@@ -17,6 +17,7 @@ export default {
     ziel:[Array,Object],
   },
   data() {
+    console.log(this.data);
     return {
       msg: '',
       spinShow:false,
@@ -53,6 +54,7 @@ export default {
         user:{
           //
           id:0,
+          img: "/testP/images.jpg",
         },
         component:{
           type:'text',

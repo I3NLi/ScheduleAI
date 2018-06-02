@@ -7,6 +7,7 @@
 
 require('./bootstrap');
 
+console.log(window.currentUser);
 import Vue from 'vue';
 import iView from 'iview';
 // import "bootstrap-sass";

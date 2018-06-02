@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
+<!-- 
+  <script>
+    window.currentUser={{Auth::user()}}
+  </script> -->
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

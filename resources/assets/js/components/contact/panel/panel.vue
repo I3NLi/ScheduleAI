@@ -1,9 +1,10 @@
 <template>
   <div :height='"100%"'>
     <div v-bar="{preventParentScroll: true,scrollThrottle: 30,}" class="full">
-    <Card dis-hover v-for="(item, index) in data" :key="index" >
-      user{{item.user.id}}:&nbsp{{ item.component.content }}
-    </Card>
+    <p dis-hover v-for="(item, index) in data" :key="index" >
+      <img :src="item.user.img" class="photo">
+      :&nbsp{{ item.component.content }}
+    </p>
   </div>
 </div>
 </template>
@@ -17,7 +18,7 @@ export default {
   },
   data() {
     return {
-
+      currentUserId=window.currentUser.id;
     };
   },
   methods: {
@@ -43,14 +44,9 @@ export default {
 }
 </style>
 
-
-
-
-char name[100];
-for(int i=0;i<sizeof(name);i++){
-  if(read(stdin,name[i],1)){
-    //name[i].转换为大写();
-  }else{
-    break;
-  }
+<style scoped>
+img.photo{
+  height: 10px;
+  weight: 10px;
 }
+</style>
