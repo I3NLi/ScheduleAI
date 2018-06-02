@@ -54,7 +54,7 @@ export default {
     // Generate mock data
     echarts.util.each(categories, function(category, index) {
       //修改此处以填入真实数据
-      let baseTime = startTime;
+      let baseTime = new Date().setHours(0,0,0,0);
       for (let i = 0; i < dataCount; i++) {
         let typeItem = types[Math.round(Math.random() * (types.length - 1))];
         let duration = Math.round(Math.random() * 10000000);
