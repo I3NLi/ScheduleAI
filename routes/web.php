@@ -12,7 +12,7 @@
 */
 
 //完成安装后删除
-Route::any('/install', 'InstallController@index')->name('api.thing.list.get.Match');
+// Route::any('/install', 'InstallController@index')->name('api.thing.list.get.Match');/
 
 Route::get('/', function () {
     return view('welcome');

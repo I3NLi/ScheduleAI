@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
+<script>
+  window.currentUser={};
+  window.currentUser.id="{{Auth::user()->id}}";
+</script>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
