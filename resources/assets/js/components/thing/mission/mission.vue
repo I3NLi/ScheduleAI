@@ -1,6 +1,7 @@
 <template>
   <div id='mission' class="full">
     <!-- <viewer v-show='mode'/> -->
+    <!--
     <nav class="navbar navbar-default" role="navigation">
       <div class="container-fluid">
         <div class="collapse navbar-collapse" id="example-navbar-collapse">
@@ -10,7 +11,14 @@
           </ul>
         </div>
       </div>
-    </nav>
+    </nav> -->
+    <Tabs type="card">
+           <TabPane :key="attribute" :label="Attribute"></TabPane>
+           <TabPane :key="mission" :label="Mission"></TabPane>
+           <TabPane :key="permissions" :label="Permissions"></TabPane>
+           <Button v-show="mode=='viewer'" type="ghost" @click="mode_editor" size="big" slot="extra"><Icon type="wrench" /></Button>
+           <Button v-show="mode=='editor'" type="ghost" @click="mode_viewer" size="big" slot="extra"><Icon type="edit" /></Button>
+    </Tabs>
 
     <component :is="mode" :data="data" :id="id"/></component>
     <Spin size="large" fix v-if="spinShow"></Spin>

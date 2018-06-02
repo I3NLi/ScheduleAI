@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-      currentUserId=window.currentUser.id;
+      currentUserId:window.currentUser.id,
     };
   },
   methods: {
