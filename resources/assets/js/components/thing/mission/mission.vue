@@ -1,7 +1,7 @@
 <template>
-  <div id='mission' class="full">
-    <!-- <viewer v-show='mode'/> -->
-    <!--
+<div id='mission' class="full">
+  <!-- <viewer v-show='mode'/> -->
+  <!--
     <nav class="navbar navbar-default" role="navigation">
       <div class="container-fluid">
         <div class="collapse navbar-collapse" id="example-navbar-collapse">
@@ -12,17 +12,22 @@
         </div>
       </div>
     </nav> -->
-    <Tabs type="card">
-           <TabPane :key="attribute" :label="Attribute"></TabPane>
-           <TabPane :key="mission" :label="Mission"></TabPane>
-           <TabPane :key="permissions" :label="Permissions"></TabPane>
-           <Button v-show="mode=='viewer'" type="ghost" @click="mode_editor" size="big" slot="extra"><Icon type="wrench" /></Button>
-           <Button v-show="mode=='editor'" type="ghost" @click="mode_viewer" size="big" slot="extra"><Icon type="edit" /></Button>
-    </Tabs>
 
-    <component :is="mode" :data="data" :id="id"/></component>
-    <Spin size="large" fix v-if="spinShow"></Spin>
-  </div>
+
+  <ul class="nav nav-tabs">
+    <li role="presentation" class="active"><a href="#">Attributes</a></li>
+    <li role="presentation"><a href="#">Missions</a></li>
+    <li role="presentation"><a href="#">Permissions</a></li>
+  </ul>
+
+  </Menu>
+
+
+
+
+  <component :is="mode" :data="data" :id="id" /></component>
+  <Spin size="large" fix v-if="spinShow"></Spin>
+</div>
 </template>
 
 <script>
@@ -109,7 +114,7 @@ export default {
   };
   </script>
 
-  <!-- Add "scoped" attribute to limit CSS to this component only -->
+  <!-- Add "scoped" Attribute to limit CSS to this component only -->
   <style scoped >
   /*nav{ height: 42px; border: 1px red; }*/
 

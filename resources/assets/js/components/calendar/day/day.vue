@@ -42,7 +42,7 @@
   };
   </script>
 
-  <!-- Add "scoped" attribute to limit CSS to this component only -->
+  <!-- Add "scoped" Attribute to limit CSS to this component only -->
   <style scoped>
   .link{
     width:calc(100% - 204px);

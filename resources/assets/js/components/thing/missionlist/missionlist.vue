@@ -7,7 +7,7 @@
       v-bind:index="index"
       ></item>
       <!--<li class="list-group-item " style='color:undefined;background-color:undefined;' v-for="(item, index) in  items">@{{index}}+@{{item.titel}}</li>   -->
-      <li class="list-group-item justify-content-between" style='color:undefined;background-color:undefined;' @click="create_thing">
+      <li class="list-group-item justify-content-between" style='color:undefined;background-color:undefined;' @click="create_thing" v-if="(mode!='INVITED')&&(mode!='DELETED')">
         <!-- <span>&nbsp&nbsp&nbsp&nbsp</span> -->
         <span>新建事件++++</span>
       </li>
@@ -61,7 +61,7 @@ function buildlist(list){
 function find_position(thing,thingtree){
   // console.log("thingtree");
   // console.log(thingtree);
-  if(thingtree._id==thing.Attribut.fatherId){
+  if(thingtree._id==thing.Attribute.fatherId){
     // console.log("has father");
     if(thingtree.children!=undefined){
       // console.log("child exist");
@@ -108,6 +108,7 @@ export default {
   name: 'missionlist',
   props:{
     // thing_list:Array,
+    mode:String,
   },
   data() {
     return {
@@ -131,10 +132,12 @@ export default {
     load_thing(){
       let $vm=this;
       this.spinShow=true;
+      let url="/api/thing/list/"+this.mode.toLocaleLowerCase();
+      console.log(url);
     //因axios 不支持同步，选中ajax
       $.ajax({
         method: "get",
-        url: "/api/thing/list",
+        url: url,
         async: false,
         success:function(data,textStatus,jqXHR){
           $vm.items=buildlist(data);
@@ -161,6 +164,8 @@ export default {
 
   mounted() {
     this.load_thing();
+    this.create_thing();//绑定生成器到取当前节点
+
     // window.app.thing.activeThingNode = this;
     this.$nextTick(
       function init() {
@@ -170,6 +175,12 @@ export default {
       },
     );
   },
+  watch:{
+    mode:function (newVal){
+      this.load_thing();
+    }
+  },
+
   components:{
     item,
     mission,
@@ -177,7 +188,7 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" Attribute to limit CSS to this component only -->
 <style scoped lang="sass">
   // @import "~bootstrap/scss/bootstrap";
   </style>

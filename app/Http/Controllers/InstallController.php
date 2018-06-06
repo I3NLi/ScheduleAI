@@ -108,7 +108,7 @@ class InstallController extends Controller
         "title"=>"_blank",
         "data"=>
         [//根据id远程读入，模板的信息
-          "Attribut"=>[
+          "Attribute"=>[
             "title"=>"undefined",
             // "fatherId":this.data.id,
             "time"=>[

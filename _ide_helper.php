@@ -2226,13 +2226,13 @@ namespace Illuminate\Support\Facades {
         /**
          * Register the routes for handling broadcast authentication and sockets.
          *
-         * @param array|null $attributes
+         * @param array|null $Attributes
          * @return void 
          * @static 
          */ 
-        public static function routes($attributes = null)
+        public static function routes($Attributes = null)
         {
-            \Illuminate\Broadcasting\BroadcastManager::routes($attributes);
+            \Illuminate\Broadcasting\BroadcastManager::routes($Attributes);
         }
         
         /**
@@ -7042,16 +7042,16 @@ namespace Illuminate\Support\Facades {
          *
          * @param array $query The GET parameters
          * @param array $request The POST parameters
-         * @param array $attributes The request attributes (parameters parsed from the PATH_INFO, ...)
+         * @param array $Attributes The request Attributes (parameters parsed from the PATH_INFO, ...)
          * @param array $cookies The COOKIE parameters
          * @param array $files The FILES parameters
          * @param array $server The SERVER parameters
          * @return static 
          * @static 
          */ 
-        public static function duplicate($query = null, $request = null, $attributes = null, $cookies = null, $files = null, $server = null)
+        public static function duplicate($query = null, $request = null, $Attributes = null, $cookies = null, $files = null, $server = null)
         {
-            return \Illuminate\Http\Request::duplicate($query, $request, $attributes, $cookies, $files, $server);
+            return \Illuminate\Http\Request::duplicate($query, $request, $Attributes, $cookies, $files, $server);
         }
         
         /**
@@ -7239,17 +7239,17 @@ namespace Illuminate\Support\Facades {
          *
          * @param array $query The GET parameters
          * @param array $request The POST parameters
-         * @param array $attributes The request attributes (parameters parsed from the PATH_INFO, ...)
+         * @param array $Attributes The request Attributes (parameters parsed from the PATH_INFO, ...)
          * @param array $cookies The COOKIE parameters
          * @param array $files The FILES parameters
          * @param array $server The SERVER parameters
          * @param string|resource $content The raw body data
          * @static 
          */ 
-        public static function initialize($query = array(), $request = array(), $attributes = array(), $cookies = array(), $files = array(), $server = array(), $content = null)
+        public static function initialize($query = array(), $request = array(), $Attributes = array(), $cookies = array(), $files = array(), $server = array(), $content = null)
         {
             //Method inherited from \Symfony\Component\HttpFoundation\Request            
-            return \Illuminate\Http\Request::initialize($query, $request, $attributes, $cookies, $files, $server, $content);
+            return \Illuminate\Http\Request::initialize($query, $request, $Attributes, $cookies, $files, $server, $content);
         }
         
         /**
@@ -7474,9 +7474,9 @@ namespace Illuminate\Support\Facades {
          * 
          * This method is mainly useful for libraries that want to provide some flexibility. If you don't need the
          * flexibility in controllers, it is better to explicitly get request parameters from the appropriate
-         * public property instead (attributes, query, request).
+         * public property instead (Attributes, query, request).
          * 
-         * Order of precedence: PATH (routing placeholders or custom attributes), GET, BODY
+         * Order of precedence: PATH (routing placeholders or custom Attributes), GET, BODY
          *
          * @param string $key The key
          * @param mixed $default The default value if the parameter key does not exist
@@ -7977,7 +7977,7 @@ namespace Illuminate\Support\Facades {
          * Here is the process to determine the format:
          * 
          *  * format defined by the user (with setRequestFormat())
-         *  * _format request attribute
+         *  * _format request Attribute
          *  * $default
          *
          * @param string $default The default format
@@ -9118,16 +9118,16 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Create a route group with shared attributes.
+         * Create a route group with shared Attributes.
          *
-         * @param array $attributes
+         * @param array $Attributes
          * @param \Closure|string $routes
          * @return void 
          * @static 
          */ 
-        public static function group($attributes, $routes)
+        public static function group($Attributes, $routes)
         {
-            \Illuminate\Routing\Router::group($attributes, $routes);
+            \Illuminate\Routing\Router::group($Attributes, $routes);
         }
         
         /**
@@ -10134,15 +10134,15 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Replace the given session attributes entirely.
+         * Replace the given session Attributes entirely.
          *
-         * @param array $attributes
+         * @param array $Attributes
          * @return void 
          * @static 
          */ 
-        public static function replace($attributes)
+        public static function replace($Attributes)
         {
-            \Illuminate\Session\Store::replace($attributes);
+            \Illuminate\Session\Store::replace($Attributes);
         }
         
         /**
@@ -12845,13 +12845,13 @@ namespace  {
             /**
              * Create and return an un-saved model instance.
              *
-             * @param array $attributes
+             * @param array $Attributes
              * @return \Illuminate\Database\Eloquent\Model 
              * @static 
              */ 
-            public static function make($attributes = array())
+            public static function make($Attributes = array())
             {    
-                return \Illuminate\Database\Eloquent\Builder::make($attributes);
+                return \Illuminate\Database\Eloquent\Builder::make($Attributes);
             }
          
             /**
@@ -13034,42 +13034,42 @@ namespace  {
             }
          
             /**
-             * Get the first record matching the attributes or instantiate it.
+             * Get the first record matching the Attributes or instantiate it.
              *
-             * @param array $attributes
+             * @param array $Attributes
              * @param array $values
              * @return \Illuminate\Database\Eloquent\Model 
              * @static 
              */ 
-            public static function firstOrNew($attributes, $values = array())
+            public static function firstOrNew($Attributes, $values = array())
             {    
-                return \Illuminate\Database\Eloquent\Builder::firstOrNew($attributes, $values);
+                return \Illuminate\Database\Eloquent\Builder::firstOrNew($Attributes, $values);
             }
          
             /**
-             * Get the first record matching the attributes or create it.
+             * Get the first record matching the Attributes or create it.
              *
-             * @param array $attributes
+             * @param array $Attributes
              * @param array $values
              * @return \Illuminate\Database\Eloquent\Model 
              * @static 
              */ 
-            public static function firstOrCreate($attributes, $values = array())
+            public static function firstOrCreate($Attributes, $values = array())
             {    
-                return \Illuminate\Database\Eloquent\Builder::firstOrCreate($attributes, $values);
+                return \Illuminate\Database\Eloquent\Builder::firstOrCreate($Attributes, $values);
             }
          
             /**
-             * Create or update a record matching the attributes, and fill it with values.
+             * Create or update a record matching the Attributes, and fill it with values.
              *
-             * @param array $attributes
+             * @param array $Attributes
              * @param array $values
              * @return \Illuminate\Database\Eloquent\Model 
              * @static 
              */ 
-            public static function updateOrCreate($attributes, $values = array())
+            public static function updateOrCreate($Attributes, $values = array())
             {    
-                return \Illuminate\Database\Eloquent\Builder::updateOrCreate($attributes, $values);
+                return \Illuminate\Database\Eloquent\Builder::updateOrCreate($Attributes, $values);
             }
          
             /**
@@ -13219,25 +13219,25 @@ namespace  {
             /**
              * Save a new model and return the instance.
              *
-             * @param array $attributes
+             * @param array $Attributes
              * @return \Illuminate\Database\Eloquent\Model|$this 
              * @static 
              */ 
-            public static function create($attributes = array())
+            public static function create($Attributes = array())
             {    
-                return \Illuminate\Database\Eloquent\Builder::create($attributes);
+                return \Illuminate\Database\Eloquent\Builder::create($Attributes);
             }
          
             /**
              * Save a new model and return the instance. Allow mass-assignment.
              *
-             * @param array $attributes
+             * @param array $Attributes
              * @return \Illuminate\Database\Eloquent\Model|$this 
              * @static 
              */ 
-            public static function forceCreate($attributes)
+            public static function forceCreate($Attributes)
             {    
-                return \Illuminate\Database\Eloquent\Builder::forceCreate($attributes);
+                return \Illuminate\Database\Eloquent\Builder::forceCreate($Attributes);
             }
          
             /**
@@ -13290,13 +13290,13 @@ namespace  {
             /**
              * Create a new instance of the model being queried.
              *
-             * @param array $attributes
+             * @param array $Attributes
              * @return \Illuminate\Database\Eloquent\Model 
              * @static 
              */ 
-            public static function newModelInstance($attributes = array())
+            public static function newModelInstance($Attributes = array())
             {    
-                return \Illuminate\Database\Eloquent\Builder::newModelInstance($attributes);
+                return \Illuminate\Database\Eloquent\Builder::newModelInstance($Attributes);
             }
          
             /**
@@ -14683,16 +14683,16 @@ namespace  {
             }
          
             /**
-             * Insert or update a record matching the attributes, and fill it with values.
+             * Insert or update a record matching the Attributes, and fill it with values.
              *
-             * @param array $attributes
+             * @param array $Attributes
              * @param array $values
              * @return bool 
              * @static 
              */ 
-            public static function updateOrInsert($attributes, $values = array())
+            public static function updateOrInsert($Attributes, $values = array())
             {    
-                return \Illuminate\Database\Query\Builder::updateOrInsert($attributes, $values);
+                return \Illuminate\Database\Query\Builder::updateOrInsert($Attributes, $values);
             }
          
             /**

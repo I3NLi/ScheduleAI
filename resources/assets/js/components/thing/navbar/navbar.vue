@@ -1,23 +1,23 @@
 <template>
-  <Menu :theme="'dark'" class="full">
+  <Menu :theme="'dark'" class="full" active-name="active" @on-select="setMode">
      <MenuGroup title="常规">
       <MenuItem name="0-1">
         <Icon type="search"></Icon>
         查找任务
       </MenuItem>
-      <MenuItem name="0-2">
+      <MenuItem name="TODO">
         <Icon type="compose"></Icon>
         待完成事件
       </MenuItem>
-      <MenuItem name="0-3">
+      <MenuItem name="INVITED">
         <Icon type="archive"></Icon>
         待接受事件
       </MenuItem>
-      <MenuItem name="0-4">
+      <MenuItem name="DELETED">
         <Icon type="ios-trash-outline"></Icon>
         已删除事件
       </MenuItem>
-      <MenuItem name="0-5">
+      <MenuItem name="ALL">
         <Icon type="clipboard"></Icon>
         全部事件
       </MenuItem>
@@ -47,6 +47,13 @@
 </template>
 
 <script>
+/*
+@file
+
+
+
+*/
+
 
 export default {
   name: 'navbar',
@@ -54,7 +61,8 @@ export default {
   props: {
     data:{
       type:[Object,Array],
-      default:[]
+      default:[],
+      active:String,
     }
   },
   data() {
@@ -63,12 +71,26 @@ export default {
   },
   computed: {
   },
-  // methods: {
-  // },
+  methods: {
+    setMode:function (mode){
+       window.app.thing.missionlist_mode=mode;
+       console.log(mode);
+    }
+
+  },
+  watch:{
+    // mode:function (newVal,oldVal){
+    //   setMode(newVal);
+    //
+    //
+    // }
+
+
+  }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" Attribute to limit CSS to this component only -->
 <style scoped >
 
   </style>

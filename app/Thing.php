@@ -14,7 +14,7 @@ class Thing extends Model
 
     [
       "_id":
-      "attribut"=>[
+      "Attribute"=>[
         "title"=>"undefined",
         "fatherId":this.data.id,
         "time"=>[

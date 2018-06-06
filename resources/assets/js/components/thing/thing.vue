@@ -3,24 +3,25 @@
     <div style="width:240px;" class="inline-block fullheight">
       <div v-bar="{preventParentScroll: true,scrollThrottle: 30}" class="full">
         <div id="vbarcontent">
-          <navbar :data="thing_list"/>
+          <conponent :is="zone[0]" :data="thing_list" :active="missionlist_mode"/>
         </div>
       </div>
     </div>
     <div style="width: calc(50% - 124px);" class="inline-block fullheight">
       <div v-bar="{preventParentScroll: true,scrollThrottle: 30}" class="full">
         <div id="vbarcontent">
-          <missionlist :thing_list="thing_list"/>
+          <conponent :is="zone[1]" :thing_list="thing_list" :mode="missionlist_mode"/>
         </div>
       </div>
     </div>
     <div style="width: calc(50% - 124px);" class="inline-block fullheight">
       <div v-bar="{preventParentScroll: true,scrollThrottle: 30}" class="full">
-        <div id="vbarcontent">
+        <div id="vbarcontent" v-if="zone[2]=='mission'">
           <mission :id='thing_id' v-if="current_mission" :mode="currentView"/>
           <creator :id='thing_id' v-if="current_creator"/>
         </div>
       </div>
+      <conponent :is="zone[2]" v-if="zone[2]!='mission'"/>
     </div>
   </div>
 
@@ -38,13 +39,18 @@ export default {
   // },
   data() {
     return {
-      missionlist_filter: 0,
+
       // mission_id: 0,
       thing_list:[],
       thing_id:0,
       // activeThingNode:null,
-      currentView:'creator',
-
+     currentView:'creator',
+     missionlist_mode: "ALL",
+     zone:[
+       "navbar",
+       "missionlist",
+       "mission"
+     ]
     };
   },
   computed: {
@@ -57,7 +63,6 @@ export default {
         // console.log("hello");
         // console.log(window.app.activeThing.thing_id);
         return window.app.activeThing.thing_id;
-
       }
 
     },
@@ -117,7 +122,7 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" Attribute to limit CSS to this component only -->
 <style scoped lang="less">
 /* 超小屏幕（手机，小于 768px） */
 /* 没有任何媒体查询相关的代码，因为这在 Bootstrap 中是默认的（还记得 Bootstrap 是移动设备优先的吗？） */

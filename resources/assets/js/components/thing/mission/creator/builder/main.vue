@@ -1,7 +1,7 @@
 <template>
   <div id="builder">
-    <input type="text" id="title" v-model="modules.Attribut.title" placeholder="Title"/>
-    <!-- <h2 id="title" contenteditable="true" @keydown.enter="change_title" v-on:blur="change_title" >{{modules.Attribut.title}}</h2> -->
+    <input type="text" id="title" v-model="modules.Attribute.title" placeholder="Title"/>
+    <!-- <h2 id="title" contenteditable="true" @keydown.enter="change_title" v-on:blur="change_title" >{{modules.Attribute.title}}</h2> -->
     <hr/>
     Father Id: #{{data.id}}
     <Collapse v-model="Collapse">
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import Attribut from './attribut/main';
+import Attribute from './attribute/main';
 // import repeat from './repeat/main';
 import Mission from '../../missionComponent/Editor/Editor';
 //import File from '../file/main';
@@ -70,7 +70,7 @@ export default {
       },
 
       // modules:{//根据id远程读入，模板的信息
-      //   Attribut:{
+      //   Attribute:{
       //     title:"undefined",
       //     fatherId:this.data.id,
       //     time:{
@@ -93,7 +93,7 @@ export default {
       // },
       //   modul:[
       //     {
-      //       title: 'Attribut',
+      //       title: 'Attribute',
       //       expand: true,
       //       multiple:false,
       //       children: [
@@ -206,7 +206,7 @@ export default {
     }
   },
   components: {
-    Attribut,
+    Attribute,
     Mission,
     Contact,
     cInput,
@@ -216,7 +216,7 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" Attribute to limit CSS to this component only -->
 <style scoped >
 /*nav{ height: 42px; border: 1px red; }*/
 .c_input{

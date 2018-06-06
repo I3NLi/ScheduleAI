@@ -9,7 +9,7 @@
       'icon expand-icon glyphicon glyphicon-minus':open}"
       @click.stop="toggle"></span>
       <span>#{{item._id.substr(-4,4)}}&nbsp&nbsp</span>
-      {{item.Attribut.title}}
+      {{item.Attribute.title}}
       <span style="float:right" class="badge badge-default badge-pill" >待完善</span>
     </li>
     <div :_id="'ul_'+index" v-if="open">
@@ -136,7 +136,7 @@ components:{
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" Attribute to limit CSS to this component only -->
 <style scoped lang="sass">
   // @import "~bootstrap/scss/bootstrap";
   </style>

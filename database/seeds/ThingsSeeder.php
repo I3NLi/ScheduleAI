@@ -25,9 +25,9 @@ class ThingsSeeder extends Seeder
       //生成10个根事件
       for($i=0;$i<rand(1,10);$i++){
         $tmp=$this->new_thing(0,$this->RandTime(15),$owner);
-        //填充自时�?
+        //填充自时�?
         for($m=0;$m<rand(1,10);$m++){
-          //十分�?3的几率产生下属子事件
+          //十分�?3的几率产生下属子事件
           if(4>rand(1,10)) {
             $tmp=$this->new_thing($tmp->_id,$this->RandTime(15),$owner);
           } else{
@@ -42,8 +42,8 @@ class ThingsSeeder extends Seeder
 
   }
   /*
-  生成�?个随机的time填充
-  @day �?大日�?
+  生成�?个随机的time填充
+  @day �?大日�?
   */
   private function RandTime($day){
     $TmpStartTime=Date();
@@ -70,7 +70,7 @@ class ThingsSeeder extends Seeder
     private function new_thing($fid,$time,$owner){
       $query=
       [//根据id远程读入，模板的信息
-        "Attribut"=>[
+        "Attribute"=>[
           "title"=>"undefined",
           "fatherId"=>$fid,
         "time"=>$time,
@@ -94,17 +94,17 @@ class ThingsSeeder extends Seeder
       "Database"=>[],
       "Contact"=>[],
       "Collapse"=>[
-        "Attribut",
+        "Attribute",
         "Mission",
         "Permissions",
         "Contact",
       ],//记录折叠
       "Modules"=>[
-        "Attribut",
+        "Attribute",
         "Mission",
         "Permissions",
         "Contact",
-      ],//记录启用的模�?
+      ],//记录启用的模�?
 
     ];
     return Thing::create($query);

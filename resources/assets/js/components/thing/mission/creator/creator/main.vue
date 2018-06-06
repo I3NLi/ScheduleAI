@@ -49,7 +49,7 @@ export default {
       this.data.template = event.data;
       // console.log("event");
       // console.log(event);
-      this.data.template.Attribut.fatherId = this.data.id;
+      this.data.template.Attribute.fatherId = this.data.id;
       this.data.currentView = 'builder';
     },
     load_template() {
@@ -102,7 +102,7 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" Attribute to limit CSS to this component only -->
 <style scoped >
 /*nav{ height: 42px; border: 1px red; }*/
 

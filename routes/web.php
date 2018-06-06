@@ -38,6 +38,12 @@ Route::group(['middleware' => 'auth'], function () {
       //Thinglist
       Route::group(['prefix' => '/list'], function () {
         Route::any('/', 'ThingController@getListAll')->name('api.thing.list.get.all');
+        Route::any('/all', 'ThingController@getListAll')->name('api.thing.list.get.all');
+
+        Route::any('/todo', 'ThingController@getListToDo')->name('api.thing.list.get.todo');
+        Route::any('/invited', 'ThingController@getListInvited')->name('api.thing.list.get.invited');
+        Route::any('/deleted', 'ThingController@getListDeleted')->name('api.thing.list.get.deleted');
+
         Route::any('/{fid}', 'ThingController@getListFiD')->name('api.thing.list.get.fid');
         Route::any('/match/{Regular}', 'ThingController@getListMatch')->name('api.thing.list.get.Match');
       });

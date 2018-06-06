@@ -25,7 +25,7 @@ class ThingsTemplateSeeder extends Seeder
         "img"=>"#",
         "data"=>
         [//根据id远程读入，模板的信息
-          "Attribut"=>[
+          "Attribute"=>[
             "title"=>"undefined",
             // "fatherId":this.data.id,
             "time"=>[
@@ -35,6 +35,8 @@ class ThingsTemplateSeeder extends Seeder
                 // "startTime":new Date(),
                 "workTimeType"=>"inherit",
                 "workTime"=>0,
+                "CompleteTime"=>"",
+
               ],
             ],
             "workTimeCost"=>0,
@@ -51,7 +53,6 @@ class ThingsTemplateSeeder extends Seeder
           "Permissions"=>[
             "owner"=>[],
             "role"=>[
-
               /*
               title:[
                 default：
@@ -59,24 +60,21 @@ class ThingsTemplateSeeder extends Seeder
                   reserve 后备-邀请
                 ],
               permissions:[
-
               ]
-
               */
-
             ],
             "permissionsList"=>[],
           ],
           "Database"=>[],
           "Contact"=>[],
           "Collapse"=>[
-            "Attribut",
+            "Attribute",
             "Mission",
             "Permissions",
             "Contact",
           ],//记录折叠
           "Modules"=>[
-            "Attribut",
+            "Attribute",
             "Mission",
             "Permissions",
             "Contact",

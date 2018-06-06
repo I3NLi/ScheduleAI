@@ -113,7 +113,7 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" Attribute to limit CSS to this component only -->
 <style scoped>
 .demo-auto-complete-item{
   padding: 4px 0;

@@ -22,7 +22,7 @@ class ThingController extends Controller
     //！！应验证是否拥有对应父任务的权限
     // return $request;
     $query=[
-      'Attribut'=>[
+      'Attribute'=>[
         'title'=>'未命名',
         'fatherId' => $request['fid'],
       ],
@@ -57,8 +57,8 @@ class ThingController extends Controller
     ];
 
 
-    if(isset($request['data']['Attribut']['time'])){
-      switch($request['data']['Attribut']['time']['type']){
+    if(isset($request['data']['Attribute']['time'])){
+      switch($request['data']['Attribute']['time']['type']){
         case "once":
         $result=Thing::create($query);
         break;
@@ -162,20 +162,62 @@ public function getListAll(Request $request){
   return Thing::where('Permissions.owner.userId', '=', Auth::id())->get();
 }
 public function getListFiD(Request $request){
-  return Thing::where('Permissions.owner.userId', '=', Auth::id())->where('Attribut.fatherId', '=', $request['fid'])->get();
+  return Thing::where('Permissions.owner.userId', '=', Auth::id())->where('Attribute.fatherId', '=', $request['fid'])->get();
 }
 public function getListMatch(Request $request){
 
 }
 
 private function create_per_day(Request $request){
-  if($request['data']['Attribut']['time']['type']!='day')
+  if($request['data']['Attribute']['time']['type']!='day')
   {return false;}
 
-  if(($request['data']['Attribut']['time']['type']["endTime"]-$request['data']['Attribut']['time']['type']["startTime"])<0)
+  if(($request['data']['Attribute']['time']['type']["endTime"]-$request['data']['Attribute']['time']['type']["startTime"])<0)
   {return false;}
 
 
 
 }
+
+
+
+public function getListToDo(Request $request){
+  //->take(100) 限定数量
+  return Thing::where('Permissions.owner.userId', '=', Auth::id())->where("Attribute.time.data.CompleteTime","=",null)->get();
+}
+
+public function getListInvited(Request $request){
+  //->take(100) 限定数量
+  return Thing::where('Permissions.owner.userId', '=', Auth::id())->where('Permissions.owner.role', '=', "invited")->get();
+}
+
+public function getListDeleted(Request $request){
+  //->take(100) 限定数量
+  return Thing::where('Permissions.owner.userId', '=', Auth::id())->where('deleted_at', 'exists', true)->get();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -28,9 +28,9 @@ export default {
   },
   data() {
     return {
-      Collapse:["Modul","Attribut","Mission"],
+      Collapse:["Modul","Attribute","Mission"],
       modules:{//根据id远程读入，模板的信息
-        Attribut:{
+        Attribute:{
           time:{
             type:'once',
             data:{
@@ -47,7 +47,7 @@ export default {
       },
       modul:[
         {
-          title: 'Attribut',
+          title: 'Attribute',
           expand: true,
           multiple:false,
           children: [
@@ -96,13 +96,13 @@ export default {
     };
 },
 components: {
-  Attribut,
+  Attribute,
   Mission,
 },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" Attribute to limit CSS to this component only -->
 <style scoped >
 /*nav{ height: 42px; border: 1px red; }*/
 .c_input{

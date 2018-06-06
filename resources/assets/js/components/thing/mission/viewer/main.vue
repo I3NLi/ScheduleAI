@@ -1,6 +1,6 @@
 <template>
   <div id="builder">
-    <h2 id="title">{{modules.Attribut.title}}</h2>
+    <h2 id="title">{{modules.Attribute.title}}</h2>
     <hr/>
     ID: #{{data._id}}
     <Collapse v-model="Collapse">
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Attribut from './attribut/main';
+import Attribute from './attribute/main';
 // import repeat from './repeat/main';
 import Mission from '../missionComponent/FormViewer/FormViewer';
 //import File from '../file/main';
@@ -59,7 +59,7 @@ export default {
       },
 
       // modules:{//根据id远程读入，模板的信息
-      //   Attribut:{
+      //   Attribute:{
       //     title:"undefined",
       //     fatherId:this.data.id,
       //     time:{
@@ -82,7 +82,7 @@ export default {
       // },
     //   modul:[
     //     {
-    //       title: 'Attribut',
+    //       title: 'Attribute',
     //       expand: true,
     //       multiple:false,
     //       children: [
@@ -178,7 +178,7 @@ methods:{
 update(modules,list_fresh=false,message=false){
   if(typeof modules!= "undefined"||modules==[]||modules==null){
     modules=[
-      "Attribut",
+      "Attribute",
       "Mission",
     ];
   }
@@ -240,7 +240,7 @@ watch:{
   },
 },
 components: {
-  Attribut,
+  Attribute,
   Mission,
   Contact,
   cInput,
@@ -250,7 +250,7 @@ components: {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" Attribute to limit CSS to this component only -->
 <style scoped >
 /*nav{ height: 42px; border: 1px red; }*/
 .c_input{

@@ -1,6 +1,6 @@
 <template>
   <div id="builder">
-    <input type="text" id="title" v-model="modules.Attribut.title" placeholder="Title"/>
+    <input type="text" id="title" v-model="modules.Attribute.title" placeholder="Title"/>
     <hr/>
     ID: #{{data._id}}
     <Collapse v-model="Collapse">
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import Attribut from './attribut/main';
+import Attribute from './attribute/main';
 // import repeat from './repeat/main';
 import Mission from '../missionComponent/Editor/Editor';
 //import File from '../file/main';
@@ -99,7 +99,7 @@ export default {
     update(modules,list_fresh=false,message=false){
       if(typeof modules!= "undefined"||modules==[]||modules==null){
         modules=[
-          "Attribut",
+          "Attribute",
           "Mission",
         ];
       }
@@ -154,7 +154,7 @@ export default {
     }
   },
   components: {
-    Attribut,
+    Attribute,
     Mission,
     Contact,
     cInput,
@@ -162,8 +162,8 @@ export default {
     //File,
   },
   watch:{
-    "data.Attribut.title":function(){
-      let modules=["Attribut"];
+    "data.Attribute.title":function(){
+      let modules=["Attribute"];
       this.update(modules,true,true);
     },
     'data.Mission':{
@@ -189,7 +189,7 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" Attribute to limit CSS to this component only -->
 <style scoped >
 /*nav{ height: 42px; border: 1px red; }*/
 .c_input{

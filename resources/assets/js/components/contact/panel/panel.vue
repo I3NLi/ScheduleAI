@@ -37,7 +37,7 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" Attribute to limit CSS to this component only -->
 <style >
 .ivu-scroll-container,.ivu-scroll-content{
   height:100%;
