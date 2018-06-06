@@ -13,3 +13,6 @@ yarn-error.log
 .env
 composer.lock
 package-lock.json
+
+/public/js/app.js
+/public/css/app.css
