@@ -15,7 +15,7 @@ class ThingsSeeder extends Seeder
   public function run()
   {
     //
-    $users = DB::table('users')->get();
+    $users = User::all();
 
     foreach($users as $user){
       $owner=[
@@ -46,27 +46,29 @@ class ThingsSeeder extends Seeder
   @day �?大日�?
   */
   private function RandTime($day){
-    $TmpStartTime=Date();
-    $TmpEndTime=Date();
+    $TmpStartTime=new DateTime(date("Y-m-d h:i:s.v"));
+    $TmpEndTime=new DateTime(date("Y-m-d h:i:s.v"));
     $tmpInteval=rand(0,$day);
-    date_add($TmpStartTime,date_interval_create_from_date_string($tmpInteval+" days"));
-    date_add($TmpEndTime,date_interval_create_from_date_string($tmpInteval+" days"));
+   date_add($TmpStartTime,date_interval_create_from_date_string($tmpInteval." days"));
+   date_add($TmpEndTime,date_interval_create_from_date_string($tmpInteval." days"));
     $tmpInteval=rand(0,24*60);
-    date_add($TmpEndTime,date_interval_create_from_date_string($tmpInteval+" minutes"));
+   date_add($TmpEndTime,date_interval_create_from_date_string($tmpInteval." minutes"));
     $tmpInteval=rand(0,$tmpInteval);
 
     $time=[
       "type"=>'once',
       "data"=>[
         "startCondition"=>'immediately',
-        "startTime"=>date_format($TmpStartTime,DATE_ATOM),
-        "endTime"=>date_format($TmpTmpEndTime,DATE_ATOM),
+        "startTime"=>date_format($TmpStartTime,"Y-m-d h:i:s.v"),
+        "endTime"=>date_format($TmpEndTime,"Y-m-d h:i:s.v"),
         "workTimeType"=>"inherit",
         "workTime"=>$tmpInteval,
       ],
         ];
       return $time;
     }
+
+
     private function new_thing($fid,$time,$owner){
       $query=
       [//根据id远程读入，模板的信息
