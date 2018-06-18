@@ -11,10 +11,164 @@ let $chart = null
 //let myChart = echarts.init(document.getElementById('main'));
 // 指定图表的配置项和数据
 
+
+//根据
+function buildList(list) {
+  let result = [];
+  for (let m = 0; m < list.length; m++) {
+    if (list[m] != null)
+      result[result.length] = list[m];
+  }
+  return result;
+}
+//根据thing中的fid，组成嵌套关系
+function buildTree(list) {
+  // console.log(list);
+  for (let m = 0; m < list.length; m++) {
+    for (let n = 0; n < list.length; n++) {
+      if (list[n] != null && list[m] != null) {
+        let tmp = find_position(list[m], list[n]);
+        if (tmp != false) {
+          list[n] = tmp;
+          list[m] = null;
+          break;
+        }
+      }
+    }
+  }
+
+  let result = [];
+  for (let m = 0; m < list.length; m++) {
+    if (list[m] != null) {
+      result.push(list[m]);
+    }
+  }
+
+  return result;
+}
+/*buildlist 递归部分*/
+function find_position(thing, thingtree) {
+  // console.log("thingtree");
+  // console.log(thingtree);
+  if (thingtree._id == thing.Attribute.fatherId) {
+    // console.log("has father");
+    if (thingtree.children != undefined) {
+      // console.log("child exist");
+      thingtree.children.push(thing);
+      //console.log(thingtree.children);
+    } else {
+      // console.log("child no exist");
+      thingtree.children = [thing];
+    }
+    return thingtree;
+  }
+  // console.log("no father in root");
+
+  if (thingtree.children != undefined) {
+    // console.log("child exist");
+    for (let i = 0; i < thingtree.children.length; i++) {
+      let tmp = find_position(thing, thingtree.children[i]);
+      if (tmp != false) {
+        thingtree.children[i] = tmp;
+        // console.log("find father in child");
+        return thingtree;
+      }
+    }
+    // console.log("no father in child");
+  }
+  // console.log("child not exist");
+  return false;
+}
+
+/*
+给定一个thinglist，重新计算所有权重
+ */
+function calculate_weight_list(thingList) {
+  for (let i = 0; i < thingList.length; i++) {
+    calculate_weight(thingList[i]);
+  }
+  return thingList;
+}
+/*
+计算一个thing的权重
+ */
+function calculate_weight(thing) { //计算事件的权重
+  thing['calculateWeight'] = thing['Attribute']['importance'];
+
+  if (thing['Attribute']['time']['data']['workTime'] == 0) {
+    thing['calculateWeight'] = parseFloat(thing['calculateWeight']) + 0.5;
+  } else {
+    let startTime = new Date(thing['Attribute']['time']['data']['startTime']);
+    let endTime = new Date(thing['Attribute']['time']['data']['endTime']);
+    let a = (endTime - startTime) / 60000; //可工作事件-分钟
+    if (thing['Attribute']['time']['data']['workTime'] * 3 > a) {
+      thing['calculateWeight'] = parseFloat(thing['calculateWeight']) + 0.5;
+    }
+    if (thing['Attribute']['time']['data']['workTime'] * 5 > a) {
+      thing['calculateWeight'] = parseFloat(thing['calculateWeight']) + 0.5;
+    }
+    if (thing['Attribute']['time']['data']['workTime'] * 10 > a) {
+      thing['calculateWeight'] = parseFloat(thing['calculateWeight']) + 0.5;
+    }
+  }
+  return thing;
+}
+
+function serialization_priority(thingList) {
+  //对高度
+  thingList.sort(function(a, b) {
+    return parseFloat(b['height']) - parseFloat(a['height']);
+  });
+  //对重要性排序
+  thingList.sort(function(a, b) {
+    return parseFloat(a['calculateWeight']) - parseFloat(b['calculateWeight']);
+  });
+  //对截止时间
+  thingList.sort(function(a, b) {
+    return new Date(a['Attribute']['time']['data']['endTime']) - new Date(b['Attribute']['time']['data']['endTime']);
+  });
+
+
+
+
+}
+
+
+
+
+function treeHeightList(thingTreeList) {
+  for (let i = 0; i < thingTreeList.length; i++) {
+    treeHeight(thingTreeList[i]);
+  }
+  return thingTreeList;
+}
+
+
+/*
+获取一个节点的深度
+ */
+function treeHeight(thingTreeNode) {
+  let result = 0;
+  //console.log(thingTreeNode.children);
+  if (thingTreeNode.children != undefined) {
+    //console.log(thingTreeNode.children.length);
+    for (let i = 0; i < thingTreeNode.children.length; i++) {
+      let tmp = treeHeight(thingTreeNode.children[i])
+      if (tmp > result)
+        result = tmp;
+    }
+  }
+  result++;
+  thingTreeNode['height'] = result;
+  return result;
+}
+
 export default {
   name: 'daybody',
   data() {
     let data = [];
+    let tree;
+    let list;
     let dataCount = 10;
     let startTime = +new Date();
     let now = new Date();
@@ -54,7 +208,7 @@ export default {
     // Generate mock data
     echarts.util.each(categories, function(category, index) {
       //修改此处以填入真实数据
-      let baseTime = new Date().setHours(0,0,0,0);
+      let baseTime = new Date().setHours(0, 0, 0, 0);
       for (let i = 0; i < dataCount; i++) {
         let typeItem = types[Math.round(Math.random() * (types.length - 1))];
         let duration = Math.round(Math.random() * 10000000);
@@ -100,10 +254,9 @@ export default {
     }
 
     return {
-      chart : null,
+      chart: null,
       option: {
-        tooltip: {
-        },
+        tooltip: {},
         title: {
           // text: 'Profile',
           left: 'center'
@@ -223,20 +376,60 @@ export default {
             this.chart.setOption(oldVal);
           }
         } else {
-            this.init();
+          this.init();
         }
       },
       deep: true //对象内部属性的监听，关键。
     }
   },
+  methods: {
+    /*同步数据*/
+    synData: function() {
+      let $vm = this;
+      // this.spinShow=true;
+      let url = "/api/thing/list/todo";
+      console.log(url);
+      //因axios 不支持同步，选中ajax
+      $.ajax({
+        method: "get",
+        url: url,
+        async: true,
+        success: function(data, textStatus, jqXHR) {
+          //console.log("data");
+          //console.log(data);
+          $vm.list = buildList(data);
+
+          $vm.tree = buildTree(data);
+          console.log("$vm.tree");
+          console.log($vm.tree);
+          calculate_weight_list($vm.list);
+          treeHeightList($vm.tree);
+          serialization_priority($vm.list);
+          console.log("$vm.list");
+          console.log($vm.list);
+          // $vm.spinShow=false;
+          for (let i = 0; i < $vm.list.length; i++) {
+            console.log($vm.list[i]['Attribute']['time']['data']['endTime'] + " " + $vm.list[i]['calculateWeight'] + " " + $vm.list[i]['height'])
+
+          }
+        },
+      });
+
+
+
+    }
+  },
   mounted() {
-    chart=echarts.init(document.getElementById('chart-container'));
+    chart = echarts.init(document.getElementById('chart-container'));
     // 使用刚指定的配置项和数据显示图表。
     chart.setOption(this.option);
+    this.synData();
+    console.log("获取数据");
+
     setInterval(function() {
-      // 每分钟刷新一次
+        // 每分钟刷新一次
       },
-    60000);//1 min
+      60000); //1 min
   }
 };
 </script>

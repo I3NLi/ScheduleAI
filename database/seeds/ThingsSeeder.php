@@ -49,12 +49,15 @@ class ThingsSeeder extends Seeder
     $TmpStartTime=new DateTime(date("Y-m-d h:i:s.v"));
     $TmpEndTime=new DateTime(date("Y-m-d h:i:s.v"));
     $tmpInteval=rand(0,$day);
-   date_add($TmpStartTime,date_interval_create_from_date_string($tmpInteval." days"));
-   date_add($TmpEndTime,date_interval_create_from_date_string($tmpInteval." days"));
+    //生成起始时间
+    date_add($TmpStartTime,date_interval_create_from_date_string($tmpInteval." days"));
+    //生成结束时间
+    date_add($TmpEndTime,date_interval_create_from_date_string($tmpInteval." days"));
     $tmpInteval=rand(0,24*60);
-   date_add($TmpEndTime,date_interval_create_from_date_string($tmpInteval." minutes"));
+    date_add($TmpEndTime,date_interval_create_from_date_string($tmpInteval." minutes"));
+    //生成工作时间
+    if(rand(0,5)<4)//百分之60几率为非固定时间，百分之40为固定事件；固定时间的特征为起始+工作=结束
     $tmpInteval=rand(0,$tmpInteval);
-
     $time=[
       "type"=>'once',
       "data"=>[
