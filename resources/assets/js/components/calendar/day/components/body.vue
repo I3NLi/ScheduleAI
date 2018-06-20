@@ -1,13 +1,16 @@
 <template>
-<div id="chart-container" style="width: 100%;height:100%;">
+<div style="width: 100%;height:100%;">
+
+  <div id="chart-container" style="width: 100%;height:100%;">
+  </div>
 </div>
 </template>
 
 <script>
 // import mission from '../../thing/mission/mission';
 import echarts from 'echarts'
-let chart = null
-let $chart = null
+// let chart = null
+// let $chart = null
 //let myChart = echarts.init(document.getElementById('main'));
 // 指定图表的配置项和数据
 
@@ -114,6 +117,7 @@ function calculate_weight(thing) { //计算事件的权重
   return thing;
 }
 
+/*排序*/
 function serialization_priority(thingList) {
   //对高度
   thingList.sort(function(a, b) {
@@ -127,23 +131,15 @@ function serialization_priority(thingList) {
   thingList.sort(function(a, b) {
     return new Date(a['Attribute']['time']['data']['endTime']) - new Date(b['Attribute']['time']['data']['endTime']);
   });
-
-
-
-
 }
 
-
-
-
+/*获取一个list中所有节点的深度*/
 function treeHeightList(thingTreeList) {
   for (let i = 0; i < thingTreeList.length; i++) {
     treeHeight(thingTreeList[i]);
   }
   return thingTreeList;
 }
-
-
 /*
 获取一个节点的深度
  */
@@ -163,16 +159,164 @@ function treeHeight(thingTreeNode) {
   return result;
 }
 
+function matching(thingList, startTime, endTime) {
+  let result = [];
+  let tmp = thingList.slice(0);
+  //将固定事件加入结果，从待排序中剔除固定事件,
+  for (let i = 0; i < tmp.length; i++) {
+    if (tmp[i]['Attribute']['time']['data']['fixed']) {
+      result.push({
+        name: tmp[i]['Attribute']['title'],
+        value: [
+          //列数
+          1,
+          //起始时间
+          +new Date(tmp[i]['Attribute']['time']['data']['startTime']),
+          //结束时间
+          +new Date(tmp[i]['Attribute']['time']['data']['endTime']),
+          //工作时间
+          tmp[i]['Attribute']['time']['data']['workTime'] * 60000,
+          //数据节点
+          tmp[i],
+        ],
+        itemStyle: {
+          normal: {
+            color: "#bd6d6c",
+          }
+        }
+      });
+      tmp.splice(i, 1);
+      i--;
+    }
+  }
+
+  let baseTime = new Date();
+  let free = 0;
+  let resultCounter = 0;
+  let died = false; //用来标识是否能够将所有的任排进去
+
+  while (tmp.length != 0) {
+    //寻找空档
+    while (resultCounter < result.length) {
+      console.log(baseTime - new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['endTime']));
+      if ((baseTime - new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['endTime'])>0)) {
+        console.log("continue");
+        resultCounter++;
+        continue;
+      }
+      console.log("bbbbbb");
+      baseTime = new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['endTime']);
+      resultCounter++;
+      //console.log(result[resultCounter]);
+      if ((resultCounter >= result.length)) {
+        console.log("cccc");
+        free = new Date(endTime) - new Date(baseTime) //3天
+        died = true;
+      } else {
+        console.log("fffff");
+        free = new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['startTime'])-baseTime;
+      }
+      console.log("break");
+      console.log(baseTime);
+      break;
+    }
+    //若果没有需要匹配的数据
+    if ((resultCounter >= result.length)) {
+      free = new Date(endTime) - new Date(baseTime) //3天
+      died = true;
+    }
+    //寻找合适插入的任务
+    for (let i = 0; i < tmp.length; i++) {
+      //若狗当前的事件需要的工作事件低于空闲时间
+      if (parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000 <= free) {
+        //检查
+
+        if (!isInclude(tmp[i].children, tmp)) {
+          console.log(baseTime);
+
+          result.push({
+            name: tmp[i]['Attribute']['title'],
+            value: [
+              //列数
+              1,
+              //起始时间
+              +baseTime,
+              //结束时间
+              parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000 + (+baseTime),
+              //工作时间
+              parseInt(tmp[i]['Attribute']['time']['data']['workTime'])* 60000,
+              //数据节点
+              tmp[i],
+            ],
+            itemStyle: {
+              normal: {
+                color: "#77bd6c",
+              }
+            }
+          });
+          baseTime = new Date(parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000 +(+ baseTime));
+          free = free - parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000;
+          tmp.splice(i, 1); //删除元素
+          i--; //校准index
+          died = false;
+        }
+      }
+    }
+    //未能在截至事件前将所有任务排进去
+    if (died == true) {
+      return false;
+    }
+    resultCounter++;
+  }
+  return result;
+}
+
+function checkMin(i) {
+  if (i < 10)
+    return "0" + i;
+  else return i;
+}
+/*检查两个数组是否存在交集*/
+function isInclude(array1, array2) {
+  if(array1==undefined)
+  return false;
+  if(array2==undefined)
+  return false;
+  for (let m = 0; m < array1.length; m++) {
+    for (let n = 0; n < array2.length; n++) {
+      if (array1[m] == array2[n]) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 export default {
   name: 'daybody',
   data() {
-    let data = [];
-    let tree;
-    let list;
+    let data = [
+      //   {
+      //   name: "typeItem.name",
+      //   value: [
+      //     1,
+      //     // 1529480424000,
+      //     1529359200000,
+      //     // 1529485464000,
+      //     1529360169904,
+      //     // 5040000,
+      //     969904,
+      //
+      //   ],
+      //   itemStyle: {
+      //     normal: {
+      //       color: "#bd6d6c",
+      //     }
+      //   }
+      // }
+    ];
     let dataCount = 10;
-    let startTime = +new Date();
-    let now = new Date();
-    let categories = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    let categories = ['冲突', '工作', '监督'];
     //设定任务类型
     let types = [{
         name: 'JS Heap',
@@ -200,62 +344,67 @@ export default {
       }
     ];
 
-    function checkMin(i) {
-      if (i < 10)
-        return "0" + i;
-      else return i;
-    }
+
     // Generate mock data
-    echarts.util.each(categories, function(category, index) {
-      //修改此处以填入真实数据
-      let baseTime = new Date().setHours(0, 0, 0, 0);
-      for (let i = 0; i < dataCount; i++) {
-        let typeItem = types[Math.round(Math.random() * (types.length - 1))];
-        let duration = Math.round(Math.random() * 10000000);
-        data.push({
-          name: typeItem.name,
-          value: [
-            index,
-            baseTime,
-            baseTime += duration,
-            duration
-          ],
-          itemStyle: {
-            normal: {
-              color: typeItem.color
-            }
-          }
-        });
-        baseTime += Math.round(Math.random() * 2000000);
-      }
-    });
-
-    function renderItem(params, api) {
-      let categoryIndex = api.value(0);
-      let start = api.coord([categoryIndex, api.value(1)]);
-      let end = api.coord([categoryIndex, api.value(2)]);
-      let width = api.size([1, 1])[0] * 0.6;
-
-      return {
-        type: 'rect',
-        shape: echarts.graphic.clipRectByRect({
-          x: start[0] - width / 2,
-          y: start[1],
-          width: width,
-          height: end[1] - start[1],
-        }, {
-          x: params.coordSys.x,
-          y: params.coordSys.y,
-          width: params.coordSys.width,
-          height: params.coordSys.height
-        }),
-        style: api.style()
-      };
-    }
-
+    // echarts.util.each(categories, function(category, index) {
+    //   //修改此处以填入真实数据
+    //   let baseTime = new Date().setHours(0, 0, 0, 0);
+    //   for (let i = 0; i < dataCount; i++) {
+    //     let typeItem = types[Math.round(Math.random() * (types.length - 1))];
+    //     let duration = Math.round(Math.random() * 10000000);
+    //     data.push({
+    //       name: typeItem.name,
+    //       value: [
+    //         index,
+    //         baseTime,
+    //         baseTime += duration,
+    //         duration,
+    //       ],
+    //       itemStyle: {
+    //         normal: {
+    //           color: typeItem.color,
+    //         }
+    //       }
+    //     });
+    //     baseTime += Math.round(Math.random() * 2000000);
+    //   }
+    // });
+    //
+    let startTime = new Date();
+    startTime.setHours(0, 0, 0, 0);
+    let endTime = new Date();
+    endTime.setDate(new Date().getDate() + 5);
+    endTime.setHours(23, 59, 59, 999);
     return {
+      data,
+      categories: categories,
       chart: null,
-      option: {
+      startTime: startTime,
+      endTime: endTime,
+
+    };
+  },
+  watch: {
+    // 观察option的变化
+    // option: {
+    //   handler(newVal, oldVal) {
+    //     if (this.chart) {
+    //       if (newVal) {
+    //         this.chart.setOption(newVal);
+    //       } else {
+    //         this.chart.setOption(oldVal);
+    //       }
+    //     } else {
+    //       this.init();
+    //     }
+    //   },
+    //   deep: true //对象内部属性的监听，关键。
+    // }
+  },
+  computed: {
+    option: function() {
+      let now = new Date();
+      return {
         tooltip: {},
         title: {
           // text: 'Profile',
@@ -273,7 +422,7 @@ export default {
           //height:300
         },
         xAxis: {
-          data: categories,
+          data: this.categories,
           splitLine: {
             show: true,
           },
@@ -285,14 +434,8 @@ export default {
           // max: tmpInteval[1],
           inverse: true,
           scale: true,
-          min: function() {
-            let date = new Date();
-            return date.setHours(0, 0, 0, 0);
-          },
-          max: function() {
-            let date = new Date();
-            return date.setHours(23, 59, 59, 999);
-          },
+          min: +this.startTime,
+          max: +this.endTime,
           axisLabel: {
             formatter: function(val) {
               let date = new Date(val);
@@ -317,7 +460,28 @@ export default {
         },
         series: [{
           type: 'custom',
-          renderItem: renderItem,
+          renderItem: function(params, api) {
+            let categoryIndex = api.value(0);
+            let start = api.coord([categoryIndex, api.value(1)]);
+            let end = api.coord([categoryIndex, api.value(2)]);
+            let width = api.size([1, 1])[0] * 0.6;
+
+            return {
+              type: 'rect',
+              shape: echarts.graphic.clipRectByRect({
+                x: start[0] - width / 2,
+                y: start[1],
+                width: width,
+                height: end[1] - start[1],
+              }, {
+                x: params.coordSys.x,
+                y: params.coordSys.y,
+                width: params.coordSys.width,
+                height: params.coordSys.height
+              }),
+              style: api.style()
+            };
+          },
           itemStyle: {
             normal: {
               opacity: 0.8
@@ -360,31 +524,17 @@ export default {
             }
 
           },
-          data: data,
+          data: this.data,
         }]
-      },
-    };
-  },
-  watch: {
-    // 观察option的变化
-    option: {
-      handler(newVal, oldVal) {
-        if (this.chart) {
-          if (newVal) {
-            this.chart.setOption(newVal);
-          } else {
-            this.chart.setOption(oldVal);
-          }
-        } else {
-          this.init();
-        }
-      },
-      deep: true //对象内部属性的监听，关键。
-    }
+      };
+    },
+
+
   },
   methods: {
     /*同步数据*/
     synData: function() {
+      console.log("获取数据");
       let $vm = this;
       // this.spinShow=true;
       let url = "/api/thing/list/todo";
@@ -400,31 +550,62 @@ export default {
           $vm.list = buildList(data);
 
           $vm.tree = buildTree(data);
-          console.log("$vm.tree");
-          console.log($vm.tree);
+          // console.log("$vm.tree");
+          // console.log($vm.tree);
           calculate_weight_list($vm.list);
           treeHeightList($vm.tree);
           serialization_priority($vm.list);
-          console.log("$vm.list");
-          console.log($vm.list);
+          // console.log("$vm.list");
+          // console.log($vm.list);
           // $vm.spinShow=false;
-          for (let i = 0; i < $vm.list.length; i++) {
-            console.log($vm.list[i]['Attribute']['time']['data']['endTime'] + " " + $vm.list[i]['calculateWeight'] + " " + $vm.list[i]['height'])
-
-          }
+          // for (let i = 0; i < $vm.list.length; i++) {
+          //   console.log($vm.list[i]['Attribute']['time']['data']['endTime'] + " " + $vm.list[i]['calculateWeight'] + " " + $vm.list[i]['height'])
+          // }
+          //
+          //          $vm.fillIin($vm.list);
+          $vm.data = matching($vm.list, $vm.startTime, $vm.endTime);
+          console.log($vm.option);
+          $vm.chart.setOption($vm.option);
         },
       });
-
-
-
-    }
+    },
+    fillIin: function(thingList) {
+      //this.data = [];
+      console.log(this);
+      for (let i = 0; i < thingList.length; i++) {
+        if (thingList[i]['Attribute']['time']['data']['fixed']) { //固定事件
+          //let index = parseInt((new Date(thingList[i]['Attribute']['time']['data']['startTime']) - new Date().setHours(23, 59, 59, 999)) / 1000 / 60 / 60 / 24);
+          //if (index < 7) {
+          //console.log(new Date(thingList[i]['Attribute']['time']['data']['startTime']));
+          //console.log(new Date(thingList[i]['Attribute']['time']['data']['endTime']));
+          this.data.push({
+            name: thingList[i]['Attribute']['title'],
+            //name: "xxxxxx",
+            value: [
+              0, +new Date(thingList[i]['Attribute']['time']['data']['startTime']), +new Date(thingList[i]['Attribute']['time']['data']['startTime']) + parseInt(thingList[i]['Attribute']['time']['data']['workTime']) * 60000,
+              parseInt(thingList[i]['Attribute']['time']['data']['workTime']) * 60000,
+            ],
+            itemStyle: {
+              normal: {
+                color: '#bd6d6c',
+              }
+            }
+          });
+          //  break;
+          //}
+        }
+      }
+      return this.data;
+    },
   },
   mounted() {
-    chart = echarts.init(document.getElementById('chart-container'));
+    console.log(this);
+    this.chart = echarts.init(document.getElementById('chart-container'));
     // 使用刚指定的配置项和数据显示图表。
-    chart.setOption(this.option);
+    //this.chart.setOption(this.option);
+    // console.log(this.option);
     this.synData();
-    console.log("获取数据");
+
 
     setInterval(function() {
         // 每分钟刷新一次

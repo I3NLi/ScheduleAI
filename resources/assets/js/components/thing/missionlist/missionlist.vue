@@ -91,19 +91,7 @@ function find_position(thing,thingtree){
   // console.log("child not exist");
   return false;
 }
-// function get_root(thinglist){
-//   let result=[];
-//   for(let m=0; m<list.length; m++){
-//      未完成
-//   }
-// }
-// function is_root(thing,list){
-//   for(let m=0; m<list.length; m++){
-//     if(list[m].father_id==thing._id)
-//       return true;
-//   }
-//   return false;
-// }
+
 export default {
   name: 'missionlist',
   props:{

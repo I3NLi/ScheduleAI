@@ -24,14 +24,14 @@ class ThingsSeeder extends Seeder
       ];
       //生成10个根事件
       for($i=0;$i<rand(1,10);$i++){
-        $tmp=$this->new_thing(0,$this->RandTime(15),$owner);
+        $tmp=$this->new_thing(0,$this->RandTime(5),$owner);
         //填充自时�?
         for($m=0;$m<rand(1,10);$m++){
           //十分�?3的几率产生下属子事件
           if(4>rand(1,10)) {
-            $tmp=$this->new_thing($tmp->_id,$this->RandTime(15),$owner);
+            $tmp=$this->new_thing($tmp->_id,$this->RandTime(5),$owner);
           } else{
-            $this->new_thing($tmp->_id,$this->RandTime(15),$owner);
+            $this->new_thing($tmp->_id,$this->RandTime(5),$owner);
           }
         }
       }
@@ -53,21 +53,39 @@ class ThingsSeeder extends Seeder
     date_add($TmpStartTime,date_interval_create_from_date_string($tmpInteval." days"));
     //生成结束时间
     date_add($TmpEndTime,date_interval_create_from_date_string($tmpInteval." days"));
-    $tmpInteval=rand(0,24*60);
+    $tmpInteval=rand(0,3*60);
     date_add($TmpEndTime,date_interval_create_from_date_string($tmpInteval." minutes"));
     //生成工作时间
+    $time=[];
     if(rand(0,5)<4)//百分之60几率为非固定时间，百分之40为固定事件；固定时间的特征为起始+工作=结束
-    $tmpInteval=rand(0,$tmpInteval);
-    $time=[
+    {
+      $tmpInteval=rand(0,$tmpInteval);
+      if(date_diff($TmpEndTime,$TmpEndTime)->invert==1)echo "截止时间小于开始事件";
+      $time=[
       "type"=>'once',
       "data"=>[
+        "fixed"=>false,
         "startCondition"=>'immediately',
         "startTime"=>date_format($TmpStartTime,"Y-m-d h:i:s.v"),
         "endTime"=>date_format($TmpEndTime,"Y-m-d h:i:s.v"),
         "workTimeType"=>"inherit",
         "workTime"=>$tmpInteval,
-      ],
+          ],
         ];
+    }
+    else{
+      $time=[
+      "type"=>'once',
+      "data"=>[
+        "fixed"=>true,
+        "startCondition"=>'immediately',
+        "startTime"=>date_format($TmpStartTime,"Y-m-d h:i:s.v"),
+        "endTime"=>date_format($TmpEndTime,"Y-m-d h:i:s.v"),
+        "workTimeType"=>"inherit",
+        "workTime"=>$tmpInteval,
+          ],
+        ];}
+
       return $time;
     }
 
