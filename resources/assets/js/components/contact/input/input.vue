@@ -49,6 +49,7 @@ export default {
       return result;
     },
     submit() {
+      if(this.msg==""){alert("Message can not be empty!");return;}
       this.spinShow=true;
       let data={
         user:{

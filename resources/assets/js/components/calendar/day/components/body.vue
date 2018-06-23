@@ -158,8 +158,13 @@ function treeHeight(thingTreeNode) {
   thingTreeNode['height'] = result;
   return result;
 }
+/*
+匹配到日历
 
-function matching(thingList, startTime, endTime) {
+@pause 事件之间的休息事件 单位min
+
+ */
+function matching(thingList, startTime, endTime, pause = 5) {
   let result = [];
   let tmp = thingList.slice(0);
   //将固定事件加入结果，从待排序中剔除固定事件,
@@ -198,26 +203,30 @@ function matching(thingList, startTime, endTime) {
   while (tmp.length != 0) {
     //寻找空档
     while (resultCounter < result.length) {
-      console.log(baseTime - new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['endTime']));
-      if ((baseTime - new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['endTime'])>0)) {
-        console.log("continue");
+
+
+      if ((baseTime - new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['endTime']) > 0)) {
         resultCounter++;
         continue;
       }
-      console.log("bbbbbb");
-      baseTime = new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['endTime']);
-      resultCounter++;
-      //console.log(result[resultCounter]);
+
+      if ((new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['startTime']) - baseTime) > 0) {
+        free = new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['startTime']) - baseTime;
+        console.log(free);
+        break;
+      } else {
+        baseTime = new Date((+new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['endTime'])) + pause * 60000);
+        resultCounter++;
+      }
       if ((resultCounter >= result.length)) {
-        console.log("cccc");
+
         free = new Date(endTime) - new Date(baseTime) //3天
         died = true;
       } else {
-        console.log("fffff");
-        free = new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['startTime'])-baseTime;
+
+        free = new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['startTime']) - baseTime;
       }
-      console.log("break");
-      console.log(baseTime);
+
       break;
     }
     //若果没有需要匹配的数据
@@ -228,12 +237,13 @@ function matching(thingList, startTime, endTime) {
     //寻找合适插入的任务
     for (let i = 0; i < tmp.length; i++) {
       //若狗当前的事件需要的工作事件低于空闲时间
-      if (parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000 <= free) {
+
+      if ((free-parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000 )>0) {
+        console.log((free-parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000 ));
+        console.log(tmp[i]['Attribute']['title']);
         //检查
-
         if (!isInclude(tmp[i].children, tmp)) {
-          console.log(baseTime);
-
+        //  console.log(baseTime);
           result.push({
             name: tmp[i]['Attribute']['title'],
             value: [
@@ -244,7 +254,7 @@ function matching(thingList, startTime, endTime) {
               //结束时间
               parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000 + (+baseTime),
               //工作时间
-              parseInt(tmp[i]['Attribute']['time']['data']['workTime'])* 60000,
+              parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000,
               //数据节点
               tmp[i],
             ],
@@ -254,16 +264,18 @@ function matching(thingList, startTime, endTime) {
               }
             }
           });
-          baseTime = new Date(parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000 +(+ baseTime));
-          free = free - parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000;
+          baseTime = new Date((parseInt(tmp[i]['Attribute']['time']['data']['workTime']) + pause) * 60000 + (+baseTime));
+          free = free - (parseInt(tmp[i]['Attribute']['time']['data']['workTime'])+ pause) * 60000;
           tmp.splice(i, 1); //删除元素
           i--; //校准index
           died = false;
+
         }
       }
     }
     //未能在截至事件前将所有任务排进去
     if (died == true) {
+      alert("未能在截至事件前将所有任务排进去")
       return false;
     }
     resultCounter++;
@@ -278,10 +290,10 @@ function checkMin(i) {
 }
 /*检查两个数组是否存在交集*/
 function isInclude(array1, array2) {
-  if(array1==undefined)
-  return false;
-  if(array2==undefined)
-  return false;
+  if (array1 == undefined)
+    return false;
+  if (array2 == undefined)
+    return false;
   for (let m = 0; m < array1.length; m++) {
     for (let n = 0; n < array2.length; n++) {
       if (array1[m] == array2[n]) {

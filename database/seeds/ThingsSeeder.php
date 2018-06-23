@@ -14,6 +14,8 @@ class ThingsSeeder extends Seeder
   */
   public function run()
   {
+    $max=20;//每层数据出现的最大数量
+    $zjl=4;//出现子事件的纪律 ：= zjl/10
     //
     $users = User::all();
 
@@ -23,18 +25,39 @@ class ThingsSeeder extends Seeder
         'role'=>['admin']
       ];
       //生成10个根事件
-      for($i=0;$i<rand(1,10);$i++){
+      for($i=0;$i<rand(1,$max);$i++){
         $tmp=$this->new_thing(0,$this->RandTime(5),$owner);
         //填充自时�?
-        for($m=0;$m<rand(1,10);$m++){
+        for($m=0;$m<rand(1,$max);$m++){
           //十分�?3的几率产生下属子事件
-          if(4>rand(1,10)) {
+          if($zjl>rand(1,10)) {
             $tmp=$this->new_thing($tmp->_id,$this->RandTime(5),$owner);
           } else{
             $this->new_thing($tmp->_id,$this->RandTime(5),$owner);
           }
         }
       }
+
+      //生成自定义事件
+      $TmpStartTime=new DateTime(date("Y-m-d h:i:s.v"));
+      $TmpEndTime=new DateTime(date("Y-m-d h:i:s.v"));
+      $tmpInteval=rand(0,3*60);
+      date_add($TmpStartTime,date_interval_create_from_date_string($tmpInteval." minutes"));
+      date_add($TmpEndTime,date_interval_create_from_date_string($tmpInteval." minutes"));
+      $tmpInteval=rand(0,5*60);
+      date_add($TmpEndTime,date_interval_create_from_date_string($tmpInteval." minutes"));
+      $this->new_thing(0,$time=[
+      "type"=>'once',
+      "data"=>[
+        "fixed"=>false,
+        "startCondition"=>'immediately',
+        "startTime"=>date_format($TmpStartTime,"Y-m-d h:i:s.v"),
+        "endTime"=>date_format($TmpEndTime,"Y-m-d h:i:s.v"),
+        "workTimeType"=>"inherit",
+        "workTime"=>$tmpInteval,
+          ],
+        ],$owner
+      );
     }
 
 
@@ -46,6 +69,7 @@ class ThingsSeeder extends Seeder
   @day �?大日�?
   */
   private function RandTime($day){
+    $gdjl=4; //出现固定事件的机率：=gdjl/10
     $TmpStartTime=new DateTime(date("Y-m-d h:i:s.v"));
     $TmpEndTime=new DateTime(date("Y-m-d h:i:s.v"));
     $tmpInteval=rand(0,$day);
@@ -57,10 +81,10 @@ class ThingsSeeder extends Seeder
     date_add($TmpEndTime,date_interval_create_from_date_string($tmpInteval." minutes"));
     //生成工作时间
     $time=[];
-    if(rand(0,5)<4)//百分之60几率为非固定时间，百分之40为固定事件；固定时间的特征为起始+工作=结束
+    if($gdjl<rand(1,10))//百分之60几率为非固定时间，百分之40为固定事件；固定时间的特征为起始+工作=结束
     {
       $tmpInteval=rand(0,$tmpInteval);
-      if(date_diff($TmpEndTime,$TmpEndTime)->invert==1)echo "截止时间小于开始事件";
+      if(date_diff($TmpEndTime,$TmpEndTime)->invert==1){echo "截止时间小于开始事件";}
       $time=[
       "type"=>'once',
       "data"=>[
@@ -74,6 +98,7 @@ class ThingsSeeder extends Seeder
         ];
     }
     else{
+      date_add($TmpEndTime,date_interval_create_from_date_string($tmpInteval." minutes"));//为了测试把非固定事件拉长
       $time=[
       "type"=>'once',
       "data"=>[
@@ -94,7 +119,7 @@ class ThingsSeeder extends Seeder
       $query=
       [//根据id远程读入，模板的信息
         "Attribute"=>[
-          "title"=>"undefined",
+          "title"=>"mock".rand(1000,9999),
           "fatherId"=>$fid,
         "time"=>$time,
         "workTimeCost"=>0,
