@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import Vue from "Vue";
+import Vue from "vue";
 export default {
   name: 'item',
   props: {
