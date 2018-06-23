@@ -42,8 +42,8 @@ Laravel is accessible, yet powerful, providing tools needed for large, robust ap
 
 - 现在有一个在线[Demo](http://165.227.145.210)
 - 你可以使用默认的账户密码登陆
-  + username:admin@admin.com
-  + password:password
+  + username: admin@admin.com
+  + password: password
 - **注意,此服务器仅为测试服务器，其内容会不定期删除，如果希望正式使用请联系管理员**
 
 ## installation
