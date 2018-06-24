@@ -53,6 +53,8 @@ export default {
     }
   },
   data () {
+    console.log("permission");
+    console.log(this.data);
     return {
       Invitees: [],
 
@@ -149,17 +151,17 @@ export default {
     },
 
     invite:function (){
+
       for(let Invite in this.Invitees)
       {
-
         let r=this.check_role(this.Invitees[Invite],this.Role,this.data.owner);
-
         if(typeof r!="object"&&typeof r!="array"){
           //console.log(typeof r);
           let tmp=["reserve"];
           for(let ro in this.Role){
             tmp.push(this.Role[ro]);
           }
+          console.log(this.data.owner);
           this.data.owner.push(
             {
               userId:this.Invitees[Invite],
@@ -173,6 +175,7 @@ export default {
             //console.log("xxx");
             if(this.data.owner[u].userId==this.Invitees[Invite]){
               for(let ro in r){
+                console.log(this.data.owner[u].role);
                 this.data.owner[u].role.push(r[ro]);
               }
               break;

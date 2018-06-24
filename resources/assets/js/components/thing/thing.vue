@@ -3,25 +3,28 @@
     <div style="width:240px;" class="inline-block fullheight">
       <div v-bar="{preventParentScroll: true,scrollThrottle: 30}" class="full">
         <div id="vbarcontent">
-          <conponent :is="zone[0]" :data="thing_list" :active="missionlist_mode"/>
+          <!-- <router-view class="view two" name="navbar"></router-view> -->
+          <conponent :is="zone[0]" :data="thing_list" :active="mode"/>
         </div>
       </div>
     </div>
     <div style="width: calc(50% - 124px);" class="inline-block fullheight">
       <div v-bar="{preventParentScroll: true,scrollThrottle: 30}" class="full">
         <div id="vbarcontent">
-          <conponent :is="zone[1]" :thing_list="thing_list" :mode="missionlist_mode"/>
+          <!-- <router-view class="view two" name="thing_list"></router-view> -->
+          <conponent :is="zone[1]" :thing_list="thing_list" :mode="mode"/>
         </div>
       </div>
     </div>
     <div style="width: calc(50% - 124px);" class="inline-block fullheight">
       <div v-bar="{preventParentScroll: true,scrollThrottle: 30}" class="full">
-        <div id="vbarcontent" v-if="zone[2]=='mission'">
-          <mission :id='thing_id' v-if="current_mission" :mode="currentView"/>
-          <creator :id='thing_id' v-if="current_creator"/>
+        <div id="vbarcontent">
+          <router-view></router-view>
+          <!-- <mission :id='thing_id' v-if="current_mission" :mode="currentView"/>
+          <creator :id='thing_id' v-if="current_creator"/> -->
         </div>
       </div>
-      <conponent :is="zone[2]" v-if="zone[2]!='mission'"/>
+      <!-- <conponent :is="zone[2]" v-if="zone[2]!='mission'"/> -->
     </div>
   </div>
 
@@ -35,9 +38,24 @@ import creator from './mission/creator/main';
 
 export default {
   name: 'thing',
+  props:{
+    view:{
+      type:String,
+      default:'navbar',
+    },
+    mode:{
+      type:String,
+      default:'todo',
+    },
+    id:{
+      type:String,
+      default:'0',
+    },
+  },
   // props:{
   // },
   data() {
+
     return {
 
       // mission_id: 0,
@@ -54,24 +72,6 @@ export default {
     };
   },
   computed: {
-    id(){
-      // window.app.activeThing = "this"
-      if(window.app.activeThing == undefined ){
-        // console.log("undefined");
-        return 0;
-      }else{
-        // console.log("hello");
-        // console.log(window.app.activeThing.thing_id);
-        return window.app.activeThing.thing_id;
-      }
-
-    },
-    current_mission(){
-      return this.currentView=='editor'||this.currentView=='viewer';
-    },
-    current_creator(){
-      return this.currentView=='creator';
-    }
 
   },
   methods: {
@@ -104,14 +104,9 @@ export default {
   },
   mounted() {
     window.app.thing=this;
-    this.$nextTick(
-      function init() {
-
-        // return $('#thing_list').mCustomScrollbar({ theme: 'light-2' });
-        // Code that will run only after the
-        // entire view has been rendered
-      },
-    );
+    if(this.view==null){
+      this.view='navbar';
+    }
   },
   components: {
     navbar,

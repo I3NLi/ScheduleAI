@@ -23,6 +23,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 //登陆后才允许的功能
 Route::group(['middleware' => 'auth'], function () {
+  Route::any('home/{subs?}',function (){return view('home');});
   //API
   Route::group(['prefix' => '/api'], function () {
     Route::group(['prefix' => '/thing'], function () {

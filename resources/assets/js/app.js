@@ -12,11 +12,15 @@ import Vue from 'vue';
 import iView from 'iview';
 // import "bootstrap-sass";
 import Vuebar from 'vuebar';
+import Vuerouter from 'vue-router';
+import router from './router.js';
+
 // import InputTag from 'vue-input-tag'
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = true;
 
 import 'iview/dist/styles/iview.css';
+
 
 Vue.use(Vuebar);
 Vue.use(iView);
@@ -32,7 +36,7 @@ import App from './App.vue';
 
 const app = new Vue({
     el: '#app',
+    router,
     template: '<App/>',
     components: { App },
 });
-console.log("start");

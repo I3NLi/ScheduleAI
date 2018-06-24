@@ -23,7 +23,6 @@ export default {
     id:{
       type:[Number,String],
       default:0,
-
     }
   },
   data() {

@@ -1,32 +1,21 @@
+
+
+
+
+
+
+
+<!-- 本文件暂时被废弃 -->
+
+
+
+
+
+
 <template>
 <div id='mission' class="full">
-  <!-- <viewer v-show='mode'/> -->
-  <!--
-    <nav class="navbar navbar-default" role="navigation">
-      <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="example-navbar-collapse">
-          <ul class="nav navbar-nav" style="float:right">
-            <li v-show="mode=='viewer'"><a @click="mode_editor"><Icon type="wrench" ></Icon></a></li>
-            <li v-show="mode=='editor'"><a @click="mode_viewer"><Icon type="edit"></Icon></span></a></li>
-          </ul>
-        </div>
-      </div>
-    </nav> -->
-
-
-  <ul class="nav nav-tabs">
-    <li role="presentation" class="active"><a href="#">Attributes</a></li>
-    <li role="presentation"><a href="#">Missions</a></li>
-    <li role="presentation"><a href="#">Permissions</a></li>
-  </ul>
-
-  </Menu>
-
-
-
-
   <component :is="mode" :data="data" :id="id" /></component>
-  <Spin size="large" fix v-if="spinShow"></Spin>
+
 </div>
 </template>
 
@@ -38,17 +27,13 @@ export default {
   name: 'mission',
   props:{
     id: [Number,String],
-    // mode:{//true viewer,false editor
-    //   type:String,
-    //   // default:true,
-    //   default:'viewer',
-    // },
   },
   data() {
-
+    console.log("viewer");
+    console.log(this.id);
     return {
       mode:'viewer',
-      data:this.get_data(),
+      data:{},
       spinShow:true,
     };
   },
@@ -60,7 +45,6 @@ export default {
   methods:{
     mode_viewer(){
       this.mode="viewer";
-      //console.log("set viewer");
     },
     mode_editor(){
       this.mode="editor";
@@ -79,28 +63,22 @@ export default {
         beforeSend:function(xhr){
         },
         success:function(data,textStatus,jqXHR){
-          console.log("刷新任务 ID:"+vm.id);
-          console.log(data[0]);
           result=data[0];
+          this.spinShow=false;
+          this.data=result;
         },
         error:function(xhr,textStatus){
         },
         complete:function(){
         }
       });
-      this.spinShow=false;
-      return result;
       }
     },
-    created() {
+    mounted() {
       this.get_data();
-      // window.app.mission=this;
       this.$nextTick(
         function init() {
 
-          // return $('#thing_list').mCustomScrollbar({ theme: 'light-2' });
-          // Code that will run only after the
-          // entire view has been rendered
         },
       );
     },

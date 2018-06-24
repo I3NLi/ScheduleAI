@@ -1,23 +1,23 @@
 <template>
-  <Menu :theme="'dark'" class="full" active-name="active" @on-select="setMode">
+  <Menu :theme="'dark'" class="full" :active-name="active" @on-select="setMode">
      <MenuGroup title="常规">
       <MenuItem name="0-1">
         <Icon type="search"></Icon>
         查找任务
       </MenuItem>
-      <MenuItem name="TODO">
+      <MenuItem name="todo">
         <Icon type="compose"></Icon>
         待完成事件
       </MenuItem>
-      <MenuItem name="INVITED">
+      <MenuItem name="invited">
         <Icon type="archive"></Icon>
         待接受事件
       </MenuItem>
-      <MenuItem name="DELETED">
+      <MenuItem name="deleted">
         <Icon type="ios-trash-outline"></Icon>
         已删除事件
       </MenuItem>
-      <MenuItem name="ALL">
+      <MenuItem name="all">
         <Icon type="clipboard"></Icon>
         全部事件
       </MenuItem>
@@ -62,8 +62,10 @@ export default {
     data:{
       type:[Object,Array],
       default:[],
-      active:String,
-    }
+    },
+    active:{
+      type:String,
+      default:'todo'},
   },
   data() {
     return {
@@ -73,8 +75,7 @@ export default {
   },
   methods: {
     setMode:function (mode){
-       window.app.thing.missionlist_mode=mode;
-       console.log(mode);
+      this.$router.push({ name: 'thing', params: { view:'list',id:'0',mode:mode.toLocaleLowerCase()}});
     }
 
   },

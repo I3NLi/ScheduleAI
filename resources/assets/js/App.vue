@@ -29,7 +29,7 @@
       <MenuItem name="3-3">时段分析</MenuItem>
     </MenuGroup> -->
     <MenuGroup title="System">
-      <MenuItem name="logout" @Click="logout">Logout</MenuItem>
+      <MenuItem name="logout">Logout</MenuItem>
     </MenuGroup>
   </Submenu>
   <!-- <MenuItem name="4">
@@ -41,27 +41,19 @@
 
 <div class="content ">
   <keep-alive>
-    <component :is="currentView">
-      <!-- 非活动组件将被缓存！ -->
-    </component>
+    <router-view></router-view>
   </keep-alive>
 </div>
 </div>
 </template>
 
 <script>
-import thing from './components/thing/thing';
-import contact from './components/contact/contact';
-import calendar from './components/calendar/calendar';
-import organization from './components/organization/organization';
-// import day from './components/calendar/day/day';
 
 export default {
   name: 'app',
   data(){
     return {
-      //currentView:'calendar',
-      currentView:'thing',
+
     };
   },
   methods:{
@@ -72,8 +64,7 @@ export default {
       }
       else if(view!='#')
       {
-        this.currentView=view;
-
+        this.$router.push({name:view});
       }
       return false;
     },
@@ -93,10 +84,7 @@ export default {
 
   },
   components: {
-    calendar,
-    thing,
-    organization,
-    contact,
+
   },
 
 
@@ -105,8 +93,7 @@ export default {
 </script>
 
 <style lang="less">
-// @import "~bootstrap/less/bootstrap";
-// @import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
 
 </style>
 <style>

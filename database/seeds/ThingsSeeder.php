@@ -21,8 +21,10 @@ class ThingsSeeder extends Seeder
 
     foreach($users as $user){
       $owner=[
-        'userId'=>$user->_id,
-        'role'=>['admin']
+        [
+          'userId'=>$user->_id,
+          'role'=>['admin'],
+        ],
       ];
       //生成10个根事件
       for($i=0;$i<rand(1,$max);$i++){

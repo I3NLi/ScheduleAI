@@ -2,11 +2,9 @@
 <template>
   <div id="Attribute">
     <Form  :label-width="80">
-
       <FormItem label="Father ID">
         {{data.fatherId}}
       </FormItem>
-
       <FormItem label="Worked Time">
         <span>{{timeStamp(data.workTimeCost+TmpWorkTimeCost)}}</span>
       </FormItem>

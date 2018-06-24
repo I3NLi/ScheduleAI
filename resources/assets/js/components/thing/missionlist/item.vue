@@ -32,7 +32,8 @@ export default {
   name: 'item',
   props: {
     item: Object,
-    index: Number
+    index: Number,
+    mode:String,
   },
   data: function () {
     return {
@@ -76,7 +77,7 @@ export default {
       }
       window.app.thing.activeThingNode = this;
       window.app.thing.thing_id=this.item._id;
-      window.app.thing.set_mode(this.item._id,"viewer");
+      this.$router.push({ name: 'thing_viewer', params: { view:'mission',lid:this.item._id,mode:this.mode,id:this.item._id}});
     },
     addChild: function () {
       this.model.children.push({
@@ -85,17 +86,15 @@ export default {
     },
     create_thing: function () {
       window.app.thing.activeThingNode = this;
-      window.app.thing.set_creator(this.item._id);
-
+      this.$router.push({ name: 'thing_creator', params: { view:'mission',lid:this.item._id,mode:this.mode,id:this.item._id}});
     },
     load_thing: function () {
-      console.log("刷新missionlist.item");
+      //console.log("刷新missionlist.item");
       let vm=this;
-
       $.ajax({
         method: "get",
         url: "/api/thing/list/" + this.item._id,
-        async: false,
+        async: true,
         success:function(data,textStatus,jqXHR){
           Vue.set(vm.item, 'children', data);
         },

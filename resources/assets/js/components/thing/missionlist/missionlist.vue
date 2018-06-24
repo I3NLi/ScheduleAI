@@ -5,9 +5,10 @@
       <item v-for="(item, index) in  items"
       v-bind:item="item"
       v-bind:index="index"
+      :mode="mode"
       ></item>
       <!--<li class="list-group-item " style='color:undefined;background-color:undefined;' v-for="(item, index) in  items">@{{index}}+@{{item.titel}}</li>   -->
-      <li class="list-group-item justify-content-between" style='color:undefined;background-color:undefined;' @click="create_thing" v-if="(mode!='INVITED')&&(mode!='DELETED')">
+      <li class="list-group-item justify-content-between" style='color:undefined;background-color:undefined;' @click="create_thing" v-if="(mode.toLocaleLowerCase()!='invited')&&(mode.toLocaleLowerCase()!='deleted')">
         <!-- <span>&nbsp&nbsp&nbsp&nbsp</span> -->
         <span>新建事件++++</span>
       </li>
@@ -96,7 +97,7 @@ export default {
   name: 'missionlist',
   props:{
     // thing_list:Array,
-    mode:String,
+    mode:{type:String,default:"todo"},
   },
   data() {
     return {
@@ -109,7 +110,7 @@ export default {
   methods: {
     create_thing() {
       window.app.thing.activeThingNode = this;
-      window.app.thing.set_creator(0);
+      this.$router.push({ name: 'thing_creator', params: { view:'mission',lid:'0',mode:this.mode}});
       // console.log(window.app.thing.thing_id);
     },
     // load_thing: function () {
@@ -153,15 +154,6 @@ export default {
   mounted() {
     this.load_thing();
     this.create_thing();//绑定生成器到取当前节点
-
-    // window.app.thing.activeThingNode = this;
-    this.$nextTick(
-      function init() {
-        // return $('#thing_list').mCustomScrollbar({ theme: 'light-2' });
-        // Code that will run only after the
-        // entire view has been rendered
-      },
-    );
   },
   watch:{
     mode:function (newVal){
