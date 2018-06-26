@@ -4,7 +4,7 @@
     Create a mission in # {{data.id}}
   </p>
   <hr/>
-  <Card :padding="2" v-for="(templategruppe,gkey) in template_list" class="creatMissionOptions">
+  <Card :padding="2" v-for="(templategruppe,gkey) in template_list" :key="gkey" class="creatMissionOptions">
     <p slot="title" class="title">
       <Icon v-if="gkey=='default'" type="document"></Icon>
       <Icon v-if="gkey=='personal'" type="android-person"></Icon>

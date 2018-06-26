@@ -1,7 +1,7 @@
 <template>
 <div id="editor">
   <Tabs value="nav-mission" type="card">
-    <TabPane v-for="(module,key) in modules" :name="key" :label="key">
+    <TabPane v-for="(module,key) in modules" :key="key" :name="key" :label="key">
       <input type="text" id="title" v-model="modules.Attribute.title" placeholder="Title" />
       <hr/> ID: #{{data._id}}
       <component :is="key" :data="module" :editor="editor" :permissions="modules.Permissions" :fulldata="data" />

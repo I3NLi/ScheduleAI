@@ -9,7 +9,7 @@
       Modul
       <Tree :data="modul" slot="content" show-checkbox></Tree>
     </Panel> -->
-    <Panel v-for="(module,key) in modules" :name="key">
+    <Panel v-for="(module,key) in modules":key="key" :name="key">
       {{key}}
       <component slot="content" :is="key" :data="module" :permissions="modules.Permissions"/>
     </Panel>

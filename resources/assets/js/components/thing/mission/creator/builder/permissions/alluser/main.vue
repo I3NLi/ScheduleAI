@@ -5,11 +5,12 @@
       <th>ID</th>
       <th>Permissions</th>
     </th>
-    <tr v-for="u in data.owner">
+    <tr v-for="u in data.owner" :key="u.userId">
       <td>{{getName(u.userId)}}</td>
       <td>{{u.userId.substr(-5,4)}}</td>
       <td>
         <Tag v-for="r in u.role"
+        :key="u.userId"
         closable
         @on-close="deleteRole(u.userId,r)"
         >

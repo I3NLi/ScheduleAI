@@ -1,7 +1,7 @@
 <template>
 <div id="viewer">
   <Tabs value="nav-mission" type="card">
-    <TabPane v-for="(module,key) in modules" :name="key" :label="key">
+    <TabPane v-for="(module,key) in modules" :key="key" :name="key" :label="key">
 
       <h2 id="title">{{modules.Attribute.title}}</h2>
       <hr/> ID: #{{data._id}}

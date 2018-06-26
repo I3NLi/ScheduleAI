@@ -2,7 +2,7 @@
   <div :_id="thing_id">
     <li class="list-group-item"
     @click="show_thing" >
-    <span  v-for="n in layer" >&nbsp&nbsp&nbsp&nbsp</span>
+    <span  v-for="n in layer" :key="n">&nbsp&nbsp&nbsp&nbsp</span>
     <span
     :class="{
       'icon expand-icon glyphicon glyphicon-plus':!open,
@@ -17,9 +17,10 @@
       v-for="(item, index) in  item.children"
       v-bind:item="item"
       v-bind:index="index"
+      :key="index"
       ></item>
       <li class="list-group-item justify-content-between" style='color:undefined;background-color:undefined;'  @click="create_thing">
-        <span  v-for="n in layer+1" >&nbsp&nbsp&nbsp&nbsp</span>
+        <span  v-for="n in layer+1" :key="n">&nbsp&nbsp&nbsp&nbsp</span>
         <span  >新建事件++++</span>
       </li>
     </div>

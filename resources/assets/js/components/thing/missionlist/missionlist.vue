@@ -5,6 +5,7 @@
       <item v-for="(item, index) in  items"
       v-bind:item="item"
       v-bind:index="index"
+      :key="index"
       :mode="mode"
       ></item>
       <!--<li class="list-group-item " style='color:undefined;background-color:undefined;' v-for="(item, index) in  items">@{{index}}+@{{item.titel}}</li>   -->

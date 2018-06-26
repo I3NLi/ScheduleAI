@@ -47,13 +47,13 @@
   </Col>
 </Row>
 <Row v-if="(!show_transfer)&&(!is_add)">
-  <Col span="24" v-for="r in reserved_roles" v-if="r.title==CurrentRoleTitle">
+  <Col span="24" v-for="r in reserved_roles" :key="r.title" v-if="r.title==CurrentRoleTitle">
     {{r.description}}
   </Col>
 </Row>
 <Row v-show="is_add">
   <Col span="24">
-    <Row v-for="r in reserved_roles">
+    <Row v-for="r in reserved_roles" :key="r.title">
       <Col span="12">{{r.title}}</Col>
       <Col span="8" offset="4">
         <Button disabled size="small">Edit</Button>
@@ -61,7 +61,7 @@
       </Col>
     </Row>
 
-    <Row v-for="r in this.data">
+    <Row v-for="r in this.data" :key="r.title">
       <Col span="12">{{r.title}}</Col>
       <Col span="8" offset="4">
         <Button type="warning" size="small" @click="edit_role(r)">Edit</Button>

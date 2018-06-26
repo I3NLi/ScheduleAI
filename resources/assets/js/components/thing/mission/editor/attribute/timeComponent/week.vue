@@ -39,7 +39,7 @@ all 默认
 
 <FormItem label="Checkbox">
   <CheckboxGroup v-model="data.repeat">
-    <Checkbox v-for="day in weeklist" :label="day.default"></Checkbox>
+    <Checkbox v-for="day in weeklist" :key="day.default"  :label="day.default"></Checkbox>
   </CheckboxGroup>
 </FormItem>
 

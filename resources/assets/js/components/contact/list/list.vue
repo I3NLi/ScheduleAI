@@ -11,13 +11,14 @@
 
 
       <Menu  v-show='mode==1' theme="dark" active-name="1-2" :open-names="[0,1,2]" class='fullheight'>
-        <Submenu v-for='(group, index1) in data' :name='index1' >
+        <Submenu v-for='(group, index1) in data':key="index1" :name='index1' >
           <template slot="title" >
             <Icon type="ios-paper"></Icon>
             {{group.title}}
           </template>
           <MenuItem v-for='(user,index2) in group.children'
-          :name='index1+"-"+index2'>
+          :name='index1+"-"+index2'
+          :key="index2">
           {{user.title}}
         </MenuItem>
       </Submenu>
@@ -25,7 +26,8 @@
 
   <Menu v-show='mode==0' theme="dark" active-name="1-2" :open-names="[0,1,2]">
       <MenuItem v-for='(user,index) in sorted'
-      :name='index'>
+      :name='index'
+      :key="index">
       {{user.title}}
     </MenuItem>
 </Menu>

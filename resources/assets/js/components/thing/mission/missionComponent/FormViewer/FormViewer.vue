@@ -1,7 +1,8 @@
 <template>
 <form id='MissionBuilderFormViewer'  class='form-horizontal'>
-  <item v-for='mission in data'
+  <item v-for='(mission,index) in data'
   :is='mission.type'
+  :key='index'
   :dataimport='mission'
   :modifier_mode='false'/>
 
