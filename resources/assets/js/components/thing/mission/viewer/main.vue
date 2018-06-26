@@ -60,8 +60,8 @@ export default {
   },
   computed: {
     modules:function() {
-      console.log("modules");
-      console.log(this.data);
+      // console.log("modules");
+      // console.log(this.data);
       let result = {};
       for (let module in this.data) {
         if (typeof this.data[module] == "array" || typeof this.data[module] == "object") {
@@ -109,7 +109,7 @@ export default {
     //
     // },
     get_data() {
-      console.log("getdata"+this.id);
+      console.log("viewer:getdata("+this.id+")");
       this.spinShow = true;
       let vm = this;
       let result
@@ -128,7 +128,7 @@ export default {
             id: vm.data._id,
           },
           vm.spinShow = false;
-          console.log(vm);
+          //console.log(vm);
         },
         error: function(xhr, textStatus) {},
         complete: function() {}
@@ -154,10 +154,10 @@ export default {
 
       window.axios.post('/api/thing/update/' + vm.data._id, data)
         .then(function(response) {
-          if (list_fresh) {
-            console.log("thinglist 刷新 in thing/mission/editor/main @update");
-            window.app.thing.activeThingNode.$parent.refresh(vm.data._id);
-          }
+          // if (list_fresh) {
+          //   //console.log("thinglist 刷新 in thing/mission/editor/main @update");
+          //   window.app.thing.activeThingNode.$parent.refresh(vm.data._id);
+          // }
           if (message) {
             if (message === true) {
               vm.$Message.success('Update successful');
@@ -183,7 +183,7 @@ export default {
     },
   },
   created: function() {
-    console.log(this.id);
+    // console.log(this.id);
     this.get_data();
 
   },
@@ -196,6 +196,11 @@ export default {
       },
       deep: true,
     },
+    'id':{
+      handler: function(val, oldVal) {
+      this.get_data();
+    },
+    }
   },
   components: {
     Attribute,

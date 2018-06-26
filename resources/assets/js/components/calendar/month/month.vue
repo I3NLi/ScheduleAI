@@ -1,33 +1,38 @@
 <template>
-  <fullcalendar :currentDate ="currentDate">
+<div>
+  <calendar-header/>
+
+  <fullcalendar :currentDate="currentDate">
     <div slot="fc-header-right"></div>
   </fullcalendar>
+</div>
 </template>
 <script>
 import fullcalendar from "./components/vue-fullcalendar/fullCalendar";
-
+import calendarHeader from '../header';
 // import fullcalendar from 'vue-fullCalendar';
 export default {
   name: 'month',
-  data () {
+  data() {
     return {
-      currentDate :new Date(),
+      currentDate: new Date(),
     }
   },
-  created () {
+  created() {
 
     // this.events = events
   },
-  computed : {
+  computed: {
 
   },
   methods: {
 
   },
-  components:{
+  components: {
     fullcalendar,
+    calendarHeader,
   },
-  watch:{
+  watch: {
 
   },
 }

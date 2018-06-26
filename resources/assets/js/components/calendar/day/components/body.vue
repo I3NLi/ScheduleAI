@@ -1,19 +1,9 @@
 <template>
-<div style="width: 100%;height:100%;">
-
-  <div id="chart-container" style="width: 100%;height:100%;">
-  </div>
-</div>
+<div id="chart-container" />
 </template>
 
 <script>
-// import mission from '../../thing/mission/mission';
 import echarts from 'echarts'
-// let chart = null
-// let $chart = null
-//let myChart = echarts.init(document.getElementById('main'));
-// 指定图表的配置项和数据
-
 
 //根据
 function buildList(list) {
@@ -212,7 +202,7 @@ function matching(thingList, startTime, endTime, pause = 5) {
 
       if ((new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['startTime']) - baseTime) > 0) {
         free = new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['startTime']) - baseTime;
-        console.log(free);
+        // console.log(free);
         break;
       } else {
         baseTime = new Date((+new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['endTime'])) + pause * 60000);
@@ -238,12 +228,12 @@ function matching(thingList, startTime, endTime, pause = 5) {
     for (let i = 0; i < tmp.length; i++) {
       //若狗当前的事件需要的工作事件低于空闲时间
 
-      if ((free-parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000 )>0) {
-        console.log((free-parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000 ));
-        console.log(tmp[i]['Attribute']['title']);
+      if ((free - parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000) > 0) {
+        // console.log((free-parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000 ));
+        // console.log(tmp[i]['Attribute']['title']);
         //检查
         if (!isInclude(tmp[i].children, tmp)) {
-        //  console.log(baseTime);
+          //  console.log(baseTime);
           result.push({
             name: tmp[i]['Attribute']['title'],
             value: [
@@ -265,7 +255,7 @@ function matching(thingList, startTime, endTime, pause = 5) {
             }
           });
           baseTime = new Date((parseInt(tmp[i]['Attribute']['time']['data']['workTime']) + pause) * 60000 + (+baseTime));
-          free = free - (parseInt(tmp[i]['Attribute']['time']['data']['workTime'])+ pause) * 60000;
+          free = free - (parseInt(tmp[i]['Attribute']['time']['data']['workTime']) + pause) * 60000;
           tmp.splice(i, 1); //删除元素
           i--; //校准index
           died = false;
@@ -546,11 +536,11 @@ export default {
   methods: {
     /*同步数据*/
     synData: function() {
-      console.log("获取数据");
+      // console.log("获取数据");
       let $vm = this;
       // this.spinShow=true;
       let url = "/api/thing/list/todo";
-      console.log(url);
+      // console.log(url);
       //因axios 不支持同步，选中ajax
       $.ajax({
         method: "get",
@@ -576,8 +566,16 @@ export default {
           //
           //          $vm.fillIin($vm.list);
           $vm.data = matching($vm.list, $vm.startTime, $vm.endTime);
-          console.log($vm.option);
           $vm.chart.setOption($vm.option);
+          //打开任务详情视图
+          if ($vm.data != false) {
+            $vm.$router.push({
+              name: "calendar_day_viewer",
+              params: {
+                id: $vm.data[0].value[4]._id
+              }
+            });
+          }
         },
       });
     },
@@ -611,11 +609,22 @@ export default {
     },
   },
   mounted() {
-    console.log(this);
+    // console.log(this);
+    let $vm = this;
     this.chart = echarts.init(document.getElementById('chart-container'));
     // 使用刚指定的配置项和数据显示图表。
     //this.chart.setOption(this.option);
     // console.log(this.option);
+    this.chart.on('click', function(params) {
+      // console.log(params.data.value[4]._id);
+      $vm.$router.push({
+        name: "calendar_day_viewer",
+        params: {
+          id:params.data.value[4]._id,
+        }
+      });
+    });
+
     this.synData();
 
 

@@ -9,7 +9,11 @@ import MissionEditor from './components/thing/mission/editor/main';
 import MissionViewer from './components/thing/mission/viewer/main';
 
 import contact from './components/contact/contact';
+
 import calendar from './components/calendar/calendar';
+import calendarDay from './components/calendar/day/day';
+import calendarMonth from './components/calendar/month/month';
+
 import organization from './components/organization/organization';
 
 Vue.use(Router)
@@ -23,7 +27,64 @@ export default new Router({
       alias: '/',
       path: '/calendar',
       name: 'calendar',
+      redirect: '/calendar/day',
       component: calendar,
+      children: [{
+          alias: ['/calendar'],
+          path: 'day',
+          name:"calendar_day",
+          component: calendarDay,
+          props: true,
+          children: [
+            // {
+            //   path: 'creator/:id',
+            //   name:"calendar_day_creator",
+            //   component: MissionCreator,
+            //   props: true,
+            // },
+            // {
+            //   path: 'editor/:id',
+            //   name:"calendar_day_editor",
+            //   component: MissionEditor,
+            //   props: true,
+            // },
+            {
+              path: 'viewer/:id',
+              name:"calendar_day_viewer",
+              component: MissionViewer,
+              props: true,
+              meta: {
+                keepAlive: false, //此组件不需要被缓存
+              }
+            },
+          ],
+        },
+        {
+          path: 'month',
+          name:"calendar_month",
+          component: calendarMonth,
+          props: true,
+          // children: [{
+          //     path: 'creator/:id',
+          //     name:"calendar_month_creator",
+          //     component: MissionCreator,
+          //     props: true,
+          //   },
+          //   {
+          //     path: 'editor/:id',
+          //     name:"calendar_month_editor",
+          //     component: MissionEditor,
+          //     props: true,
+          //   },
+          //   {
+          //     path: 'viewer/:id',
+          //     name:"calendar_month_viewer",
+          //     component: MissionViewer,
+          //     props: true,
+          //   },
+          // ],
+        },
+      ],
     },
 
     // {
@@ -42,6 +103,7 @@ export default new Router({
       component: thing,
       props: true,
       children: [{
+          alias:"",
           path: 'creator/:id',
           name:"thing_creator",
           component: MissionCreator,

@@ -192,8 +192,8 @@ export default {
       .then(function (response) {
         if(response.data[0]._id==id){
         console.log("任务创建成功");
-        window.app.thing.activeThingNode.refresh();
-        window.app.thing.set_mode(id,"editor");
+        // window.app.thing.activeThingNode.refresh();
+        // window.app.thing.set_mode(id,"editor");
         }else{
           console.log("任务未创建 延时1s");
           setTimeout(vm.after_create(id),1000)

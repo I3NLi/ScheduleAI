@@ -110,7 +110,7 @@ export default {
   },
   methods: {
     create_thing() {
-      window.app.thing.activeThingNode = this;
+      // window.app.thing.activeThingNode = this;
       this.$router.push({ name: 'thing_creator', params: { view:'mission',lid:'0',mode:this.mode}});
       // console.log(window.app.thing.thing_id);
     },
@@ -141,7 +141,7 @@ export default {
       if(id){
         for(let key in this.$children){
           if(this.$children[key]._id==id){
-            window.app.thing.activeThingNode=this.$children[key];
+            // window.app.thing.activeThingNode=this.$children[key];
             break;
           }
         }

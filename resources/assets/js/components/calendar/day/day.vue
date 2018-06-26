@@ -1,12 +1,21 @@
 <template>
   <div  id='day'>
-    <div style="width:calc(100% - 404px);" class="inline-block fullheight">
+    <div style="width:calc(100% - 604px);" class="inline-block fullheight">
       <div v-bar="{
         preventParentScroll: true,
         scrollThrottle: 30,
         }" class="full">
         <div class="v-bar-container">
-          <daybody/>
+          <calendar-header/>
+          <daybody class="full"/>
+        </div>
+      </div>
+    </div>
+
+    <div style="width:600px" class="inline-block fullheight">
+      <div v-bar="{preventParentScroll: true,scrollThrottle: 30}" class="full">
+        <div id="vbarcontent">
+          <router-view></router-view>
         </div>
       </div>
     </div>
@@ -25,8 +34,8 @@
   </template>
 
   <script>
-  import mission from '../../thing/mission/mission';
   import daybody from './components/body';
+  import calendarHeader from '../header';
 
   export default {
     name: 'day',
@@ -36,7 +45,7 @@
       };
     },
     components:{
-      mission,
+      calendarHeader,
       daybody,
     }
   };
