@@ -66,6 +66,16 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'attribute'=>[],
+            'contact'=>[
+              'default'=>[
+                'user_id'=>"5b31826d6da03b00371db797",
+                'status'=>"normal",//blacklist 黑名单
+                'charroom_id'=>null,
+                'tags'=>[],
+              ],
+            ],
+
         ]);
     }
 }

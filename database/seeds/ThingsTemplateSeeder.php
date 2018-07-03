@@ -72,12 +72,19 @@ class ThingsTemplateSeeder extends Seeder
             "Mission",
             "Permissions",
             "Contact",
-          ],//记录折叠
+          ],//记录折叠,废弃
+          "topics"=>[
+
+          ],
           "Modules"=>[
             "Attribute",
             "Mission",
             "Permissions",
-            "Contact",
+            // "Contact", 废弃
+            // "topics",
+            // "depend",
+            // "analysis",
+            // "setting",
           ],//记录启用的模块
         ]
       ];
