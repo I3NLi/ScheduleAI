@@ -1,15 +1,15 @@
 <template>
   <div  id='day'>
     <aside class="inline-block fullheight">
-      <div v-bar="{
+      <!-- <div v-bar="{
         preventParentScroll: true,
         scrollThrottle: 30,
         }" class="full">
-        <div class="v-bar-container">
+        <div class="v-bar-container"> -->
           <calendar-header/>
-          <daybody class="full"/>
-        </div>
-      </div>
+          <daybody class="daybody" />
+        <!-- </div>
+      </div> -->
     </aside>
 
     <section  class="inline-block fullheight">
@@ -66,6 +66,10 @@
 
   <!-- Add "scoped" Attribute to limit CSS to this component only -->
   <style scoped>
+  .daybody{
+    height: calc(100% - 50px);
+    width: 100%;
+  }
   /* .link{
     width:calc(100% - 204px);
   }

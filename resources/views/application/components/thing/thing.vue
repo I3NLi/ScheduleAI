@@ -4,7 +4,7 @@
   <aside class="inline-block fullheight" :class="{ active:isNavActive,noactive:!isNavActive }">
     <div v-bar="{preventParentScroll: true,scrollThrottle: 30}" class="full">
       <div id="vbarcontent">
-        <navbar :data="thing_list" :active="mode" />
+        <navbar :data="thing_list" :active="mode" id="thing_navbar" />
       </div>
     </div>
   </aside>
@@ -208,7 +208,9 @@ export default {
     display: none;
   }
   aside .ivu-menu-submenu-title{
-    padding-left: 12px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    text-align: center;
   }
   /* aside .ivu-menu-submenu-title>.ivu-icon.ivu-icon-ios-arrow-down.ivu-menu-submenu-title-icon{
     padding-left: 8px !important;
@@ -224,7 +226,8 @@ export default {
     display: inline;
   }
   aside:hover .ivu-menu-submenu-title{
-    padding-left:14px 24px !important;
+    padding:14px 24px !important;
+    text-align: left;
   }
 }
 

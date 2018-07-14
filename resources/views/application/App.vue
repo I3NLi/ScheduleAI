@@ -4,24 +4,32 @@
     :theme="'primary'"
     active-name="currentView"
     @on-select="setCurrentView"
+    class="top-navbar"
     >
-
     <MenuItem name="calendar" >
-      <Icon type="calendar"/>&nbsp&nbsp日历
+      <Icon type="calendar"/>
+      <span class="option-name">&nbsp&nbsp日历</span>
     </MenuItem>
     <MenuItem name="thing" >
-      <Icon type="clipboard"/>&nbsp&nbsp事件
+      <Icon type="clipboard"/>
+      <span class="option-name">&nbsp&nbsp事件</span>
     </MenuItem>
     <MenuItem name="organization" >
-      <Icon type="person-stalker"/>&nbsp&nbsp组织
+      <Icon type="person-stalker"/>
+      <span class="option-name">&nbsp&nbsp组织</span>
     </MenuItem>
     <MenuItem name="contact" >
-      <Icon type="chatboxes"/>&nbsp&nbsp联系人
+      <Icon type="chatboxes"/>
+      <span class="option-name">&nbsp&nbsp联系人</span>
     </MenuItem>
-    <Submenu name="Config" style="float:right">
+    <MenuItem name="config" class="only-mobile">
+      <Icon type="gear-b"></Icon>
+      <span class="option-name">Config</span>
+    </MenuItem>
+    <Submenu name="Config" style="float:right"  class="only-pc">
       <template slot="title">
         <Icon type="stats-bars"></Icon>
-        Config
+        <span class="option-name">Config</span>
       </template>
       <!-- <MenuGroup title="使用">
       <MenuItem name="3-1">新增和启动</MenuItem>
@@ -41,14 +49,16 @@
 
 <!-- <div > -->
   <keep-alive>
-    <router-view class="content "></router-view>
+    <router-view class="content"></router-view>
   </keep-alive>
 <!-- </div> -->
+
+
 </div>
 </template>
 
 <script>
-
+import { Tabbar, TabItem } from 'mint-ui';
 export default {
   name: 'app',
   data(){
@@ -92,10 +102,76 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style scoped>
+/* 中等屏幕（桌面显示器，大于等于 992px） */
+/* @media (min-width:993px)and (max-width: 1200px) { */
+@media only screen and (min-width:992px){
+  .content{
+    height:calc(100% - 60px);
+    margin: 0px;
+  }
+  .only-mobile{
+    display: none;
+  }
+}
+/* 小屏幕（平板，大于等于 768px） */
+@media only screen and (max-width: 991px) and (min-width:768px) {
+  .content{
+    height:calc(100% - 60px);
+    margin: 0px;
+  }
+  .only-mobile{
+    display: none;
+  }
+}
 
+/* 超小屏幕（手机，小于 768px） */
+@media only screen and (max-width: 767px) {
+  .top-navbar{
+     width: 100%;
+     position:fixed;
+	   bottom:0;
+     height: 32px;
+  }
+  .top-navbar .option-name{
+    display: none;
+    text-align: center;
+  }
+  .top-navbar .ivu-menu-item{
+    line-height: 36px;
+    width: 20%;
+    text-align: center;
+  }
+  .content{
+    height:calc(100% - 32px);
+    margin: 0px;
+  }
+  .only-pc{
+    display: none;
+  }
+}
 
 </style>
+
+<style >
+/* 中等屏幕（桌面显示器，大于等于 992px） */
+/* @media (min-width:993px)and (max-width: 1200px) { */
+@media only screen and (min-width:992px){
+
+}
+/* 小屏幕（平板，大于等于 768px） */
+@media only screen and (max-width: 991px) and (min-width:768px) {
+
+}
+
+/* 超小屏幕（手机，小于 768px） */
+@media only screen and (max-width: 767px) {
+
+}
+
+</style>
+
+
 <style>
 html,body,#app{
   height:100%;
@@ -126,10 +202,7 @@ html,body,#app{
 .fullheight{
   height:100%;
 }
-.content{
-  height:calc(100% - 60px);
-  margin: 0px;
-}
+
 .navbar{
   margin-bottom: 0px;
 }
@@ -138,13 +211,11 @@ html,body,#app{
   height: calc(100% - 4px);
   height: 100%;
 }
-
 .vb > .vb-dragger {
   z-index: 5;
   width: 12px;
   right: 0;
 }
-
 .vb > .vb-dragger > .vb-dragger-styler {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -164,23 +235,19 @@ html,body,#app{
   height: calc(100% - 10px);
   display: block;
 }
-
 .vb.vb-scrolling-phantom > .vb-dragger > .vb-dragger-styler {
   background-color: rgba(48, 121, 244,.3);
 }
-
 .vb > .vb-dragger:hover > .vb-dragger-styler {
   background-color: rgba(48, 121, 244,.5);
   margin: 0px;
   height: 100%;
 }
-
 .vb.vb-dragging > .vb-dragger > .vb-dragger-styler {
   background-color: rgba(48, 121, 244,.5);
   margin: 0px;
   height: 100%;
 }
-
 .vb.vb-dragging-phantom > .vb-dragger > .vb-dragger-styler {
   background-color: rgba(48, 121, 244,.5);
 }

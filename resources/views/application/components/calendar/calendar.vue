@@ -1,5 +1,5 @@
 <template>
-<div class="content" id="calendar">
+<div id="calendar">
   <router-view class="full"></router-view>
   <!-- <component :is="mode" class="full"/> -->
 </div>
@@ -58,11 +58,6 @@ td {
   float: right;
 }
 
-#calendar {
-  height: 100%;
-}
 
-.content {
-  height: calc(100% - 52px);
-}
+
 </style>

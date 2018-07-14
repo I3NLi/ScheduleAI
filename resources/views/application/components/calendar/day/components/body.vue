@@ -630,9 +630,8 @@ export default {
     this.synData();
 
     //当窗口改变时resize图表
-    // window.onresize = function(){
-    //   setTimeout(this.chart.resize(),100);
-    // }
+    window.onresize = this.chart.resize;
+
 
 
     setInterval(function() {
