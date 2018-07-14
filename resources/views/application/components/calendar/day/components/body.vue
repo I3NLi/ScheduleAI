@@ -570,8 +570,9 @@ export default {
           //打开任务详情视图
           if ($vm.data != false) {
             $vm.$router.push({
-              name: "calendar_day_viewer",
+              name: "calendar_day",
               query: {
+                view:'calendar',
                 tid: $vm.data[0].value[4]._id
               }
             });
@@ -618,14 +619,20 @@ export default {
     this.chart.on('click', function(params) {
       // console.log(params.data.value[4]._id);
       $vm.$router.push({
-        name: "calendar_day_viewer",
+        name: "calendar_day",
         query: {
-          tid:params.data.value[4]._id,
+          view: 'mission',
+          tid: params.data.value[4]._id,
         }
       });
     });
 
     this.synData();
+
+    //当窗口改变时resize图表
+    // window.onresize = function(){
+    //   setTimeout(this.chart.resize(),100);
+    // }
 
 
     setInterval(function() {

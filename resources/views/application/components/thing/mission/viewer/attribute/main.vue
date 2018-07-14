@@ -157,7 +157,8 @@ beforeDestroy:function(){
     clearTimeout(this.Timer[t]);
   }
   this.data.workTimeCost+=this.TmpWorkTimeCost;
-  this.update();
+  // console.log(this.$parent.$parent);
+  this.$parent.$parent.$parent.update();
 },
 watch: {
   'data.time.type':'setImportance',

@@ -154,7 +154,7 @@ export default {
 
   mounted() {
     this.load_thing();
-    this.create_thing();//绑定生成器到取当前节点
+    // this.create_thing();//绑定生成器到取当前节点
   },
   watch:{
     mode:function (newVal){

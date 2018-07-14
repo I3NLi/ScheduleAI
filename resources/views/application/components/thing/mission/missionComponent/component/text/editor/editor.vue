@@ -31,7 +31,7 @@
 // import QuillEditor from 'vue-quill-editor'
 import { quillEditor } from 'vue-quill-editor'
 export default {
-  name: "text",
+  name: "m_text_editor",
   props: {
     dataimport:Object,
   },

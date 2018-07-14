@@ -35,7 +35,10 @@ export default new Router({
           path: 'day',
           name:"calendar_day",
           component: calendarDay,
-          props: true,
+          props: (route) => ({
+             view: route.query.view,
+             tid: route.query.tid,
+           }),
           children: [
             // {
             //   path: 'creator/:id',
@@ -49,17 +52,18 @@ export default new Router({
             //   component: MissionEditor,
             //   props: true,
             // },
-            {
-              path: 'viewer',
-              name:"calendar_day_viewer",
-              component: MissionViewer,
-              props: (route) => ({
-                 id: route.query.tid,
-               }),
-              meta: {
-                keepAlive: false, //此组件不需要被缓存
-              }
-            },
+
+            // {
+            //   path: 'viewer',
+            //   name:"calendar_day_viewer",
+            //   component: MissionViewer,
+            //   props: (route) => ({
+            //      id: route.query.tid,
+            //    }),
+            //   meta: {
+            //     keepAlive: false, //此组件不需要被缓存
+            //   }
+            // },
           ],
         },
         {
@@ -96,7 +100,7 @@ export default new Router({
     // },
     {
       /*
-      @view 手机模式下那个界面显示在前
+      @view 手机模式下哪个界面显示在前
       @id mission的id
       @mode list的默认筛选
        */
@@ -110,7 +114,7 @@ export default new Router({
          lid: route.query.lid,
        }),
       children: [{
-          alias:"",
+          // alias:"",
           path: 'creator',
           name:"thing_creator",
           component: MissionCreator,

@@ -4,8 +4,7 @@
   <aside class="inline-block fullheight" :class="{ active:isNavActive,noactive:!isNavActive }">
     <div v-bar="{preventParentScroll: true,scrollThrottle: 30}" class="full">
       <div id="vbarcontent">
-        <!-- <router-view class="view two" name="navbar"></router-view> -->
-        <conponent :is="zone[0]" :data="thing_list" :active="mode" />
+        <navbar :data="thing_list" :active="mode" />
       </div>
     </div>
   </aside>
@@ -58,13 +57,13 @@ export default {
   data() {
 
     return {
-
-      // mission_id: 0,
+      //
+      // // mission_id: 0,
       thing_list: [],
-      thing_id: 0,
-      // activeThingNode:null,
-      currentView: 'creator',
-      missionlist_mode: "ALL",
+      // thing_id: 0,
+      activeThingNode:null,
+      // currentView: 'creator',
+      // missionlist_mode: "ALL",
       zone: [
         "navbar",
         "missionlist",
@@ -83,38 +82,38 @@ export default {
     },
   },
   methods: {
-    set_mode(id, mode) {
-      this.thing_id = id;
-      this.currentView = '';
-      this.$nextTick(
-        function init() {
-          this.currentView = mode;
-        },
-      );
-    },
-
-    set_creator(id) {
-      this.set_mode(id, "creator");
-    },
+    // set_mode(id, mode) {
+    //   this.thing_id = id;
+    //   this.currentView = '';
+    //   this.$nextTick(
+    //     function init() {
+    //       this.currentView = mode;
+    //     },
+    //   );
+    // },
+    //
+    // set_creator(id) {
+    //   this.set_mode(id, "creator");
+    // },
   },
   watch: {
-    'id': function() {
-      if (this.current_mission) {
-        let tmp = this.currentView;
-        this.currentView = '';
-        this.$nextTick(
-          function init() {
-            this.currentView = 'mission';
-          }
-        );
-      }
-    }
+    // 'id': function() {
+    //   if (this.current_mission) {
+    //     let tmp = this.currentView;
+    //     this.currentView = '';
+    //     // this.$nextTick(
+    //     //   function init() {
+    //     //     this.currentView = 'mission';
+    //     //   }
+    //     // );
+    //   }
+    // }
   },
   mounted() {
     window.app.thing = this;
-    if (this.view == null) {
-      this.view = 'navbar';
-    }
+    // if (this.view == null) {
+    //   this.view = 'navbar';
+    // }
   },
   components: {
     navbar,
@@ -126,10 +125,6 @@ export default {
 
 <!-- Add "scoped" Attribute to limit CSS to this component only -->
 <style scoped lang="css">
-
-
-
-
 /* 大屏幕（大桌面显示器，大于等于 1200px） */
 /* @media (min-width: 1200px) {
 
@@ -137,7 +132,7 @@ export default {
 
 /* 中等屏幕（桌面显示器，大于等于 992px） */
 /* @media (min-width:993px)and (max-width: 1200px) { */
-@media (min-width:992px){
+@media only screen and (min-width:992px){
   aside{
     width:240px;
   }
@@ -151,11 +146,10 @@ export default {
 
 }
 /* 小屏幕（平板，大于等于 768px） */
-@media (max-width: 991px) and (min-width:768px) {
+@media only screen and (max-width: 991px) and (min-width:768px) {
   aside{
     width: 44px;
   }
-
 
   aside:hover + section.mission{
     display: none;
@@ -164,9 +158,8 @@ export default {
         width: calc(100% - 244px);
   }
   aside:hover{
-    width: 240px;
+    width:240px;
   }
-
 
   section.thing-list{
     width: calc(50% - 26px);
@@ -178,11 +171,16 @@ export default {
 }
 
 /* 超小屏幕（手机，小于 768px） */
-@media (max-width: 767px) {
+@media only screen and (max-width: 767px) {
+  aside section{
+    width: 100%;
+  }
+  /* navbar{
+    width: 100%;
+  } */
   .noactive{
     display: none;
   }
-
   .active{
     width: 100%;
   }

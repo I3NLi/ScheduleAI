@@ -42,7 +42,7 @@
 // import viewer from './viewer/viewer';
 
 export default {
-  name: "text",
+  name: "m_input_text_editor",
   props: {
     dataimport:Object,
   },

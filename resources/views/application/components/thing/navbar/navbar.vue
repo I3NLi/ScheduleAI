@@ -1,6 +1,6 @@
 <template>
 
-  <Menu :theme="'dark'" class="full" :active-name="active" @on-select="setMode">
+  <Menu theme='dark' class="full" :active-name="active" @on-select="setMode" width="100%">
      <MenuGroup title="常规">
       <MenuItem name="0-1">
         <Icon type="search"></Icon>
@@ -63,7 +63,7 @@ export default {
   props: {
     data:{
       type:[Object,Array],
-      default:[],
+      default:function (){return [];},
     },
     active:{
       type:String,
@@ -79,7 +79,6 @@ export default {
     setMode:function (mode){
       this.$router.push({ name: 'thing', query: { view:'list',id:'0',mode:mode.toLocaleLowerCase()}});
     }
-
   },
   watch:{
     // mode:function (newVal,oldVal){
@@ -96,4 +95,4 @@ export default {
 <!-- Add "scoped" Attribute to limit CSS to this component only -->
 <style scoped >
 
-  </style>
+</style>

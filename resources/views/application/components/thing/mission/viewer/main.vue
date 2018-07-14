@@ -1,6 +1,11 @@
 <template>
 <div id="viewer">
-  <Tabs value="nav-mission" type="card" v-model="active">
+  <div v-if="!isDataValid">
+    Error: 找不到任务
+  </div>
+
+
+  <Tabs v-if="isDataValid" value="nav-mission" type="card" v-model="active">
     <TabPane v-for="(module,key) in modules" :key="key" :name="key.toLowerCase()" :label="key">
       <h2 id="title">{{modules.Attribute.title}}</h2>
       <hr/> ID: #{{data._id}}
@@ -90,6 +95,7 @@ export default {
       ziel: {},
       shieldModules: ['Contact'],
       active: this.Tactive,
+      isDataValid: true,
     };
   },
   computed: {
@@ -122,7 +128,7 @@ export default {
       this.$router.push({
         name: 'thing_editor',
         query: {
-          view:'mission',
+          view: 'mission',
           mode: 'todo',
           lid: this.data.Attribute.fatherId,
           tid: this.data._id
@@ -163,12 +169,21 @@ export default {
         beforeSend: function(xhr) {},
         success: function(data, textStatus, jqXHR) {
           result = data[0];
-          vm.data = result;
-          vm.ziel = {
+          //检查结果合法性
+          //检查结果合法性
+          if (typeof result=="undefined") {
+            vm.isDataValid = false;
+          } else {
+            vm.isDataValid = true;
+            vm.data = result;
+            vm.ziel = {
               type: "mission",
               id: vm.data._id,
-            },
-            vm.spinShow = false;
+            };
+          }
+          //设置绑定聊天组件
+
+          vm.spinShow = false;
           //console.log(vm);
         },
         error: function(xhr, textStatus) {},
@@ -176,6 +191,9 @@ export default {
       });
     },
     update(modules, list_fresh = false, message = false) {
+      if(!this.isDataValid){
+        return;
+      }
       if (typeof modules != "undefined" || modules == [] || modules == null) {
         modules = [
           "Attribute",
@@ -226,7 +244,6 @@ export default {
   created: function() {
     // console.log(this.id);
     this.get_data();
-
   },
   watch: {
     'data.Mission': {
