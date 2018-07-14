@@ -1,7 +1,7 @@
 <template>
 <article class="full" id='thing'>
   <!-- 左边区域 -->
-  <aside class="inline-block fullheight" :class="{ active:isNavActive,noactive:!isNavActive }">
+  <aside class="inline-block fullheight" :class="{ active:isNavActive,noactive:!isNavActive,'background-grau':isNavActive }">
     <div v-bar="{preventParentScroll: true,scrollThrottle: 30}" class="full">
       <div id="vbarcontent">
         <navbar :data="thing_list" :active="mode" id="thing_navbar" />
@@ -168,6 +168,10 @@ export default {
 <style>
 /* 小屏幕（平板，大于等于 768px） */
 @media only screen and (max-width: 991px) and (min-width:768px) {
+  body{
+    background: #495060;
+  }
+  
   aside .ivu-menu-item-group-title{
     padding-left: 4px !important;
   }

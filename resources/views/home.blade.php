@@ -35,8 +35,9 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<!-- 禁止上下弹动 -->
-<body ontouchmove="event.preventDefault()"  >
+<body>
+
+
     <div id="app">
     </div>
     <!-- Scripts -->
