@@ -1,6 +1,6 @@
 <template>
 <article class="full" id='thing'>
-
+  <!-- 左边区域 -->
   <aside class="inline-block fullheight" :class="{ active:isNavActive,noactive:!isNavActive }">
     <div v-bar="{preventParentScroll: true,scrollThrottle: 30}" class="full">
       <div id="vbarcontent">
@@ -8,7 +8,7 @@
       </div>
     </div>
   </aside>
-
+  <!-- 中间区域 -->
   <section class="inline-block fullheight thing-list" :class="{ active:isListActive,noactive:!isListActive }">
     <div v-bar="{preventParentScroll: true,scrollThrottle: 30}" class="full">
       <div id="vbarcontent">
@@ -17,16 +17,13 @@
       </div>
     </div>
   </section>
-
+  <!-- 右边区域 -->
   <section class="inline-block fullheight mission" :class="{ active:isMissionActive,noactive:!isMissionActive }">
     <article v-bar="{preventParentScroll: true,scrollThrottle: 30}" class="full">
       <div id="vbarcontent">
         <router-view></router-view>
-        <!-- <mission :id='thing_id' v-if="current_mission" :mode="currentView"/>
-          <creator :id='thing_id' v-if="current_creator"/> -->
       </div>
     </article>
-    <!-- <conponent :is="zone[2]" v-if="zone[2]!='mission'"/> -->
   </section>
 </article>
 </template>
@@ -39,15 +36,26 @@ import creator from './mission/creator/main';
 export default {
   name: 'thing',
   props: {
+    /*
+    移动模式下那个显示在最前
+    可选值：[navbar,list,mission]
+     */
     view: {
       type: String,
-      default: 'navbar', //list,mission
+      default: 'navbar',
     },
+    /*
+    左侧thing导航栏选中项
+    可选值：[]
+     */
     mode: {
       type: String,
-      default: 'todo', //
+      default: 'todo',
     },
-    id: {
+    /*
+    中间thing选择栏 根地址
+     */
+    lid: {
       type: String,
       default: '0',
     },
@@ -57,13 +65,8 @@ export default {
   data() {
 
     return {
-      //
-      // // mission_id: 0,
       thing_list: [],
-      // thing_id: 0,
       activeThingNode:null,
-      // currentView: 'creator',
-      // missionlist_mode: "ALL",
       zone: [
         "navbar",
         "missionlist",
@@ -82,38 +85,11 @@ export default {
     },
   },
   methods: {
-    // set_mode(id, mode) {
-    //   this.thing_id = id;
-    //   this.currentView = '';
-    //   this.$nextTick(
-    //     function init() {
-    //       this.currentView = mode;
-    //     },
-    //   );
-    // },
-    //
-    // set_creator(id) {
-    //   this.set_mode(id, "creator");
-    // },
   },
   watch: {
-    // 'id': function() {
-    //   if (this.current_mission) {
-    //     let tmp = this.currentView;
-    //     this.currentView = '';
-    //     // this.$nextTick(
-    //     //   function init() {
-    //     //     this.currentView = 'mission';
-    //     //   }
-    //     // );
-    //   }
-    // }
   },
   mounted() {
     window.app.thing = this;
-    // if (this.view == null) {
-    //   this.view = 'navbar';
-    // }
   },
   components: {
     navbar,
@@ -150,9 +126,6 @@ export default {
   aside{
     width: 44px;
   }
-  /* aside .ivu-menu-item-group-title{
-    padding-left: 0px ;
-  } */
   aside:hover + section.mission{
     display: none;
   }
@@ -176,9 +149,6 @@ export default {
   aside,section{
     width: 100%;
   }
-  /* navbar{
-    width: 100%;
-  } */
   .noactive{
     display: none;
   }

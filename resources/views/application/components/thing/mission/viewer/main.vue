@@ -170,7 +170,6 @@ export default {
         success: function(data, textStatus, jqXHR) {
           result = data[0];
           //检查结果合法性
-          //检查结果合法性
           if (typeof result=="undefined") {
             vm.isDataValid = false;
           } else {

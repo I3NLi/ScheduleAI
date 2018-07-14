@@ -25,7 +25,11 @@
   <br/>
   <br/>
   <br/>
-
+  <!-- 加载中图标 -->
+  <Spin size="large" fix v-if="spinShow">
+    <Icon type="load-c" size=18 class="demo-spin-icon-load"/>
+    <div>submitting...</div>
+  </Spin>
 </div>
 
 </template>
@@ -68,7 +72,7 @@ export default {
         type:"missionBuilder",
         id:this.data.id,
       },
-
+      spinShow:false,
       // modules:{//根据id远程读入，模板的信息
       //   Attribute:{
       //     title:"undefined",
@@ -167,6 +171,7 @@ export default {
   methods:{
 
     create:function (){
+      this.spinShow=true;
       let vm=this;
       let data={
         'data':vm.data.template
@@ -177,7 +182,8 @@ export default {
         vm.after_create(response.data._id);
       })
       .catch(function (error) {
-        console.log(error);
+        alert("提交失败"+error);
+        this.spinShow=false;
       });
 
     },
@@ -192,8 +198,15 @@ export default {
       .then(function (response) {
         if(response.data[0]._id==id){
         console.log("任务创建成功");
-        // window.app.thing.activeThingNode.refresh();
-        // window.app.thing.set_mode(id,"editor");
+        vm.$router.push({
+          name: 'thing_editor',
+          query: {
+            view: 'mission',
+            mode: 'todo',
+            lid: response.data[0].Attribute.fatherId,
+            tid: response.data[0]._id,
+          },
+        });
         }else{
           console.log("任务未创建 延时1s");
           setTimeout(vm.after_create(id),1000)
@@ -227,4 +240,12 @@ export default {
   width: 100%;
   font-size: 24px;
 }
+.demo-spin-icon-load{
+        animation: ani-demo-spin 1s linear infinite;
+    }
+@keyframes ani-demo-spin {
+        from { transform: rotate(0deg);}
+        50%  { transform: rotate(180deg);}
+        to   { transform: rotate(360deg);}
+    }
 </style>

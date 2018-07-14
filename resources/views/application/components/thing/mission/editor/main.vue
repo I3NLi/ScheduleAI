@@ -56,6 +56,7 @@ export default {
       editor: this,
       spinShow: true,
       shieldModules: ['Contact'],
+      isDataValid: true,
     };
   },
   created: function() {
@@ -107,19 +108,30 @@ export default {
         beforeSend: function(xhr) {},
         success: function(data, textStatus, jqXHR) {
           result = data[0];
-          vm.data = result;
-          vm.ziel = {
+          //检查结果合法性
+          if (typeof result=="undefined") {
+            vm.isDataValid = false;
+          } else {
+            vm.isDataValid = true;
+            vm.data = result;
+            //设置绑定聊天组件
+            vm.ziel = {
               type: "mission",
               id: vm.data._id,
-            },
-            vm.spinShow = false;
-          console.log(vm);
+            };
+          }
+
+
+          vm.spinShow = false;
         },
         error: function(xhr, textStatus) {},
         complete: function() {}
       });
     },
     update(modules, list_fresh = false, message = false) {
+      if(!this.isDataValid){
+        return;
+      }
       if (typeof modules != "undefined" || modules == [] || modules == null) {
         modules = [
           "Attribute",
