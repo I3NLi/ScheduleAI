@@ -419,7 +419,27 @@ export default {
           type: 'inside',
           filterMode: 'weakFilter',
           orient: 'vertical',
-        }],
+          startValue: +new Date(),
+          endValue: +new Date().setHours(new Date().getHours() + 4),
+        },
+        {
+          type: 'slider',
+          filterMode: 'weakFilter',
+          orient: 'vertical',
+          startValue: +new Date(),
+          endValue: +new Date().setHours(new Date().getHours() + 4),
+          labelFormatter: function (value) {
+            let date=new Date(value);
+            // let date=new Date(value).toUTCString();
+            let mm=checkMin(date.getMonth());
+            let dd=checkMin(date.getDay());
+            let h=checkMin(date.getHours());
+	          let m=checkMin(date.getMinutes());
+	          let s=checkMin(date.getSeconds());// 在小于10的数字前加一个‘0’
+            return mm+"/"+dd+"\r\n"+h+":"+m+":"+s;
+            }
+        },
+      ],
         grid: {
           //height:300
         },
@@ -630,7 +650,7 @@ export default {
     this.synData();
 
     //当窗口改变时resize图表
-    window.onresize = this.chart.resize;
+    window.onresize =this.chart.resize;
 
 
 
