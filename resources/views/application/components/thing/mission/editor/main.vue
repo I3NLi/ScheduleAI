@@ -95,7 +95,7 @@ export default {
       });
     },
     get_data() {
-      console.log("editor:getdata("+this.id+")");
+      console.log("editor:getdata(" + this.id + ")");
       this.spinShow = true;
       let vm = this;
       let result
@@ -109,7 +109,7 @@ export default {
         success: function(data, textStatus, jqXHR) {
           result = data[0];
           //检查结果合法性
-          if (typeof result=="undefined") {
+          if (typeof result == "undefined") {
             vm.isDataValid = false;
           } else {
             vm.isDataValid = true;
@@ -129,7 +129,7 @@ export default {
       });
     },
     update(modules, list_fresh = false, message = false) {
-      if(!this.isDataValid){
+      if (!this.isDataValid) {
         return;
       }
       if (typeof modules != "undefined" || modules == [] || modules == null) {
@@ -226,15 +226,25 @@ export default {
 
 <!-- Add "scoped" Attribute to limit CSS to this component only -->
 <style scoped >
-/*nav{ height: 42px; border: 1px red; }*/
 
-.c_input {
-  position: fixed;
-  bottom: 0px;
-}
+
 
 #title {
   width: 100%;
   font-size: 24px;
+}
+
+@media only screen and (min-width:768px) {
+  .c_input {
+    bottom: 0px;
+    position: fixed;
+  }
+}
+
+@media only screen and (max-width:768px) {
+  .c_input {
+    position: fixed;
+    bottom: 32px;
+  }
 }
 </style>

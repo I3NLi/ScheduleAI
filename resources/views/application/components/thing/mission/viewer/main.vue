@@ -287,4 +287,16 @@ export default {
   position: fixed;
   bottom: 0px;
 }
+/* @media only screen and (min-width:768px) {
+  .c_input {
+    bottom: 0px;
+    position: fixed;
+  }
+} */
+
+@media only screen and (max-width:768px) {
+  .c_input {
+    bottom: 32px;
+  }
+}
 </style>
