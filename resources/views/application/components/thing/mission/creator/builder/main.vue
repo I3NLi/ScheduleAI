@@ -199,7 +199,7 @@ export default {
         if(response.data[0]._id==id){
         console.log("任务创建成功");
         vm.$router.push({
-          name: 'thing_editor',
+          name: 'thing_viewer',
           query: {
             view: 'mission',
             mode: 'todo',

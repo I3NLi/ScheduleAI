@@ -198,6 +198,7 @@ html,body,#app{
 
 .inline-block{
   display: inline-block;
+  vertical-align: top;
 }
 .fullheight{
   height:100%;
