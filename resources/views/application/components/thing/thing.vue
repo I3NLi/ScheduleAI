@@ -150,12 +150,14 @@ export default {
   aside{
     width: 44px;
   }
-
+  /* aside .ivu-menu-item-group-title{
+    padding-left: 0px ;
+  } */
   aside:hover + section.mission{
     display: none;
   }
   aside:hover + section.thing-list{
-        width: calc(100% - 244px);
+    width: calc(100% - 244px);
   }
   aside:hover{
     width:240px;
@@ -167,12 +169,11 @@ export default {
   section.mission{
     width: calc(50% - 26px);
   }
-
 }
 
 /* 超小屏幕（手机，小于 768px） */
 @media only screen and (max-width: 767px) {
-  aside section{
+  aside,section{
     width: 100%;
   }
   /* navbar{
@@ -194,7 +195,41 @@ export default {
 
 
 </style>
+<style>
+/* 小屏幕（平板，大于等于 768px） */
+@media only screen and (max-width: 991px) and (min-width:768px) {
+  aside .ivu-menu-item-group-title{
+    padding-left: 4px !important;
+  }
+  aside .ivu-menu-item{
+    padding-left: 16px !important;
+  }
+  aside .option-name{
+    display: none;
+  }
+  aside .ivu-menu-submenu-title{
+    padding-left: 12px !important;
+  }
+  /* aside .ivu-menu-submenu-title>.ivu-icon.ivu-icon-ios-arrow-down.ivu-menu-submenu-title-icon{
+    padding-left: 8px !important;
+  } */
 
+  aside:hover .ivu-menu-item-group-title{
+    padding-left: 28px !important;
+  }
+  aside:hover .ivu-menu-item{
+    padding: 14px 24px !important;
+  }
+  aside:hover .option-name{
+    display: inline;
+  }
+  aside:hover .ivu-menu-submenu-title{
+    padding-left:14px 24px !important;
+  }
+}
+
+
+</style>
 
 <style scoped lang="less">
 // /* 超小屏幕（手机，小于 768px） */
