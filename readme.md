@@ -40,7 +40,7 @@ Laravel is accessible, yet powerful, providing tools needed for large, robust ap
 
 ## Demo
 
-- 现在有一个在线[Demo](http://165.227.145.210)
+- 现在有一个在线[Demo](http://private-secretary.org)
 - 你可以使用默认的账户密码登陆，或自行注册账号
   + username: admin@admin.com
   + password: password
