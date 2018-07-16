@@ -20,9 +20,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
+
 //登陆后才允许的功能
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['https'=>true,'middleware' => 'auth'], function () {
+  //主要视图
   Route::any('home/{subs?}',function (){return view('home');});
   //API
   Route::group(['prefix' => '/api'], function () {
