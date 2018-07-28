@@ -169,9 +169,9 @@ export default {
 /* 小屏幕（平板，大于等于 768px） */
 @media only screen and (max-width: 991px) and (min-width:768px) {
   body{
-    background: #495060;
+    /* background: #495060; */
   }
-  
+
   aside .ivu-menu-item-group-title{
     padding-left: 4px !important;
   }
