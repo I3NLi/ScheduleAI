@@ -1,7 +1,6 @@
 <?php
-
-use Jenssegers\Mongodb\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Jenssegers\Mongodb\Schema\Blueprint;
 
 class CreateChatroomsTable extends Migration
 {
@@ -25,6 +24,6 @@ class CreateChatroomsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chatrooms');
+        Schema::drop('chatrooms');
     }
 }

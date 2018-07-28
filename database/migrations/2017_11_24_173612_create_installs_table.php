@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Jenssegers\Mongodb\Schema\Blueprint;
 

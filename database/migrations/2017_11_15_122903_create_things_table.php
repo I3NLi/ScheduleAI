@@ -1,7 +1,7 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Jenssegers\Mongodb\Schema\Blueprint;
+
 class CreateThingsTable extends Migration
 {
     /**

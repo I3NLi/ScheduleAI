@@ -1,8 +1,6 @@
 <?php
-
-
-use Jenssegers\Mongodb\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Jenssegers\Mongodb\Schema\Blueprint;
 
 class CreateTopicsTable extends Migration
 {
@@ -26,6 +24,6 @@ class CreateTopicsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('topics');
+        Schema::drop('topics');
     }
 }
