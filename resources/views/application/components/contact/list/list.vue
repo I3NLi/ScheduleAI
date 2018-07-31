@@ -49,12 +49,12 @@ export default {
           title: '联系人',
           children: [
             {
-              title: 'iView',
+              title: 'iView => + (添加好友)',
               count: 10000,
 
             },
             {
-              title: 'iView UI',
+              title: 'iView UI => - (删除联系人)',
               count: 10600,
 
             }
@@ -64,12 +64,12 @@ export default {
           title: '临时群',
           children: [
             {
-              title: 'iView UI 有多好',
+              title: 'iView UI 有多好 => group (分组)',
               count: 60100,
 
             },
             {
-              title: 'iView 是啥',
+              title: 'iView 是啥 => Gou Xue',
               count: 30010,
 
             }
@@ -79,7 +79,7 @@ export default {
           title: '组织',
           children: [
             {
-              title: 'iView 是一个设计语言',
+              title: 'iView 是一个设计语言 => Search (搜索，筛选)',
               count: 100000,
 
             }
