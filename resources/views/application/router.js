@@ -9,6 +9,7 @@ import MissionEditor from './components/thing/mission/editor/main';
 import MissionViewer from './components/thing/mission/viewer/main';
 
 import contact from './components/contact/contact';
+import tempusers from './components/contact/tempusers/tempusers';
 
 import calendar from './components/calendar/calendar';
 import calendarDay from './components/calendar/day/day';
@@ -174,5 +175,10 @@ export default new Router({
       name: 'contact',
       component: contact,
     },
+    {
+      path: '/tempusers',
+      name: 'tempusers',
+      component: tempusers,
+    }
   ]
 })
