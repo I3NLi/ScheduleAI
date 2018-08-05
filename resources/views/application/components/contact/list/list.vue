@@ -2,14 +2,29 @@
   <div class='c_list'>
     <Menu mode="horizontal" theme="primary" active-name="1" @on-select="change_mode" >
       <MenuItem name="0" >
-        <Icon type="clock" ></Icon>
+        <Icon type="ios-clock-outline" ></Icon>
       </MenuItem>
       <MenuItem name="1" >
         <Icon type="ios-person" size='16px' ></Icon>
       </MenuItem>
+      <MenuItem name="2">
+        <Icon type="ios-people" size='16px'></Icon>
+      </MenuItem>
+      <MenuItem name="3">
+        <Icon type="ios-more"></Icon>
+      </MenuItem>
     </Menu>
 
+    <!-- Mode 0 for the sorted chat history -->
+      <Menu v-show='mode==0' theme="dark" active-name="1-2" :open-names="[0,1,2]">
+          <MenuItem v-for='(user,index) in sorted'
+          :name='index'
+          :key="index">
+          {{user.title}}
+        </MenuItem>
+    </Menu>
 
+<!-- Mode 1 for the friend list -->
       <Menu  v-show='mode==1' theme="dark" active-name="1-2" :open-names="[0,1,2]" class='fullheight'>
         <Submenu v-for='(group, index1) in data':key="index1" :name='index1' >
           <template slot="title" >
@@ -24,12 +39,20 @@
       </Submenu>
     </Menu>
 
-  <Menu v-show='mode==0' theme="dark" active-name="1-2" :open-names="[0,1,2]">
-      <MenuItem v-for='(user,index) in sorted'
-      :name='index'
-      :key="index">
-      {{user.title}}
-    </MenuItem>
+<!-- mode 3 used for extra features -->
+<Menu v-show='mode==3' theme="light" active-name="1-2">
+  <MenuItem name="3-0">
+    <icon type="ios-add-circle" size='16px'></icon>
+    添加好友
+  </MenuItem>
+  <MenuItem name="3-1">
+    <icon type="ios-chatbubbles" size='16px'></icon>
+    创建聊天室
+  </MenuItem>
+  <MenuItem name="3-2">
+    <icon type="ios-search" size='16px'></icon>
+    筛选好友
+  </MenuItem>
 </Menu>
 
 </div>
@@ -43,18 +66,18 @@ export default {
   name: 'list',
   data() {
     return {
-      mode:0,//0:最后顺序 1:排序 2:待定..
+      mode:0,//0:最后顺序 1:排序 2:qunzu..
       data: [
         {
           title: '联系人',
           children: [
             {
-              title: 'iView',
+              title: 'iView => + (添加好友)',
               count: 10000,
 
             },
             {
-              title: 'iView UI',
+              title: 'iView UI => - (删除联系人)',
               count: 10600,
 
             }
@@ -64,12 +87,12 @@ export default {
           title: '临时群',
           children: [
             {
-              title: 'iView UI 有多好',
+              title: 'iView UI 有多好 => group (分组)',
               count: 60100,
 
             },
             {
-              title: 'iView 是啥',
+              title: 'iView 是啥 => Gou Xue',
               count: 30010,
 
             }
@@ -79,7 +102,7 @@ export default {
           title: '组织',
           children: [
             {
-              title: 'iView 是一个设计语言',
+              title: 'iView 是一个设计语言 => Search (搜索，筛选)',
               count: 100000,
 
             }
