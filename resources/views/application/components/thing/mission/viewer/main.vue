@@ -41,7 +41,7 @@
       <setting/>
     </TabPane>
 
-    <Button type="ghost" @click="toEdit" size="small" slot="extra">edit</Button>
+    <Button @click="toEdit" size="small" slot="extra">edit</Button>
   </Tabs>
   <hr/>
 
@@ -170,7 +170,7 @@ export default {
         success: function(data, textStatus, jqXHR) {
           result = data[0];
           //检查结果合法性
-          if (typeof result=="undefined") {
+          if (typeof result == "undefined") {
             vm.isDataValid = false;
           } else {
             vm.isDataValid = true;
@@ -190,7 +190,7 @@ export default {
       });
     },
     update(modules, list_fresh = false, message = false) {
-      if(!this.isDataValid){
+      if (!this.isDataValid) {
         return;
       }
       if (typeof modules != "undefined" || modules == [] || modules == null) {
@@ -287,6 +287,7 @@ export default {
   position: fixed;
   bottom: 0px;
 }
+
 /* @media only screen and (min-width:768px) {
   .c_input {
     bottom: 0px;
