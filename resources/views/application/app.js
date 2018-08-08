@@ -16,32 +16,30 @@ import Vuerouter from 'vue-router';
 import router from './router.js';
 import VueI18n from 'vue-i18n'
 
-
-
 // import InputTag from 'vue-input-tag'
 
 Vue.config.productionTip = true;
 
-import 'iview/dist/styles/iview.css';
-
-
 Vue.use(Vuebar);
 Vue.use(iView);
+import 'iview/dist/styles/iview.css';
 Vue.use(VueI18n);
+
 
 import App from './App.vue';
 
-const i18n = new VueI18n({
+const i18n = new VueI18n({//此处定义全局词典
   locale: 'en',
   messages: {
     "en": {
       // "hello": "hello world!"
     },
-    ja: {
+    "ja": {
       // ...
     }
   }
 })
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

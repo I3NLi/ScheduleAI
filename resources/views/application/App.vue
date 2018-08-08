@@ -75,13 +75,13 @@ export default {
   methods: {
     setCurrentView(view) {
       // console.log(view);
-      if (view == "logout") {
+      if (view == "logout") {//注销
         this.logout();
-      } else if (view.indexOf('lang')==0){
+      } else if (view.indexOf('lang')==0){//修改语言
           this.$i18n.locale = view.substr(5);
           console.log(this.$i18n.locale);
       }
-      else if (view != '#') {
+      else if (view != '#') {//跳转
         this.$router.push({
           name: view
         });
