@@ -3,7 +3,7 @@
   <Menu mode="horizontal" :theme="'primary'" active-name="currentView" @on-select="setCurrentView" class="top-navbar">
     <MenuItem name="calendar">
     <Icon type="calendar" />
-    <span class="option-name">&nbsp&nbsp日历</span>
+    <span class="option-name">&nbsp&nbsp{{$t('calendar')}}</span>
     </MenuItem>
     <MenuItem name="thing">
     <Icon type="clipboard" />
@@ -38,23 +38,26 @@
       </MenuGroup>
     </Submenu>
 
-
-    <!-- <MenuItem name="4">
-  <Icon type="settings"></Icon>
-  综合设置
-</MenuItem> -->
   </Menu>
 
-
-  <!-- <div > -->
   <keep-alive>
     <router-view class="content"></router-view>
   </keep-alive>
-  <!-- </div> -->
 
 
 </div>
 </template>
+
+<i18n>
+{
+  "en": {
+    "calendar": "calendar"
+  },
+  "zh": {
+    "calendar": "日历"
+  }
+}
+</i18n>
 
 <script>
 import {
@@ -64,6 +67,7 @@ import {
 export default {
   name: 'app',
   data() {
+
     return {
 
     };
@@ -73,12 +77,11 @@ export default {
       // console.log(view);
       if (view == "logout") {
         this.logout();
-      } else if(view.indexOf('lang_')>=0){
-        let lang=view.replace(/lang_/, '');
-        console.log(lang);
-        //to do 设置语言
-        //
-      } else if (view != '#') {
+      } else if (view.indexOf('lang')==0){
+          this.$i18n.locale = view.substr(5);
+          console.log(this.$i18n.locale);
+      }
+      else if (view != '#') {
         this.$router.push({
           name: view
         });
@@ -98,7 +101,6 @@ export default {
 
 
     }
-
   },
   computed: {},
   components: {
