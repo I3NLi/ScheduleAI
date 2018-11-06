@@ -41,10 +41,10 @@ class TopicController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\topic  $topic
+     * @param  \App\Topic  $topic
      * @return \Illuminate\Http\Response
      */
-    public function show(topic $topic)
+    public function show(Topic $topic)
     {
         //
     }
@@ -52,10 +52,10 @@ class TopicController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\topic  $topic
+     * @param  \App\Topic  $topic
      * @return \Illuminate\Http\Response
      */
-    public function edit(topic $topic)
+    public function edit(Topic $topic)
     {
         //
     }
@@ -64,10 +64,10 @@ class TopicController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\topic  $topic
+     * @param  \App\Topic  $topic
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, topic $topic)
+    public function update(Request $request, Topic $topic)
     {
         //
     }
@@ -75,10 +75,10 @@ class TopicController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\topic  $topic
+     * @param  \App\Topic  $topic
      * @return \Illuminate\Http\Response
      */
-    public function destroy(topic $topic)
+    public function destroy(Topic $topic)
     {
         //
     }

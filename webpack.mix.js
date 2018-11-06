@@ -23,10 +23,10 @@ let mix = require('laravel-mix');
 mix.webpackConfig({
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'resources/views/application/'),
+      '@': path.resolve(__dirname, 'resources/assets/application/'),
     }
   },
 });
 
-mix.i18n().js('resources/views/application/app.js', 'public/js')
+mix.i18n().js('resources/assets/application/app.js', 'public/js')
   .sass('resources/assets/sass/app.scss', 'public/css');

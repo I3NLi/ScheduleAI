@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTIOND', 'mongodb'),
+    'default' => env('DB_CONNECTIOND', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------

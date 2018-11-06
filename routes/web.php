@@ -25,43 +25,23 @@ Auth::routes();
 //登陆后才允许的功能
 Route::group(['https'=>true,'middleware' => 'auth'], function () {
   //主要视图
-  Route::any('home/{subs?}',function (){return view('home');});
+  Route::any('workspace/{subs?}',function (){return view('home');});
   //API
   Route::group(['prefix' => '/api'], function () {
-    Route::group(['prefix' => '/thing'], function () {
-      //Thing 相关
 
-      Route::any('/get/{id}', 'ThingController@get')->name('api.thing.get.id');
-      Route::POST('/update/{id}', 'ThingController@update')->name('api.thing.update');
-      Route::POST('/update', 'ThingController@update')->name('api.thing.update');
-      Route::any('/create/{fid}', 'ThingController@create')->name('api.thing.create.fid');
-      Route::any('/contact/update', 'ThingController@newMassage')->name('api.thing.contact.update');
-      // Route::any('/match/{Regular}', 'ThingController@getListMatch')->name('api.thing.list.get.Match');
-
-      //Thinglist
-      Route::group(['prefix' => '/list'], function () {
-        Route::any('/', 'ThingController@getListAll')->name('api.thing.list.get.all');
-        Route::any('/all', 'ThingController@getListAll')->name('api.thing.list.get.all');
-
-        Route::any('/todo', 'ThingController@getListToDo')->name('api.thing.list.get.todo');
-        Route::any('/invited', 'ThingController@getListInvited')->name('api.thing.list.get.invited');
-        Route::any('/deleted', 'ThingController@getListDeleted')->name('api.thing.list.get.deleted');
-
-        Route::any('/{fid}', 'ThingController@getListFiD')->name('api.thing.list.get.fid');
-        Route::any('/match/{Regular}', 'ThingController@getListMatch')->name('api.thing.list.get.Match');
-      });
-
-      Route::group(['prefix' => '/template'], function () {
-        Route::any('/', 'ThingsTemplateController@index')->name('api.thing.template.get.all');
-        Route::any('/default', 'ThingsTemplateController@getDefault')->name('api.thing.template.get.fid');
-        Route::any('/{organizationId}', 'ThingsTemplateController@getOrganization')->name('api.thing.template.get.organizationId');
+    Route::group(['prefix' => '/auth'], function () {
+      Route::any('/logout', function(){
+        Auth::logout();
+        return Redirect::route('welcome');
       });
     });
+
+    Route::group(['prefix' => '/activity'], function () {
+      Route::get('/', 'ActivityController@index')->name('activity.index');
+      Route::get('/{id}', 'ActivityController@show')->name('activity.show');
+      Route::post('/', 'ActivityController@store')->name('activity.store');
+      Route::put('/', 'ActivityController@update')->name('activity.update');
+      Route::delete('/{id}', 'ActivityController@destroy')->name('activity.destroy');
+    });
   });
-
-
-  // Route::group(['middleware' => 'auth'], function () {
-  //
-  // });
-
 });
