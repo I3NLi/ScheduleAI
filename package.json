@@ -49,6 +49,7 @@
     "vue-router": "^3.0.1",
     "vue-style-loader": "^3.1.2",
     "vue-template-compiler": "^2.5.17",
+    "vux-loader": "^1.2.9",
     "webpack": "^3.12.0",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-dev-server": "^2.11.2",
@@ -72,6 +73,8 @@
     "vue-switches": "^2.0.1",
     "vuebar": "0.0.17",
     "vuedraggable": "^2.16.0",
-    "vuex": "^3.0.0"
+    "vuex": "^3.0.0",
+    "vux": "^2.9.2",
+    "weui": "^1.1.3"
   }
 }

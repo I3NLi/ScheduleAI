@@ -1,8 +1,9 @@
 <template>
-    <aside class="inline-block fullheight">
+    <article class="inline-block fullheight">
       <calendar-header/>
       <daybody class="daybody" />
-    </aside>
+      <Button size="large" shape="circle" icon="md-add" class="newButton"></Button>
+    </article>
   </template>
 
   <script>
@@ -47,5 +48,13 @@
 
   <!-- Add "scoped" Attribute to limit CSS to this component only -->
   <style scoped>
-
+.newButton{
+  position: absolute;
+right: 40px;
+top: 80vh;
+opacity:0.6;
+}
+.newButton:hover{
+opacity:1;
+}
   </style>

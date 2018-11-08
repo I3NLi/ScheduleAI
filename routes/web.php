@@ -17,6 +17,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::any('/home', function () {
+    return redirect('workspace');
+});
 
 Auth::routes();
 
@@ -25,7 +28,7 @@ Auth::routes();
 //登陆后才允许的功能
 Route::group(['https'=>true,'middleware' => 'auth'], function () {
   //主要视图
-  Route::any('workspace/{subs?}',function (){return view('home');});
+  Route::any('workspace/{subs?}',function (){return view('workspace');});
   //API
   Route::group(['prefix' => '/api'], function () {
 

@@ -1,44 +1,65 @@
 <template>
-<div id='app' class="app">
-  <mu-appbar style="width: 100%;" color="primary">
-  <mu-button icon slot="left">
-    <mu-icon value="menu"></mu-icon>
-  </mu-button>
-  ScheduleAI
-  <mu-menu slot="right">
-    <mu-button flat>{{$t('Settings')}}</mu-button>
-    <mu-list slot="content">
-      <mu-list-item button>
-        <mu-list-item-content>
-          <mu-list-item-title>English</mu-list-item-title>
-        </mu-list-item-content>
-      </mu-list-item>
-      <mu-list-item button>
-        <mu-list-item-content>
-          <mu-list-item-title>Deutsch</mu-list-item-title>
-        </mu-list-item-content>
-      </mu-list-item>
-      <mu-list-item button>
-        <mu-list-item-content>
-          <mu-list-item-title>中文</mu-list-item-title>
-        </mu-list-item-content>
-      </mu-list-item>
+<div id='app' class="">
+  <!-- <Menu mode="horizontal" :theme="'primary'" active-name="currentView" @on-select="setCurrentView" class="top-navbar">
+    <MenuItem name="calendar">
+    <Icon type="md-calendar" />
+    <span class="option-name">&nbsp&nbsp{{$t('Calendar')}}</span>
+    </MenuItem>
+    <MenuItem name="activity">
+    <Icon type="md-clipboard" />
+    <span class="option-name">&nbsp&nbsp{{$t('Activities')}}</span>
+    </MenuItem>
+    <MenuItem name="organization">
+      <Icon type="ios-people" />
+    <span class="option-name">&nbsp&nbsp{{$t('Organization')}}</span>
+    </MenuItem>
+    <MenuItem name="contact">
+    <Icon type="md-chatboxes" />
+    <span class="option-name">&nbsp&nbsp{{$t('Contact')}}</span>
+    </MenuItem>
 
-      <mu-divider inset></mu-divider>
+    <MenuItem name="config" class="only-mobile">
+    <Icon type="ios-construct" />
+    <span class="option-name">{{$t('Config')}}</span>
+    </MenuItem>
 
-      <mu-list-item button @click="logout()">
-        <mu-list-item-content>
-          <mu-list-item-title>Logout</mu-list-item-title>
-        </mu-list-item-content>
-      </mu-list-item>
-    </mu-list>
-  </mu-menu>
-</mu-appbar>
+    <Submenu name="Config" style="float:right" class="only-pc">
+      <template slot="title">
+        <Icon type="stats-bars"></Icon>
+        <span class="option-name">{{$t('Config')}}</span>
+      </template>
+
+      <MenuGroup title="Language">
+        <MenuItem name="lang_en_US" >English</MenuItem>
+        <MenuItem name="lang_de-DE" >Deutsch</MenuItem>
+        <MenuItem name="lang_zh-CN" >中文-简体</MenuItem>
+      </MenuGroup>
+      <MenuGroup title="System">
+        <MenuItem name="settings">{{$t('Settings')}}</MenuItem>
+        <MenuItem name="logout">{{$t('Logout')}}</MenuItem>
+      </MenuGroup>
+    </Submenu>
+
+  </Menu> -->
+  <mu-appbar color="teal">
+    <mu-button icon slot="left">
+      <mu-icon value="menu"></mu-icon>
+    </mu-button>
+    {{routeName}}
+    <mu-button icon slot="right" @click="refresh()">
+      <mu-icon value="refresh"></mu-icon>
+    </mu-button>
+  </mu-appbar>
 
   <keep-alive>
     <router-view class="content"></router-view>
   </keep-alive>
 
+  <mu-bottom-nav>
+    <mu-bottom-nav-item title="Calendar" icon="calendar_today" to='/calendar'></mu-bottom-nav-item>
+    <mu-bottom-nav-item title="Todo" icon="assignment" to='/activity'></mu-bottom-nav-item>
+    <mu-bottom-nav-item title="More" icon="more_horiz" to='view'></mu-bottom-nav-item>
+  </mu-bottom-nav>
 
 </div>
 </template>
@@ -60,7 +81,7 @@ de-DE
 {
   "en_US": {
     "Calendar": "Calendar",
-    "Events":"Events",
+    "Activities":"Activities",
     "Organization":"Organization",
     "Contact":"Contact",
     "Config":"Config",
@@ -69,7 +90,7 @@ de-DE
   },
   "zh-CN": {
     "Calendar": "日历",
-    "Events":"事件",
+    "Activities":"事件",
     "Organization":"组织",
     "Contact":"联系人",
     "Config":"设置",
@@ -80,6 +101,7 @@ de-DE
 </i18n>
 
 <script>
+
 export default {
   name: 'app',
   data() {
@@ -118,7 +140,11 @@ export default {
 
     }
   },
-  computed: {},
+  computed: {
+    routeName(){
+      return this.$route.name;
+    }
+  },
   components: {
 
   },
@@ -129,30 +155,61 @@ export default {
 </script>
 
 <style scoped>
-
-
 /* 中等屏幕（桌面显示器，大于等于 992px） */
 
 /* @media (min-width:993px)and (max-width: 1200px) { */
 
 @media only screen and (min-width:992px) {
-
+  .content {
+    height: calc(100% - 60px);
+    margin: 0px;
+  }
+  .only-mobile {
+    display: none;
+  }
 }
 
 /* 小屏幕（平板，大于等于 768px） */
 
 @media only screen and (max-width: 991px) and (min-width:768px) {
-
+  .content {
+    height: calc(100% - 60px);
+    margin: 0px;
+  }
+  .only-mobile {
+    display: none;
+  }
 }
 
 /* 超小屏幕（手机，小于 768px） */
 
 @media only screen and (max-width: 767px) {
-
+  .top-navbar {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    height: 32px;
+  }
+  .top-navbar .option-name {
+    display: none;
+    text-align: center;
+  }
+  .top-navbar .ivu-menu-item {
+    line-height: 36px;
+    width: 20%;
+    text-align: center;
+  }
+  .content {
+    height: calc(100% - 112px);
+    margin: 0px;
+  }
+  .only-pc {
+    display: none;
+  }
 }
 </style>
 
-<!-- /* <style >
+<style >
 /* 中等屏幕（桌面显示器，大于等于 992px） */
 /* @media (min-width:993px)and (max-width: 1200px) { */
 @media only screen and (min-width:992px){
@@ -168,11 +225,17 @@ export default {
 
 }
 
-</style> */ -->
+</style>
 
 
 <style>
-
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0px;
+  overflow: hidden;
+}
 
 /*载入中*/
 
@@ -204,6 +267,9 @@ export default {
   height: 100%;
 }
 
+.navbar {
+  margin-bottom: 0px;
+}
 
 /*v-bar */
 

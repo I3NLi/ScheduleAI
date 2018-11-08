@@ -101,12 +101,13 @@
     var scrollTop = $(window).scrollTop();
 
     if (scrollTop > 200) {
-      $('.navbar-default').css('display', 'block');
-      $('.navbar-default').addClass('fixed-to-top');
+      // $('.navbar-default').css('display', 'block');
+      // $('.navbar-default').addClass('fixed-to-top');
+      $('.navbar-default').removeClass('navbar-on-top');
 
     } else if (scrollTop == 0) {
-      $('.navbar-default').css('display', 'block');
-      $('.navbar-default').removeClass('fixed-to-top');
+      // $('.navbar-default').removeClass('fixed-to-top');
+      $('.navbar-default').addClass('navbar-on-top');
     }
   });
 

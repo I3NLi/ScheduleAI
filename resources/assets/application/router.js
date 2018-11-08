@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import activity from './components/activity/creator';
+import activity from './components/activity/creator-museui';
 // import ThingNavBar from './components/thing/navbar/navbar';
 // import ThingList from './components/thing/missionlist/missionlist';
 // import MissionCreator from './components/thing/mission/creator/main';
@@ -28,19 +28,19 @@ export default new Router({
     {
       alias: '/',
       path: '/activity',
-      name: 'activity',
+      name: 'Create New Activity',
       component: activity,
     },
     {
       // alias: '/',
       path: '/calendar',
-      name: 'calendar',
+      name: 'Calendar',
       redirect: '/calendar/day',
       component: calendar,
       children: [{
           alias: ['/calendar'],
           path: 'day',
-          name:"calendar_day",
+          name:"Calendar Day",
           component: calendarDay,
           props: (route) => ({
              view: route.query.view,

@@ -19,7 +19,7 @@ import VueI18n from 'vue-i18n'
 
 import MuseUI from 'muse-ui';
 import 'muse-ui/dist/muse-ui.css';
-
+import 'weui/dist/style/weui.min.css';
 
 Vue.config.productionTip = true;
 

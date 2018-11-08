@@ -14,7 +14,20 @@
   <link href="/alstar/css/bootstrap.min.css" rel="stylesheet" media="screen">
   <link href="/alstar/css/style.css" rel="stylesheet" media="screen">
   <link href="/alstar/color/default.css" rel="stylesheet" media="screen">
-
+  <style>
+  .navbar-default{
+    display: block;
+  }
+  .navbar-on-top{
+    background: none;
+  }
+  .navbar-on-top .navbar-toggle{
+    background: none;
+  }
+  .navbar-on-top .navbar-toggle .icon-bar {
+    background-color: #ccc;
+  }
+  </style>
   <!-- =======================================================
     Theme Name: Alstar
     Theme URL: https://bootstrapmade.com/alstar-free-parallax-bootstrap-template/
@@ -26,7 +39,7 @@
 <body>
 
   <!-- Navigation -->
-  <nav class="navbar navbar-default" role="navigation">
+  <nav class="navbar navbar-default fixed-to-top navbar-on-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -40,8 +53,8 @@
         <a class="navbar-brand" href="index.html">{{ config('app.name', 'Laravel') }}</a>
 
       </div>
-      <div class="navigation collapse navbar-collapse navbar-ex1-collapse">
-        <ul class="nav navbar-nav">
+      <div class="navigation collapse navbar-collapse navbar-ex1-collapse ">
+        <ul class="nav navbar-nav ">
           <!-- <li class="current"><a href="#intro">Home</a></li> -->
           @if (Route::has('login'))
                   @auth
