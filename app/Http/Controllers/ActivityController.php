@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Activity;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 
 class ActivityController extends Controller
 {
+    public function test(){
+      return new Carbon('2018-11-09T15:50:56.310Z');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,7 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        //
+      return Activity::all();
     }
 
     /**
@@ -35,7 +40,15 @@ class ActivityController extends Controller
      */
     public function store(Request $request)
     {
+         \Debugbar::info($request->all());
+        // $this->validate($request, [
         //
+        // ]);
+        $request['start_at']=new Carbon($request['start_at']);
+        $request['start_at']=new Carbon($request['until_at']);
+        \Debugbar::info($request->all());
+         return Activity::create($request->all());
+
     }
 
     /**
@@ -46,7 +59,7 @@ class ActivityController extends Controller
      */
     public function show(Activity $activity)
     {
-        //
+
     }
 
     /**

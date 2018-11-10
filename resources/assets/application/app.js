@@ -65,9 +65,26 @@ const i18n = new VueI18n({//此处定义全局词典
 
 
 const app = new Vue({
+    data(){
+      return {
+        /*
+        因为activities可能会非常大，如果所有组件都是用watch会对效率造成很严重的影响
+        所以使用主动通知的方式告知其他程序更改
+        */
+        activities:[],
+        activitiesUpdate:true,
+      }
+    },
+    methods:{
+      /*
+      用于通知其他用到tivities的组件更新视图*/
+      updateActivities(){
+        this.activitiesUpdate=!this.activitiesUpdate;
+      }
+    },
     el: '#app',
     name:'appjs',
-    template: '<App/>',
+    template: '<App />',
     router,
     i18n,
     components: { App },

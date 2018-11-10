@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import activity from './components/activity/creator-museui';
+import activity from './components/activity/builder';
 // import ThingNavBar from './components/thing/navbar/navbar';
 // import ThingList from './components/thing/missionlist/missionlist';
 // import MissionCreator from './components/thing/mission/creator/main';

@@ -27,24 +27,33 @@ Auth::routes();
 
 //登陆后才允许的功能
 Route::group(['https'=>true,'middleware' => 'auth'], function () {
-  //主要视图
-  Route::any('workspace/{subs?}',function (){return view('workspace');});
-  //API
-  Route::group(['prefix' => '/api'], function () {
-
-    Route::group(['prefix' => '/auth'], function () {
-      Route::any('/logout', function(){
-        Auth::logout();
-        return Redirect::route('welcome');
-      });
+    //主要视图
+    Route::any('workspace/{subs?}', function () {
+        return view('workspace');
     });
+    //API
+    Route::group(['prefix' => '/api'], function () {
+        Route::group(['prefix' => '/v1'], function () {
+            Route::get('test', 'ActivityController@test');
 
-    Route::group(['prefix' => '/activity'], function () {
-      Route::get('/', 'ActivityController@index')->name('activity.index');
-      Route::get('/{id}', 'ActivityController@show')->name('activity.show');
-      Route::post('/', 'ActivityController@store')->name('activity.store');
-      Route::put('/', 'ActivityController@update')->name('activity.update');
-      Route::delete('/{id}', 'ActivityController@destroy')->name('activity.destroy');
+
+            Route::group(['prefix' => '/auth'], function () {
+                Route::get('/', function () {
+                    return Auth::user();
+                });
+                Route::any('/logout', function () {
+                    Auth::logout();
+                    return Redirect::route('welcome');
+                });
+            });
+
+            Route::group(['prefix' => '/activity'], function () {
+                Route::get('/', 'ActivityController@index')->name('activity.index');
+                Route::get('/{id}', 'ActivityController@show')->name('activity.show');
+                Route::post('/', 'ActivityController@store')->name('activity.store');
+                Route::put('/', 'ActivityController@update')->name('activity.update');
+                Route::delete('/{id}', 'ActivityController@destroy')->name('activity.destroy');
+            });
+        });
     });
-  });
 });
