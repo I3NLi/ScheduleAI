@@ -28,14 +28,13 @@ Auth::routes();
 //登陆后才允许的功能
 Route::group(['https'=>true,'middleware' => 'auth'], function () {
     //主要视图
-    Route::any('workspace/{subs?}', function () {
+    Route::any('/workspace/{subs?}', function () {
         return view('workspace');
     });
     //API
     Route::group(['prefix' => '/api'], function () {
         Route::group(['prefix' => '/v1'], function () {
             Route::get('test', 'ActivityController@test');
-
 
             Route::group(['prefix' => '/auth'], function () {
                 Route::get('/', function () {

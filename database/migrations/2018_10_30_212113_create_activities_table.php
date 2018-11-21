@@ -20,12 +20,12 @@ class CreateActivitiesTable extends Migration
           $table->dateTime('start_at');//起始时间
           $table->dateTime('until_at');//结束时间
 
-          $table->integer('estimated_time_cost')->default(0);//预计时间花费
-          $table->integer('actual_time_cost')->default(0);//实际时间花费 单位s
-          $table->integer('time_cost_for_plan')->default(0);//计划事件花费 单位s
+          $table->integer('estimated_time_cost')->default(-1)->comment('In seconds');//预计时间花费
+          $table->integer('actual_time_cost')->default(0)->comment('In seconds');//实际时间花费 单位s
+          $table->integer('time_cost_for_plan')->default(0)->comment('In seconds');//计划事件花费 单位s
 
           $table->tinyInteger('status')->default(0);//状态
-          $table->tinyInteger('importance')->default(3);//事件的重要性
+          $table->tinyInteger('importance')->default(2);//事件的重要性
           $table->string('tags')->nullable();
 
           $table->json('missions')->nullable();//任务

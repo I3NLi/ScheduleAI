@@ -57,4 +57,7 @@ opacity:0.6;
 .newButton:hover{
 opacity:1;
 }
+.daybody{
+  height: 100%;
+}
   </style>

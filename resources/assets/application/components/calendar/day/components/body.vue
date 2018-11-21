@@ -51,14 +51,13 @@ function buildTree(list) {
       result.push(list[m]);
     }
   }
-
   return result;
 }
 /*buildlist 递归部分*/
 function find_position(thing, thingtree) {
   // console.log("thingtree");
   // console.log(thingtree);
-  if (thingtree._id == thing.Attribute.fatherId) {
+  if (thingtree.id == thing.parent_id) {
     // console.log("has father");
     if (thingtree.children != undefined) {
       // console.log("child exist");
@@ -101,21 +100,21 @@ function calculate_weight_list(thingList) {
 计算一个thing的权重
  */
 function calculate_weight(thing) { //计算事件的权重
-  thing['calculateWeight'] = thing['Attribute']['importance'];
+  thing['calculateWeight'] = thing['importance'];
 
-  if (thing['Attribute']['time']['data']['workTime'] == 0) {
+  if (thing['estimated_time_cost'] == 0) {
     thing['calculateWeight'] = parseFloat(thing['calculateWeight']) + 0.5;
   } else {
-    let startTime = new Date(thing['Attribute']['time']['data']['startTime']);
-    let endTime = new Date(thing['Attribute']['time']['data']['endTime']);
+    let startTime = new Date(thing['start_at']);
+    let endTime = new Date(thing['until_at']);
     let a = (endTime - startTime) / 60000; //可工作事件-分钟
-    if (thing['Attribute']['time']['data']['workTime'] * 3 > a) {
+    if (thing['estimated_time_cost'] * 3 > a) {
       thing['calculateWeight'] = parseFloat(thing['calculateWeight']) + 0.5;
     }
-    if (thing['Attribute']['time']['data']['workTime'] * 5 > a) {
+    if (thing['estimated_time_cost'] * 5 > a) {
       thing['calculateWeight'] = parseFloat(thing['calculateWeight']) + 0.5;
     }
-    if (thing['Attribute']['time']['data']['workTime'] * 10 > a) {
+    if (thing['estimated_time_cost'] * 10 > a) {
       thing['calculateWeight'] = parseFloat(thing['calculateWeight']) + 0.5;
     }
   }
@@ -134,7 +133,7 @@ function serialization_priority(thingList) {
   });
   //对截止时间
   thingList.sort(function(a, b) {
-    return new Date(a['Attribute']['time']['data']['endTime']) - new Date(b['Attribute']['time']['data']['endTime']);
+    return new Date(a['until_at']) - new Date(b['until_at']);
   });
 }
 
@@ -174,18 +173,18 @@ function matching(thingList, startTime, endTime, pause = 5) {
   let tmp = thingList.slice(0);
   //将固定事件加入结果，从待排序中剔除固定事件,
   for (let i = 0; i < tmp.length; i++) {
-    if (tmp[i]['Attribute']['time']['data']['fixed']) {
+    if (tmp[i]['estimated_time_cost']<0) {
       result.push({
-        name: tmp[i]['Attribute']['title'],
+        name: tmp[i]['name'],
         value: [
           //列数
           1,
           //起始时间
-          +new Date(tmp[i]['Attribute']['time']['data']['startTime']),
+          +new Date(tmp[i]['start_at']),
           //结束时间
-          +new Date(tmp[i]['Attribute']['time']['data']['endTime']),
+          +new Date(tmp[i]['until_at']),
           //工作时间
-          tmp[i]['Attribute']['time']['data']['workTime'] * 60000,
+          new Date(tmp[i]['until_at'])-new Date(tmp[i]['start_at']),
           //数据节点
           tmp[i],
         ],
@@ -200,68 +199,69 @@ function matching(thingList, startTime, endTime, pause = 5) {
     }
   }
 
-  let baseTime = new Date();
+  result.sort(function(a,b){
+    return a['value'][2]-b['value'][2];
+  });
+
+  console.log(result);
+  let baseTime = +new Date();
   let free = 0;
   let resultCounter = 0;
   let died = false; //用来标识是否能够将所有的任排进去
+  let fixedLength=result.length;
 
   while (tmp.length != 0) {
     //寻找空档
-    while (resultCounter < result.length) {
-      //若当前时间大于上一个事件的结束时间
-      if ((baseTime - new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['endTime']) > 0)) {
+
+
+    while (resultCounter < fixedLength) {
+      //当前时间大于结束时间
+      if(baseTime - result[resultCounter]['value'][2] > 0) {
         resultCounter++;
+        console.log("跳过因为当前时间大于结束时间");
         continue;
       }
-
-      if ((new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['startTime']) - baseTime) > 0) {
-        free = new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['startTime']) - baseTime;
-        console.log(new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['startTime']));
-        console.log(baseTime);
-        console.log("Afree:" + free / 60000);
-        break;
-      } else {
-        baseTime = new Date((+new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['endTime'])) + pause * 60000);
+      //当前时间大于结束时间并且小于开始时间
+      if(baseTime - result[resultCounter]['value'][1] >= 0) {
+        baseTime = result[resultCounter]['value'][2] + pause * 60000;
         resultCounter++;
+        console.log("跳过因为当前时间大于结束时间");
+        continue;
       }
-
-      if ((resultCounter >= result.length)) {
-        free = new Date(endTime) - new Date(baseTime) //3天
-        console.log("Bfree:" + free / 60000);
-        died = true;
-      } else {
-        free = new Date(result[resultCounter]['value'][4]['Attribute']['time']['data']['startTime']) - baseTime;
+      //开始时间大于basetime
+      if (result[resultCounter]['value'][1] - baseTime > 0) {//start-base
+        free = result[resultCounter]['value'][1] - baseTime;//start-base
+        console.log("Afree:" + free / 60000 +"min");
+        break;
       }
-
-      break;
     }
 
-    //如果没有需要匹配的数据
-    if ((resultCounter >= result.length)) {
-      free = new Date(endTime) - new Date(baseTime) //3天
+    //如果查找了所有已存在的数据
+    if (resultCounter >= fixedLength) {
+      free = endTime - baseTime;
+      console.log("Bfree:" + free / 60000);
       died = true;
+      //break;
     }
+
     //寻找合适插入的任务
     for (let i = 0; i < tmp.length; i++) {
       //如果当前的事件需要的工作事件低于空闲时间
-      if ((free - parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000) > 0) {
-        console.log("cost:" + parseInt(tmp[i]['Attribute']['time']['data']['workTime']));
-        // console.log((free-parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000 ));
-        // console.log(tmp[i]['Attribute']['title']);
+      if (free - (parseInt(tmp[i]['estimated_time_cost'])* 1000 + pause*60000) > 0) {
         //检查
         if (!isInclude(tmp[i].children, tmp)) {
           //  console.log(baseTime);
           result.push({
-            name: tmp[i]['Attribute']['title'],
+            name: tmp[i]['name'],
             value: [
               //列数
               1,
               //起始时间
               +baseTime,
               //结束时间
-              parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000 + (+baseTime),
+              parseInt(tmp[i]['estimated_time_cost']) * 1000 +baseTime,
               //工作时间
-              parseInt(tmp[i]['Attribute']['time']['data']['workTime']) * 60000,
+              parseInt(tmp[i]['estimated_time_cost']) * 1000,
               //数据节点
               tmp[i],
             ],
@@ -271,24 +271,31 @@ function matching(thingList, startTime, endTime, pause = 5) {
               }
             }
           });
-          baseTime = new Date((parseInt(tmp[i]['Attribute']['time']['data']['workTime']) + pause) * 60000 + (+baseTime));
-          console.log('free:' + free / 60000);
-          console.log('baseTime:' + baseTime);
-          free = free - (parseInt(tmp[i]['Attribute']['time']['data']['workTime']) + pause) * 60000;
+          // console.log("basetimeB1:"+ new Date(baseTime).toLocaleString());
+          baseTime = parseInt(tmp[i]['estimated_time_cost']) * 1000 + baseTime + pause*60000;
+          // console.log("basetimeB:"+ new Date(baseTime).toLocaleString());
+          free = free - (parseInt(tmp[i]['estimated_time_cost'])* 1000 + pause*60000) ;
+          console.log('free-'+tmp[i]['name']+':' + free / 60000);
           tmp.splice(i, 1); //删除元素
           i--; //校准index
           died = false;
-
         }
       }
     }
-    //未能在截至事件前将所有任务排进去
+    //未能在截至时间前将所有任务排进去
     if (died == true) {
       alert("未能在截至事件前将所有任务排进去")
       return false;
     }
+
+
+    if(resultCounter < fixedLength){
+    baseTime = result[resultCounter]['value'][2] + pause * 60000;
     resultCounter++;
+    }
   }
+  console.log("result");
+  console.log(result);
   return result;
 }
 
@@ -431,7 +438,7 @@ export default {
       return {
         tooltip: {},
         title: {
-          // text: 'Profile',
+          text: this.startTime.toLocaleDateString(),
           left: 'center'
         },
         legend: {
@@ -562,7 +569,7 @@ export default {
             trigger: 'item',
             formatter: function(val) {
               return val.name + "<br/>" +
-                "Start:" + new Date(val.value[1]).toLocaleTimeString() + "<br/>" +
+                "Start:" + new Date(val.value[1]).toLocaleString() + "<br/>" +
                 "End  :" + new Date(val.value[2]).toLocaleTimeString() + "<br/>" +
                 "Use  :" + (val.value[3] / 1000 / 60).toFixed(0) + " min <br/>";
             }
@@ -579,7 +586,7 @@ export default {
       // console.log("获取数据");
       let $vm = this;
       // this.spinShow=true;
-      let url = "/api/thing/list/todo";
+      let url = "/api/v1/activity";
       // console.log(url);
       //因axios 不支持同步，选中ajax
       $.ajax({
@@ -601,22 +608,48 @@ export default {
           // console.log($vm.list);
           // $vm.spinShow=false;
           // for (let i = 0; i < $vm.list.length; i++) {
-          //   console.log($vm.list[i]['Attribute']['time']['data']['endTime'] + " " + $vm.list[i]['calculateWeight'] + " " + $vm.list[i]['height'])
+          //   console.log($vm.list[i]['until_at'] + " " + $vm.list[i]['calculateWeight'] + " " + $vm.list[i]['height'])
           // }
           //
           //          $vm.fillIin($vm.list);
+          // $vm.data=[
+          //     {
+          //     name: "typeItem.name",
+          //     value: [
+          //       1,
+          //       // 1529480424000,
+          //       +new Date(),
+          //       // 1529485464000,
+          //       +new Date()+5040000,
+          //       5040000,
+          //       {
+          //         id:0,
+          //       }
+          //     ],
+          //     itemStyle: {
+          //       normal: {
+          //         color: "#bd6d6c",
+          //       }
+          //     }
+          //   }
+          // ];
+          //画出无数据的图表
+          $vm.chart.setOption($vm.option);
+
           $vm.data = matching($vm.list, $vm.startTime, $vm.endTime);
+          console.log($vm.data);
+          //画出有数据的图表
           $vm.chart.setOption($vm.option);
           //打开任务详情视图
-          if ($vm.data != false) {
-            $vm.$router.push({
-              name: "calendar_day",
-              query: {
-                view: 'calendar',
-                tid: $vm.data[0].value[4]._id
-              }
-            });
-          }
+          // if ($vm.data != false) {
+          //   $vm.$router.push({
+          //     name: "calendar_day",
+          //     query: {
+          //       view: 'calendar',
+          //       tid: $vm.data[0].value[4].id
+          //     }
+          //   });
+          // }
         },
       });
     },
@@ -624,12 +657,14 @@ export default {
       //this.data = [];
       console.log(this);
       for (let i = 0; i < thingList.length; i++) {
-        if (thingList[i]['Attribute']['time']['data']['fixed']) { //固定事件
+        if (thingList[i]['estimated_time_cost']<0) { //固定事件
           this.data.push({
-            name: thingList[i]['Attribute']['title'],
+            name: thingList[i]['name'],
             value: [
-              0, +new Date(thingList[i]['Attribute']['time']['data']['startTime']), +new Date(thingList[i]['Attribute']['time']['data']['startTime']) + parseInt(thingList[i]['Attribute']['time']['data']['workTime']) * 60000,
-              parseInt(thingList[i]['Attribute']['time']['data']['workTime']) * 60000,
+              0,
+              +new Date(thingList[i]['start_at']),
+              +new Date(thingList[i]['start_at']) + parseInt(thingList[i]['estimated_time_cost']) * 1000,
+              parseInt(thingList[i]['estimated_time_cost']) * 1000,
             ],
             itemStyle: {
               normal: {
@@ -651,7 +686,7 @@ export default {
         name: "calendar_day",
         query: {
           view: 'mission',
-          tid: params.data.value[4]._id,
+          tid: params.data.value[4].id,
         }
       });
     });
@@ -662,7 +697,7 @@ export default {
     // setInterval(function() {
     //     // 每分钟刷新一次
     //   },
-    //   60000); //1 min
+    //   1000); //1 min
   }
 };
 </script>

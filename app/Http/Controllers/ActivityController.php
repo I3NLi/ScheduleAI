@@ -45,7 +45,7 @@ class ActivityController extends Controller
         //
         // ]);
         $request['start_at']=new Carbon($request['start_at']);
-        $request['start_at']=new Carbon($request['until_at']);
+        $request['until_at']=new Carbon($request['until_at']);
         \Debugbar::info($request->all());
          return Activity::create($request->all());
 

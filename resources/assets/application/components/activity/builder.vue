@@ -12,7 +12,7 @@
     <!-- importance -->
     <mu-form-item prop="select" label="Importance">
       <mu-select v-model="form.importance">
-        <mu-option v-for="importanceOption,importanceOptionIndex in importanceOptions" :key="importanceOptionIndex" :label="importanceOption" :value="importanceOption"></mu-option>
+        <mu-option v-for="importanceOption,importanceOptionIndex in importanceOptions" :key="importanceOptionIndex" :label="importanceOption" :value="importanceOptionIndex"></mu-option>
       </mu-select>
     </mu-form-item>
     <!-- Start time -->
@@ -21,16 +21,25 @@
     </mu-form-item>
     <!-- Deadline -->
     <mu-form-item prop="date" label="To" >
-      <mu-date-input :valueFormat="dateFormat" v-model="form.until_at" type="dateTime" actions ok-label="Ok" cancel-label="Cancel"></mu-date-input>
+      <mu-date-input :valueFormat="dateFormat" @change="setWorkTime" v-model="form.until_at" type="dateTime" actions ok-label="Ok" cancel-label="Cancel"></mu-date-input>
+
     </mu-form-item>
     <!-- events?todo -->
     <mu-form-item prop="input" label="Work Time">
-      <mu-text-field v-model="form.estimated_time_cost" type="number" placeholder="0 for Event" suffix="Min" />
+      <mu-switch v-model="isFixed" @change="setWorkTime" :label="isFixed?'Event':'Todo'"></mu-switch>
+      <!-- <mu-text-field :value="getWorkTimeWithoutUnit" ref="workTime" type="number" placeholder="Event" @change="setWorkTime" > -->
+      <mu-text-field  v-model="workTime.hours" @change="setWorkTime" ref="workTimeHours" type="number" placeholder="" suffix="Hours"  class="workTimeInput" :min='0'/>
+      <mu-text-field  v-model="workTime.minutes" @change="setWorkTime" ref="workTimeMinutes" type="number" placeholder="" suffix="Minutes" class="workTimeInput" :min='0'/>
+      <mu-text-field  v-model="workTime.seconds" @change="setWorkTime" ref="workTimeSeconds" type="number" placeholder="" suffix="Seconds" class="workTimeInput" :min='0'/>
+        <!-- <mu-select v-model="wokrTimeUnit" slot="append" style="width: 100px;" @change="setWorkTime">
+          <mu-option v-for="timeUnitOption,timeUnitOptionIndex in timeUnitOptions" :key="timeUnitOptionIndex" :label="timeUnitOption" :value="timeUnitOptionIndex" ></mu-option>
+        </mu-select> -->
+      </mu-text-field>
     </mu-form-item>
     <!-- Restart -->
     <mu-form-item prop="select" label="Restart Art">
       <mu-select v-model="form.setting.restart.type">
-        <mu-option v-for="restartTypeOption,restartTypeOptionIndex in restartTypeOptions" :key="restartTypeOptionIndex" :label="restartTypeOption" :value="restartTypeOption"></mu-option>
+        <mu-option v-for="restartTypeOption,restartTypeOptionIndex in restartTypeOptions" :key="restartTypeOptionIndex" :label="restartTypeOption" :value="restartTypeOptionIndex"></mu-option>
       </mu-select>
     </mu-form-item>
 
@@ -86,7 +95,8 @@ export default {
   data() {
     return {
       labelPosition: "Left", //"Left",“Right”
-      dateFormat:"YYYY-MM-DDTHH:mm:ssZ",
+      // dateFormat:"YYYY-MM-DDTHH:mm:ssZ",
+      dateFormat:"",
       importanceOptions: [
         "Insignificant",
         "unimportant",
@@ -102,6 +112,18 @@ export default {
         "Yearly",
         "Interval",
       ],
+      timeUnitOptions:[
+        "Second",
+        "Minute",
+        "Hour"
+      ],
+      isFixed:false,
+      workTime:{
+        "hours":0,
+        "minutes":5,
+        "seconds":0,
+      },
+      wokrTimeUnit:2,
       form: this.defaultForm(),
     };
   },
@@ -126,9 +148,10 @@ export default {
     defaultForm() {
       return {
         // name: "",
-        start_at: +new Date(),
-        importance: "Normal",
-        estimated_time_cost: 0,
+        start_at: new Date(),
+        until_at: new Date(+new Date()+300000),
+        importance: 2,
+        estimated_time_cost: 300,
         missions: {
           Notice: ""
         },
@@ -140,6 +163,41 @@ export default {
           }
         }
       };
+    },
+    setWorkTime(){
+      let tmp=this.workTime.hours*3600+this.workTime.minutes*60+this.workTime.seconds*1;
+      if(this.isFixed){
+      this.form.estimated_time_cost=-1;
+      this.form.until_at=new Date(new Date(+this.form.start_at+tmp*1000));
+      }
+      else{
+      this.form.estimated_time_cost=tmp;
+      }
+      return this.form.estimated_time_cost;
+    },
+  },
+  computed:{
+
+  },
+  watch:{
+    "form.estimated_time_cost":{
+      handler: function(newVal,oldVal){
+        let tmp;
+        if(this.form.estimated_time_cost<0){
+          this.isFixed=true;
+          tmp=parseInt((new Date(this.form.until_at)-new Date(this.form.start_at))/1000);
+        }else{
+          this.isFixed=false;
+          tmp=this.form.estimated_time_cost;
+        }
+        console.log(tmp);
+        this.workTime.hours=parseInt(tmp/3600);
+        tmp=parseInt(tmp%3600);
+        this.workTime.minutes=parseInt(tmp/60);
+        tmp=tmp%60;
+        this.workTime.seconds=parseInt(tmp);
+      },
+      // immediate: true,
     }
   },
   components: {
@@ -170,5 +228,8 @@ export default {
 .tags:active {
   border-bottom-color: #2196f3;
   ;
+}
+.workTimeInput{
+  /* width: 20%; */
 }
 </style>
