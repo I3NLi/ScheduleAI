@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import activity from './components/activity/builder';
+import activity from './pages/activity/list';
 // import ThingNavBar from './components/thing/navbar/navbar';
 // import ThingList from './components/thing/missionlist/missionlist';
 // import MissionCreator from './components/thing/mission/creator/main';
@@ -11,9 +11,9 @@ import activity from './components/activity/builder';
 // import contact from './components/contact/contact';
 // import tempusers from './components/contact/tempusers/tempusers';
 
-import calendar from './components/calendar/calendar';
-import calendarDay from './components/calendar/day/day';
-import calendarMonth from './components/calendar/month/month';
+import calendar from './pages/calendar/calendar';
+import calendarDay from './pages/calendar/day/day';
+import calendarMonth from './pages/calendar/month/month';
 //
 // import organization from './components/organization/organization';
 

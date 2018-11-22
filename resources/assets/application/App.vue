@@ -43,7 +43,9 @@
   </Menu> -->
   <mu-appbar color="teal">
     <mu-button icon slot="left">
-      <mu-icon value="menu"></mu-icon>
+      <mu-icon value="menu">
+        
+      </mu-icon>
     </mu-button>
     {{routeName}}
     <mu-button icon slot="right" @click="refresh()">

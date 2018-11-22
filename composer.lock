@@ -1152,16 +1152,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.0.2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
                 "shasum": ""
             },
             "require": {
@@ -1195,7 +1195,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10T12:19:37+00:00"
+            "time": "2018-11-20T15:27:04+00:00"
         },
         {
             "name": "psr/simple-cache",
@@ -2433,16 +2433,16 @@
     "packages-dev": [
         {
             "name": "barryvdh/laravel-debugbar",
-            "version": "v3.2.0",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "5b68f3972083a7eeec0d6f161962fcda71a127c0"
+                "reference": "9d5caf43c5f3a3aea2178942f281054805872e7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/5b68f3972083a7eeec0d6f161962fcda71a127c0",
-                "reference": "5b68f3972083a7eeec0d6f161962fcda71a127c0",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/9d5caf43c5f3a3aea2178942f281054805872e7c",
+                "reference": "9d5caf43c5f3a3aea2178942f281054805872e7c",
                 "shasum": ""
             },
             "require": {
@@ -2497,7 +2497,7 @@
                 "profiler",
                 "webprofiler"
             ],
-            "time": "2018-08-22T11:06:19+00:00"
+            "time": "2018-11-09T08:37:55+00:00"
         },
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -3492,16 +3492,16 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "0.9.9",
+            "version": "0.9.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "6fdb61243844dc924071d3404bb23994ea0b6856"
+                "reference": "4876fc0c7d9e5da49712554a35c94d84ed1e9ee5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/6fdb61243844dc924071d3404bb23994ea0b6856",
-                "reference": "6fdb61243844dc924071d3404bb23994ea0b6856",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/4876fc0c7d9e5da49712554a35c94d84ed1e9ee5",
+                "reference": "4876fc0c7d9e5da49712554a35c94d84ed1e9ee5",
                 "shasum": ""
             },
             "require": {
@@ -3553,7 +3553,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2017-02-28T12:52:32+00:00"
+            "time": "2018-11-13T20:50:16+00:00"
         },
         {
             "name": "mpociot/laravel-test-factory-helper",

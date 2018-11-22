@@ -46,7 +46,7 @@ class ActivityController extends Controller
         // ]);
         $request['start_at']=new Carbon($request['start_at']);
         $request['until_at']=new Carbon($request['until_at']);
-        \Debugbar::info($request->all());
+        // \Debugbar::info($request->all());
          return Activity::create($request->all());
 
     }
@@ -57,11 +57,14 @@ class ActivityController extends Controller
      * @param  \App\Activity  $activity
      * @return \Illuminate\Http\Response
      */
-    public function show(Activity $activity)
+    public function show($id)
     {
-
+      return Activity::where('id','=',$id)->firstOrFail();
     }
-
+    public function showList($id)
+    {
+      return Activity::where('parent_id','=',$id)->get();
+    }
     /**
      * Show the form for editing the specified resource.
      *

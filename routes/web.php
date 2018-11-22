@@ -49,6 +49,7 @@ Route::group(['https'=>true,'middleware' => 'auth'], function () {
             Route::group(['prefix' => '/activity'], function () {
                 Route::get('/', 'ActivityController@index')->name('activity.index');
                 Route::get('/{id}', 'ActivityController@show')->name('activity.show');
+                Route::get('/{id}/list', 'ActivityController@showList')->name('activity.show.list');
                 Route::post('/', 'ActivityController@store')->name('activity.store');
                 Route::put('/', 'ActivityController@update')->name('activity.update');
                 Route::delete('/{id}', 'ActivityController@destroy')->name('activity.destroy');
