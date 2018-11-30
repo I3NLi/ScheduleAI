@@ -100,7 +100,7 @@ export default {
   },
   methods: {
     setMode:function (mode){
-      this.$router.push({ name: 'thing', query: { view:'list',id:'0',mode:mode.toLocaleLowerCase()}});
+      this.$router.push({ name: 'activity', query: { view:'list',id:'0',mode:mode.toLocaleLowerCase()}});
     }
   },
   watch:{

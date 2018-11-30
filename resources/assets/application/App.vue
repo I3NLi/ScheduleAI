@@ -44,7 +44,7 @@
   <mu-appbar color="teal">
     <mu-button icon slot="left">
       <mu-icon value="menu">
-        
+
       </mu-icon>
     </mu-button>
     {{routeName}}
@@ -204,6 +204,7 @@ export default {
   .content {
     height: calc(100% - 112px);
     margin: 0px;
+    
   }
   .only-pc {
     display: none;

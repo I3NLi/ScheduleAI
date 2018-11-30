@@ -4,7 +4,7 @@
 </template>
 
 <script>
-// import mission from '../../thing/mission/mission';
+// import mission from '../../activity/mission/mission';
 import echarts from 'echarts'
 // let chart = null
 // let $chart = null
@@ -21,7 +21,7 @@ function buildList(list) {
   }
   return result;
 }
-//根据thing中的fid，组成嵌套关系
+//根据activity中的fid，组成嵌套关系
 function buildTree(list) {
   // console.log(list);
   for (let m = 0; m < list.length; m++) {
@@ -47,31 +47,31 @@ function buildTree(list) {
   return result;
 }
 /*buildlist 递归部分*/
-function find_position(thing, thingtree) {
-  // console.log("thingtree");
-  // console.log(thingtree);
-  if (thingtree._id == thing.Attribute.fatherId) {
+function find_position(activity, activitytree) {
+  // console.log("activitytree");
+  // console.log(activitytree);
+  if (activitytree._id == activity.Attribute.fatherId) {
     // console.log("has father");
-    if (thingtree.children != undefined) {
+    if (activitytree.children != undefined) {
       // console.log("child exist");
-      thingtree.children.push(thing);
-      //console.log(thingtree.children);
+      activitytree.children.push(activity);
+      //console.log(activitytree.children);
     } else {
       // console.log("child no exist");
-      thingtree.children = [thing];
+      activitytree.children = [activity];
     }
-    return thingtree;
+    return activitytree;
   }
   // console.log("no father in root");
 
-  if (thingtree.children != undefined) {
+  if (activitytree.children != undefined) {
     // console.log("child exist");
-    for (let i = 0; i < thingtree.children.length; i++) {
-      let tmp = find_position(thing, thingtree.children[i]);
+    for (let i = 0; i < activitytree.children.length; i++) {
+      let tmp = find_position(activity, activitytree.children[i]);
       if (tmp != false) {
-        thingtree.children[i] = tmp;
+        activitytree.children[i] = tmp;
         // console.log("find father in child");
-        return thingtree;
+        return activitytree;
       }
     }
     // console.log("no father in child");
@@ -81,77 +81,77 @@ function find_position(thing, thingtree) {
 }
 
 /*
-给定一个thinglist，重新计算所有权重
+给定一个activitylist，重新计算所有权重
  */
-function calculate_weight_list(thingList) {
-  for (let i = 0; i < thingList.length; i++) {
-    calculate_weight(thingList[i]);
+function calculate_weight_list(activityList) {
+  for (let i = 0; i < activityList.length; i++) {
+    calculate_weight(activityList[i]);
   }
-  return thingList;
+  return activityList;
 }
 /*
-计算一个thing的权重
+计算一个activity的权重
  */
-function calculate_weight(thing) { //计算事件的权重
-  thing['calculateWeight'] = thing['Attribute']['importance'];
+function calculate_weight(activity) { //计算事件的权重
+  activity['calculateWeight'] = activity['Attribute']['importance'];
 
-  if (thing['Attribute']['time']['data']['workTime'] == 0) {
-    thing['calculateWeight'] = parseFloat(thing['calculateWeight']) + 0.5;
+  if (activity['Attribute']['time']['data']['workTime'] == 0) {
+    activity['calculateWeight'] = parseFloat(activity['calculateWeight']) + 0.5;
   } else {
-    let startTime = new Date(thing['Attribute']['time']['data']['startTime']);
-    let endTime = new Date(thing['Attribute']['time']['data']['endTime']);
+    let startTime = new Date(activity['Attribute']['time']['data']['startTime']);
+    let endTime = new Date(activity['Attribute']['time']['data']['endTime']);
     let a = (endTime - startTime) / 60000; //可工作事件-分钟
-    if (thing['Attribute']['time']['data']['workTime'] * 3 > a) {
-      thing['calculateWeight'] = parseFloat(thing['calculateWeight']) + 0.5;
+    if (activity['Attribute']['time']['data']['workTime'] * 3 > a) {
+      activity['calculateWeight'] = parseFloat(activity['calculateWeight']) + 0.5;
     }
-    if (thing['Attribute']['time']['data']['workTime'] * 5 > a) {
-      thing['calculateWeight'] = parseFloat(thing['calculateWeight']) + 0.5;
+    if (activity['Attribute']['time']['data']['workTime'] * 5 > a) {
+      activity['calculateWeight'] = parseFloat(activity['calculateWeight']) + 0.5;
     }
-    if (thing['Attribute']['time']['data']['workTime'] * 10 > a) {
-      thing['calculateWeight'] = parseFloat(thing['calculateWeight']) + 0.5;
+    if (activity['Attribute']['time']['data']['workTime'] * 10 > a) {
+      activity['calculateWeight'] = parseFloat(activity['calculateWeight']) + 0.5;
     }
   }
-  return thing;
+  return activity;
 }
 
-function serialization_priority(thingList) {
+function serialization_priority(activityList) {
   //对高度
-  thingList.sort(function(a, b) {
+  activityList.sort(function(a, b) {
     return parseFloat(b['height']) - parseFloat(a['height']);
   });
   //对重要性排序
-  thingList.sort(function(a, b) {
+  activityList.sort(function(a, b) {
     return parseFloat(a['calculateWeight']) - parseFloat(b['calculateWeight']);
   });
   //对截止时间
-  thingList.sort(function(a, b) {
+  activityList.sort(function(a, b) {
     return new Date(a['Attribute']['time']['data']['endTime']) - new Date(b['Attribute']['time']['data']['endTime']);
   });
 }
 
-function treeHeightList(thingTreeList) {
-  for (let i = 0; i < thingTreeList.length; i++) {
-    treeHeight(thingTreeList[i]);
+function treeHeightList(activityTreeList) {
+  for (let i = 0; i < activityTreeList.length; i++) {
+    treeHeight(activityTreeList[i]);
   }
-  return thingTreeList;
+  return activityTreeList;
 }
 
 /*
 获取一个节点的深度
  */
-function treeHeight(thingTreeNode) {
+function treeHeight(activityTreeNode) {
   let result = 0;
-  //console.log(thingTreeNode.children);
-  if (thingTreeNode.children != undefined) {
-    //console.log(thingTreeNode.children.length);
-    for (let i = 0; i < thingTreeNode.children.length; i++) {
-      let tmp = treeHeight(thingTreeNode.children[i])
+  //console.log(activityTreeNode.children);
+  if (activityTreeNode.children != undefined) {
+    //console.log(activityTreeNode.children.length);
+    for (let i = 0; i < activityTreeNode.children.length; i++) {
+      let tmp = treeHeight(activityTreeNode.children[i])
       if (tmp > result)
         result = tmp;
     }
   }
   result++;
-  thingTreeNode['height'] = result;
+  activityTreeNode['height'] = result;
   return result;
 }
 
@@ -406,7 +406,7 @@ export default {
       console.log("获取数据");
       let $vm = this;
       // this.spinShow=true;
-      let url = "/api/thing/list/todo";
+      let url = "/api/activity/list/todo";
       console.log(url);
       //因axios 不支持同步，选中ajax
       $.ajax({
@@ -436,23 +436,23 @@ export default {
         },
       });
     },
-    fillIin: function(thingList) {
+    fillIin: function(activityList) {
       //this.data = [];
       console.log(this);
-      for (let i = 0; i < thingList.length; i++) {
-        if (thingList[i]['Attribute']['time']['data']['fixed']) { //固定事件
-          let index = parseInt((new Date(thingList[i]['Attribute']['time']['data']['startTime']) - new Date().setHours(23, 59, 59, 999)) / 1000 / 60 / 60 / 24);
+      for (let i = 0; i < activityList.length; i++) {
+        if (activityList[i]['Attribute']['time']['data']['fixed']) { //固定事件
+          let index = parseInt((new Date(activityList[i]['Attribute']['time']['data']['startTime']) - new Date().setHours(23, 59, 59, 999)) / 1000 / 60 / 60 / 24);
           if (index < 7) {
-            console.log(new Date(thingList[i]['Attribute']['time']['data']['startTime']));
-            console.log(new Date(thingList[i]['Attribute']['time']['data']['endTime']));
+            console.log(new Date(activityList[i]['Attribute']['time']['data']['startTime']));
+            console.log(new Date(activityList[i]['Attribute']['time']['data']['endTime']));
             this.data.push({
-              // name: thingList[i]['Attribute']['title'],
+              // name: activityList[i]['Attribute']['title'],
               name: "xxxxxx",
               value: [
                 0,
-                +new Date(thingList[i]['Attribute']['time']['data']['startTime']),
-                +new Date(thingList[i]['Attribute']['time']['data']['startTime'])+parseInt(thingList[i]['Attribute']['time']['data']['workTime']) * 60000,
-                parseInt(thingList[i]['Attribute']['time']['data']['workTime']) * 60000,
+                +new Date(activityList[i]['Attribute']['time']['data']['startTime']),
+                +new Date(activityList[i]['Attribute']['time']['data']['startTime'])+parseInt(activityList[i]['Attribute']['time']['data']['workTime']) * 60000,
+                parseInt(activityList[i]['Attribute']['time']['data']['workTime']) * 60000,
               ],
               itemStyle: {
                 normal: {
