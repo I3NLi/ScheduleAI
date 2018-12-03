@@ -162,6 +162,7 @@ function treeHeight(activityTreeNode) {
   activityTreeNode['height'] = result;
   return result;
 }
+
 /*
 匹配到日历
 
@@ -190,7 +191,8 @@ function matching(activityList, startTime, endTime, pause = 5) {
         ],
         itemStyle: {
           normal: {
-            color: "#bd6d6c",
+            // color: "#bd6d6c",
+            color:'#'+Math.floor(Math.random()*16777215).toString(16),
           }
         }
       });
@@ -255,7 +257,7 @@ function matching(activityList, startTime, endTime, pause = 5) {
             name: tmp[i]['name'],
             value: [
               //列数
-              1,
+              0,
               //起始时间
               +baseTime,
               //结束时间
@@ -267,7 +269,8 @@ function matching(activityList, startTime, endTime, pause = 5) {
             ],
             itemStyle: {
               normal: {
-                color: "#77bd6c",
+                // color: "#77bd6c",
+                color:'#'+Math.floor(Math.random()*16777215).toString(16),
               }
             }
           });
@@ -345,9 +348,13 @@ export default {
     ];
     let dataCount = 10;
 
-    let categories = ['conflict', 'jobs', 'supervision'];
+    // let categories = ['conflict', 'jobs', 'supervision'];
+    let categories = ['Todo', 'Event', 'Conflict'];
+
     if (this.$root.local == "zh-CN") {
-      categories = ['冲突', '工作', '监督'];
+      // categories = ['冲突', '工作', '监督'];
+      categories = ['待办', '事件', '冲突'];
+      //
     }
     //设定任务类型
     let types = [{

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import activity from './pages/activity/main';
+import activityNavbar from './pages/activity/navbar/navbar'
 // import ThingNavBar from './components/activity/navbar/navbar';
 // import ThingList from './components/activity/missionlist/missionlist';
 // import MissionCreator from './components/activity/mission/creator/main';
@@ -28,8 +29,11 @@ export default new Router({
     {
       alias: '/',
       path: '/activity',
-      name: 'Create New Activity',
-      component: activity,
+      name: 'Activity: Root',
+      components: {
+        default:activity,
+        drawer:activityNavbar,
+      }
     },
     {
       // alias: '/',
@@ -40,7 +44,7 @@ export default new Router({
       children: [{
           alias: ['/calendar'],
           path: 'day',
-          name:"Calendar Day",
+          name:"Calendar: Day",
           component: calendarDay,
           props: (route) => ({
              view: route.query.view,

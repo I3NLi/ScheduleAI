@@ -42,8 +42,8 @@
 
   </Menu> -->
   <mu-appbar color="teal">
-    <mu-button icon slot="left">
-      <mu-icon value="menu">
+    <mu-button  icon slot="left" v-on:click="drawer=true">
+      <mu-icon value="menu" >
 
       </mu-icon>
     </mu-button>
@@ -57,9 +57,16 @@
     <router-view class="content"></router-view>
   </keep-alive>
 
+  <Drawer placement="left" :closable="false" v-model="drawer">
+    <keep-alive>
+      <router-view name="drawer">
+      </router-view>
+    </keep-alive>
+  </Drawer>
+
   <mu-bottom-nav>
     <mu-bottom-nav-item title="Calendar" icon="calendar_today" to='/calendar'></mu-bottom-nav-item>
-    <mu-bottom-nav-item title="Todo" icon="assignment" to='/activity'></mu-bottom-nav-item>
+    <mu-bottom-nav-item title="Activities" icon="assignment" to='/activity'></mu-bottom-nav-item>
     <mu-bottom-nav-item title="More" icon="more_horiz" to='view'></mu-bottom-nav-item>
   </mu-bottom-nav>
 
@@ -109,7 +116,7 @@ export default {
   data() {
 
     return {
-
+      drawer:false,
     };
   },
   methods: {
@@ -138,9 +145,8 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
+    },
 
-
-    }
   },
   computed: {
     routeName(){
@@ -204,7 +210,7 @@ export default {
   .content {
     height: calc(100% - 112px);
     margin: 0px;
-    
+
   }
   .only-pc {
     display: none;
