@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import activity from './pages/activity/list';
-// import ThingNavBar from './components/thing/navbar/navbar';
-// import ThingList from './components/thing/missionlist/missionlist';
-// import MissionCreator from './components/thing/mission/creator/main';
-// import MissionEditor from './components/thing/mission/editor/main';
-// import MissionViewer from './components/thing/mission/viewer/main';
+import activity from './pages/activity/main';
+// import ThingNavBar from './components/activity/navbar/navbar';
+// import ThingList from './components/activity/missionlist/missionlist';
+// import MissionCreator from './components/activity/mission/creator/main';
+// import MissionEditor from './components/activity/mission/editor/main';
+// import MissionViewer from './components/activity/mission/viewer/main';
 //
 // import contact from './components/contact/contact';
 // import tempusers from './components/contact/tempusers/tempusers';
@@ -102,7 +102,7 @@ export default new Router({
     },
 
     // {
-    //   path:'/thing/',
+    //   path:'/activity/',
     //   redirect: '/b'
     // },
     // {
@@ -111,10 +111,10 @@ export default new Router({
     //   @id mission的id
     //   @mode list的默认筛选
     //    */
-    //   path: '/thing',
-    //   name: 'thing',
-    //   redirect: '/thing/creator',
-    //   component: thing,
+    //   path: '/activity',
+    //   name: 'activity',
+    //   redirect: '/activity/creator',
+    //   component: activity,
     //   props: (route) => ({
     //      view: route.query.view,
     //      mode: route.query.mode,
@@ -123,7 +123,7 @@ export default new Router({
     //   children: [{
     //       // alias:"",
     //       path: 'creator',
-    //       name:"thing_creator",
+    //       name:"activity_creator",
     //       component: MissionCreator,
     //       props: (route) => ({
     //          id: route.query.tid,
@@ -132,7 +132,7 @@ export default new Router({
     //     },
     //     {
     //       path: 'editor',
-    //       name:"thing_editor",
+    //       name:"activity_editor",
     //       component: MissionEditor,
     //       props: (route) => ({
     //          id: route.query.tid,
@@ -142,7 +142,7 @@ export default new Router({
     //     },
     //     {
     //       path: 'viewer',
-    //       name:"thing_viewer",
+    //       name:"activity_viewer",
     //       component: MissionViewer,
     //       props: (route) => ({
     //          id: route.query.tid,
@@ -156,9 +156,9 @@ export default new Router({
     //   }
     // },
     // // {
-    // //   path: '/thing',
-    // //   name: 'thing',
-    // //   component: thing,
+    // //   path: '/activity',
+    // //   name: 'activity',
+    // //   component: activity,
     // //   // children: [{
     // //   //     path: 'creator/:id',
     // //   //     component: MissionCreator,

@@ -128,7 +128,7 @@ A sample screenshot is here,
 	
 	- `YOUR_DATA` You can define as many data you want as possible
 
-2. **lang** : langague of things like monthNames weekNames and titleFormat
+2. **lang** : langague of activitys like monthNames weekNames and titleFormat
 
 	```javascript
 	export default {

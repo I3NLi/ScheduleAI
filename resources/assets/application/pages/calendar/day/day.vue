@@ -9,7 +9,7 @@
   <script>
   import daybody from './components/body';
   import calendarHeader from '../header';
-  // import mission from "../../thing/mission/viewer/main"
+  // import mission from "../../activity/mission/viewer/main"
 
   export default {
     name: 'day',

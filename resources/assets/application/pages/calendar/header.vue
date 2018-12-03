@@ -13,7 +13,7 @@
 </template>
 
 <script>
-// import mission from '../../thing/mission/mission';
+// import mission from '../../activity/mission/mission';
 
 export default {
   name: 'calendarHeader',

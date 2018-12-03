@@ -1,34 +1,33 @@
 <template>
 <!-- <div class="full"> -->
 <div id="activity_list" class="full">
-  <Breadcrumb class="missonListBreadcrumb">
+  <!-- <Breadcrumb class="missonListBreadcrumb">
     <BreadcrumbItem to="/">Todo</BreadcrumbItem>
-    <!-- <BreadcrumbItem to="/components/breadcrumb">Components</BreadcrumbItem>
-       <BreadcrumbItem>Breadcrumb</BreadcrumbItem> -->
-  </Breadcrumb>
+    <BreadcrumbItem to="/components/breadcrumb">Components</BreadcrumbItem>
+       <BreadcrumbItem>Breadcrumb</BreadcrumbItem>
+  </Breadcrumb> -->
 
-
-  <li class="list-group-item justify-content-between" style='color:undefined;background-color:undefined;' @click="" >
+  <!-- <mu-sub-header>Today</mu-sub-header> -->
+  <li class="list-group-item justify-content-between" style='color:undefined;background-color:undefined;' @click="">
     <!-- <span>&nbsp&nbsp&nbsp&nbsp</span> -->
     ..
   </li>
-  <li class="list-group-item justify-content-between" style='color:undefined;background-color:undefined;' @click="create_thing" >
+  <li class="list-group-item justify-content-between" style='color:undefined;background-color:undefined;' @click="create_activity">
     <!-- <span>&nbsp&nbsp&nbsp&nbsp</span> -->
     {{$t("createNewEvent")}}
   </li>
-
-  <draggable  class="list-group" v-model="items"  @start="drag=true" @end="drag=false">
-    <slide-del
-      v-for="(item, index) in  items"
-      :key="index"
-      ref="slipDel"
-      del-text="删除"
-      @slip-open=""
-    >
-      <div class="list-group-item justify-content-between">{{item.id}}</div>
+  <mu-sub-header>Include</mu-sub-header>
+  <draggable class="list-group" v-model="items" @start="drag=true" @end="drag=false">
+    <slide-del v-for="(item, index) in  items" :key="index" ref="slipDel" del-text="删除" @slip-open="">
+      <div class="list-group-item justify-content-between">
+        {{item.id}}
+        <Divider type="vertical" />
+        {{item.name}}
+        <!-- <Tag checkable color="primary">{{item.until_at}}</Tag> -->
+      </div>
       <div slot="del">Delete</div>
     </slide-del>
-
+    <mu-sub-header>Extends</mu-sub-header>
     <!-- <li class="list-group-item justify-content-between" style='color:undefined;background-color:undefined;' @click="" v-for="(item, index) in  items">
       {{item.id}}
     </li> -->
@@ -66,61 +65,59 @@ import SlideDel from '../../components/SlideDelete';
 export default {
   name: 'activity_list',
   props: {
-
+    'id': {
+      type: [String],
+      default: '0'
+    }
   },
   data() {
     return {
-      id:0,
-      items: [
-        {'id':0},
-        {'id':1},
-        {'id':2},
-        {'id':2},
-      ],
+      items: [],
       spinShow: false,
     };
   },
   methods: {
-    create_thing() {
-      // window.app.thing.activeThingNode = this;
+    create_activity() {
+      // window.app.activity.activeThingNode = this;
       this.$router.push({
-        name: 'thing_creator',
+        name: 'activity_creator',
         query: {
           view: 'mission',
           lid: '0',
           mode: this.mode
         }
       });
-      // console.log(window.app.thing.thing_id);
+      // console.log(window.app.activity.activity_id);
     },
-    // load_thing: function () {
-    //   var data = JSON.parse($.ajax({method: "get", url: "/api/thing/list/0" + this.item._id, async: false, data: {"_token": "{{csrf_token()}}"}}).responseText);
+    // load_activity: function () {
+    //   var data = JSON.parse($.ajax({method: "get", url: "/api/activity/list/0" + this.item._id, async: false, data: {"_token": "{{csrf_token()}}"}}).responseText);
     //   console.log(data);
     //   Vue.set(this.item, 'children', data);
     // },
-    load_thing() {
+    load_activity() {
       let vm = this;
       this.spinShow = true;
-      let url = "/api/v1/activity/"+vm.id+"/list";
+      let url = "/api/v1/activity/" + vm.id + "/list";
       console.log(url);
       //因axios 不支持同步，选中ajax
       $.ajax({
         method: "get",
         url: url,
-        async: false,
+        async: true,
         success: function(data, textStatus, jqXHR) {
           vm.items = data;
           vm.spinShow = false;
+          console.log(vm.items);
         },
       });
     },
     refresh(id) {
       this.spinShow = true;
-      this.load_thing();
+      this.load_activity();
       if (id) {
         for (let key in this.$children) {
           if (this.$children[key]._id == id) {
-            // window.app.thing.activeThingNode=this.$children[key];
+            // window.app.activity.activeThingNode=this.$children[key];
             break;
           }
         }
@@ -131,7 +128,7 @@ export default {
   },
 
   mounted() {
-    this.load_thing();
+    this.load_activity();
   },
   watch: {
 
@@ -150,6 +147,14 @@ export default {
   height: 36px;
   font-size: 20px;
   border-bottom: 1px solid #ccc;
+}
+#activity_list .list-group-item{
+  border:0px;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 0px;
+}
+#activity_list{
+  /* overflow:auto; */
 }
 </style>
 

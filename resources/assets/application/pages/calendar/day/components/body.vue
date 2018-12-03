@@ -29,7 +29,7 @@ function buildList(list) {
   }
   return result;
 }
-//根据thing中的fid，组成嵌套关系
+//根据activity中的fid，组成嵌套关系
 function buildTree(list) {
   // console.log(list);
   for (let m = 0; m < list.length; m++) {
@@ -54,31 +54,31 @@ function buildTree(list) {
   return result;
 }
 /*buildlist 递归部分*/
-function find_position(thing, thingtree) {
-  // console.log("thingtree");
-  // console.log(thingtree);
-  if (thingtree.id == thing.parent_id) {
+function find_position(activity, activitytree) {
+  // console.log("activitytree");
+  // console.log(activitytree);
+  if (activitytree.id == activity.parent_id) {
     // console.log("has father");
-    if (thingtree.children != undefined) {
+    if (activitytree.children != undefined) {
       // console.log("child exist");
-      thingtree.children.push(thing);
-      //console.log(thingtree.children);
+      activitytree.children.push(activity);
+      //console.log(activitytree.children);
     } else {
       // console.log("child no exist");
-      thingtree.children = [thing];
+      activitytree.children = [activity];
     }
-    return thingtree;
+    return activitytree;
   }
   // console.log("no father in root");
 
-  if (thingtree.children != undefined) {
+  if (activitytree.children != undefined) {
     // console.log("child exist");
-    for (let i = 0; i < thingtree.children.length; i++) {
-      let tmp = find_position(thing, thingtree.children[i]);
+    for (let i = 0; i < activitytree.children.length; i++) {
+      let tmp = find_position(activity, activitytree.children[i]);
       if (tmp != false) {
-        thingtree.children[i] = tmp;
+        activitytree.children[i] = tmp;
         // console.log("find father in child");
-        return thingtree;
+        return activitytree;
       }
     }
     // console.log("no father in child");
@@ -88,78 +88,78 @@ function find_position(thing, thingtree) {
 }
 
 /*
-给定一个thinglist，重新计算所有权重
+给定一个activitylist，重新计算所有权重
  */
-function calculate_weight_list(thingList) {
-  for (let i = 0; i < thingList.length; i++) {
-    calculate_weight(thingList[i]);
+function calculate_weight_list(activityList) {
+  for (let i = 0; i < activityList.length; i++) {
+    calculate_weight(activityList[i]);
   }
-  return thingList;
+  return activityList;
 }
 /*
-计算一个thing的权重
+计算一个activity的权重
  */
-function calculate_weight(thing) { //计算事件的权重
-  thing['calculateWeight'] = thing['importance'];
+function calculate_weight(activity) { //计算事件的权重
+  activity['calculateWeight'] = activity['importance'];
 
-  if (thing['estimated_time_cost'] == 0) {
-    thing['calculateWeight'] = parseFloat(thing['calculateWeight']) + 0.5;
+  if (activity['estimated_time_cost'] == 0) {
+    activity['calculateWeight'] = parseFloat(activity['calculateWeight']) + 0.5;
   } else {
-    let startTime = new Date(thing['start_at']);
-    let endTime = new Date(thing['until_at']);
+    let startTime = new Date(activity['start_at']);
+    let endTime = new Date(activity['until_at']);
     let a = (endTime - startTime) / 60000; //可工作事件-分钟
-    if (thing['estimated_time_cost'] * 3 > a) {
-      thing['calculateWeight'] = parseFloat(thing['calculateWeight']) + 0.5;
+    if (activity['estimated_time_cost'] * 3 > a) {
+      activity['calculateWeight'] = parseFloat(activity['calculateWeight']) + 0.5;
     }
-    if (thing['estimated_time_cost'] * 5 > a) {
-      thing['calculateWeight'] = parseFloat(thing['calculateWeight']) + 0.5;
+    if (activity['estimated_time_cost'] * 5 > a) {
+      activity['calculateWeight'] = parseFloat(activity['calculateWeight']) + 0.5;
     }
-    if (thing['estimated_time_cost'] * 10 > a) {
-      thing['calculateWeight'] = parseFloat(thing['calculateWeight']) + 0.5;
+    if (activity['estimated_time_cost'] * 10 > a) {
+      activity['calculateWeight'] = parseFloat(activity['calculateWeight']) + 0.5;
     }
   }
-  return thing;
+  return activity;
 }
 
 /*排序*/
-function serialization_priority(thingList) {
+function serialization_priority(activityList) {
   //对高度
-  thingList.sort(function(a, b) {
+  activityList.sort(function(a, b) {
     return parseFloat(b['height']) - parseFloat(a['height']);
   });
   //对重要性排序
-  thingList.sort(function(a, b) {
+  activityList.sort(function(a, b) {
     return parseFloat(a['calculateWeight']) - parseFloat(b['calculateWeight']);
   });
   //对截止时间
-  thingList.sort(function(a, b) {
+  activityList.sort(function(a, b) {
     return new Date(a['until_at']) - new Date(b['until_at']);
   });
 }
 
 /*获取一个list中所有节点的深度*/
-function treeHeightList(thingTreeList) {
-  for (let i = 0; i < thingTreeList.length; i++) {
-    treeHeight(thingTreeList[i]);
+function treeHeightList(activityTreeList) {
+  for (let i = 0; i < activityTreeList.length; i++) {
+    treeHeight(activityTreeList[i]);
   }
-  return thingTreeList;
+  return activityTreeList;
 }
 /*
 获取一个节点的深度
  */
-function treeHeight(thingTreeNode) {
+function treeHeight(activityTreeNode) {
   let result = 0;
-  //console.log(thingTreeNode.children);
-  if (thingTreeNode.children != undefined) {
-    //console.log(thingTreeNode.children.length);
-    for (let i = 0; i < thingTreeNode.children.length; i++) {
-      let tmp = treeHeight(thingTreeNode.children[i])
+  //console.log(activityTreeNode.children);
+  if (activityTreeNode.children != undefined) {
+    //console.log(activityTreeNode.children.length);
+    for (let i = 0; i < activityTreeNode.children.length; i++) {
+      let tmp = treeHeight(activityTreeNode.children[i])
       if (tmp > result)
         result = tmp;
     }
   }
   result++;
-  thingTreeNode['height'] = result;
+  activityTreeNode['height'] = result;
   return result;
 }
 /*
@@ -168,9 +168,9 @@ function treeHeight(thingTreeNode) {
 @pause 事件之间的休息事件 单位min
 
  */
-function matching(thingList, startTime, endTime, pause = 5) {
+function matching(activityList, startTime, endTime, pause = 5) {
   let result = [];
-  let tmp = thingList.slice(0);
+  let tmp = activityList.slice(0);
   //将固定事件加入结果，从待排序中剔除固定事件,
   for (let i = 0; i < tmp.length; i++) {
     if (tmp[i]['estimated_time_cost']<0) {
@@ -653,18 +653,18 @@ export default {
         },
       });
     },
-    fillIin: function(thingList) {
+    fillIin: function(activityList) {
       //this.data = [];
       console.log(this);
-      for (let i = 0; i < thingList.length; i++) {
-        if (thingList[i]['estimated_time_cost']<0) { //固定事件
+      for (let i = 0; i < activityList.length; i++) {
+        if (activityList[i]['estimated_time_cost']<0) { //固定事件
           this.data.push({
-            name: thingList[i]['name'],
+            name: activityList[i]['name'],
             value: [
               0,
-              +new Date(thingList[i]['start_at']),
-              +new Date(thingList[i]['start_at']) + parseInt(thingList[i]['estimated_time_cost']) * 1000,
-              parseInt(thingList[i]['estimated_time_cost']) * 1000,
+              +new Date(activityList[i]['start_at']),
+              +new Date(activityList[i]['start_at']) + parseInt(activityList[i]['estimated_time_cost']) * 1000,
+              parseInt(activityList[i]['estimated_time_cost']) * 1000,
             ],
             itemStyle: {
               normal: {
