@@ -17,7 +17,7 @@
     {{$t("createNewEvent")}}
   </li>
   <mu-sub-header>Include</mu-sub-header>
-  <draggable class="list-group" v-model="items" @start="drag=true" @end="drag=false">
+  <draggable class="list-group" v-model="items" @start="drag=true" @end="drag=false" :options="draggableOptions">
     <slide-del v-for="(item, index) in  items" :key="index" ref="slipDel" del-text="" @slip-open="" delCls="ivu-btn-success">
       <div class="list-group-item justify-content-between">
         {{item.id}}
@@ -72,6 +72,9 @@ export default {
     return {
       items: [],
       spinShow: false,
+      draggableOptions:{
+        delay: 300
+      }
     };
   },
   methods: {

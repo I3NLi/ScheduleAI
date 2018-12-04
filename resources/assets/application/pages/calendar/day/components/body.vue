@@ -356,59 +356,7 @@ export default {
       categories = ['待办', '事件', '冲突'];
       //
     }
-    //设定任务类型
-    let types = [{
-        name: 'JS Heap',
-        color: '#7b9ce1'
-      },
-      {
-        name: 'Documents',
-        color: '#bd6d6c'
-      },
-      {
-        name: 'Nodes',
-        color: '#75d874'
-      },
-      {
-        name: 'Listeners',
-        color: '#e0bc78'
-      },
-      {
-        name: 'GPU Memory',
-        color: '#dc77dc'
-      },
-      {
-        name: 'GPU',
-        color: '#72b362'
-      }
-    ];
 
-
-    // Generate mock data
-    // echarts.util.each(categories, function(category, index) {
-    //   //修改此处以填入真实数据
-    //   let baseTime = new Date().setHours(0, 0, 0, 0);
-    //   for (let i = 0; i < dataCount; i++) {
-    //     let typeItem = types[Math.round(Math.random() * (types.length - 1))];
-    //     let duration = Math.round(Math.random() * 10000000);
-    //     data.push({
-    //       name: typeItem.name,
-    //       value: [
-    //         index,
-    //         baseTime,
-    //         baseTime += duration,
-    //         duration,
-    //       ],
-    //       itemStyle: {
-    //         normal: {
-    //           color: typeItem.color,
-    //         }
-    //       }
-    //     });
-    //     baseTime += Math.round(Math.random() * 2000000);
-    //   }
-    // });
-    //
     let startTime = new Date();
     startTime.setHours(0, 0, 0, 0);
     let endTime = new Date();
@@ -424,21 +372,6 @@ export default {
     };
   },
   watch: {
-    // 观察option的变化
-    // option: {
-    //   handler(newVal, oldVal) {
-    //     if (this.chart) {
-    //       if (newVal) {
-    //         this.chart.setOption(newVal);
-    //       } else {
-    //         this.chart.setOption(oldVal);
-    //       }
-    //     } else {
-    //       this.init();
-    //     }
-    //   },
-    //   deep: true //对象内部属性的监听，关键。
-    // }
   },
   computed: {
     option: function() {

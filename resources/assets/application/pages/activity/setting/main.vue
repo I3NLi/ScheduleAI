@@ -111,7 +111,13 @@
   <mu-expansion-panel>
     <div slot="header">Operat</div>
     <mu-list>
-      <Button type="info" long>Import</Button>
+      <Upload
+            :before-upload="handleImport"
+            action=""
+            accept="ics">
+            <Button type="info" long>Import</Button>
+      </Upload>
+
       <Button type="primary" long>Export</Button>
       <Button type="warning" long>Clear</Button>
       <Button type="error" long>DELETE</Button>
@@ -125,7 +131,7 @@
 </template>
 
 <script>
-// import navbar from './navbar/navbar';
+import iCal from 'ical.js';
 
 
 export default {
@@ -167,9 +173,46 @@ export default {
   computed: {
 
   },
-  methods: {},
+  methods: {
+    handleImport(file) {
+      let vm=this;
+      let reader = new FileReader();
+      reader.onload = function (e) {
+
+        console.log(vm.importJcal(iCal.parse(e.target.result)));
+        };
+      reader.readAsText(file);
+      return false;
+    },
+    importJcal(Jcal){
+      let result=[];
+      Jcal[2].forEach(function(activity){
+        let vevent=activity[0]=='vevent'?true:false;
+        result.push({
+          name:activity[1][5][3],
+          start_at: new Date(activity[1][7][3]),
+          until_at: new Date(activity[1][8][3]),
+          importance: 3,
+          estimated_time_cost: vevent?-1:300,
+          missions: {
+            Notice: activity[1][4][3]
+          },
+          setting: {
+            location: activity[1][9][3],
+            color: 'rgba(0, 0,0, .0)',
+            restart: {
+              type: 'None',
+            }
+          }
+        });
+      });
+      return result;
+    }
+  },
   watch: {},
-  mounted() {},
+  mounted() {
+    console.log(iCal);
+  },
   components: {
 
   },

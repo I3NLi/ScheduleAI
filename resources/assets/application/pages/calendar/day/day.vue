@@ -14,15 +14,7 @@
   export default {
     name: 'day',
     props:{
-      view:{
-        //表示哪一个视图浮在最上层
-        type:String,
-        dafault:'calendar',
-      },
-      tid:{
-        type:String,
-        // default:"xxx",
-      }
+
     },
     data() {
       return {
