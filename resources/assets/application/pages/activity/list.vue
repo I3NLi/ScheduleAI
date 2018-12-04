@@ -8,7 +8,7 @@
   </Breadcrumb> -->
 
   <!-- <mu-sub-header>Today</mu-sub-header> -->
-  <li class="list-group-item justify-content-between" style='color:undefined;background-color:undefined;' @click="">
+  <li class="list-group-item justify-content-between" style='color:undefined;background-color:undefined;' @click="" v-if="id!=0">
     <!-- <span>&nbsp&nbsp&nbsp&nbsp</span> -->
     ..
   </li>
@@ -34,8 +34,6 @@
     <!-- <Button v-for="(item, index) in  items">{{item.id}}</Button> -->
     <!-- <item v-for="(item, index) in  items" v-bind:item="item" v-bind:index="index" :key="index" :mode="mode"></item> -->
   </draggable>
-
-
 
   <Spin size="large" fix v-if="spinShow"></Spin>
 </div>
@@ -80,7 +78,7 @@ export default {
     create_activity() {
       // window.app.activity.activeThingNode = this;
       this.$router.push({
-        name: 'activity_creator',
+        name: 'Activity: new',
         query: {
           view: 'mission',
           lid: '0',

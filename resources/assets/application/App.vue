@@ -145,7 +145,9 @@ export default {
           console.log(error);
         });
     },
-
+    refresh(){
+      location.reload();
+    }
   },
   computed: {
     routeName(){

@@ -3,7 +3,11 @@
   <mu-form :model="form" class="mu-demo-form" label-position="left" label-width="100">
     <!-- name   -->
     <mu-form-item prop="input" label="Name">
-      <mu-text-field v-model="form.name"></mu-text-field>
+      <mu-auto-complete :data="fakerData" v-model="form.name" @change="makeFaker"></mu-auto-complete>
+    </mu-form-item>
+    <!-- Tags -->
+    <mu-form-item prop="input" label="Tags">
+      <input-tag :tags="form.tags" class="tags" :add-tag-on-blur="true" />
     </mu-form-item>
     <!-- location   -->
     <mu-form-item prop="input" label="Location">
@@ -22,7 +26,6 @@
     <!-- Deadline -->
     <mu-form-item prop="date" label="To" >
       <mu-date-input :valueFormat="dateFormat" @change="setWorkTime" v-model="form.until_at" type="dateTime" actions ok-label="Ok" cancel-label="Cancel"></mu-date-input>
-
     </mu-form-item>
     <!-- events?todo -->
     <mu-form-item prop="input" label="Work Time">
@@ -68,10 +71,7 @@
     <mu-form-item prop="date" label="Color">
       <ColorPicker v-model="form.setting.color" recommend alpha />
     </mu-form-item>
-    <!--  -->
-    <mu-form-item prop="input" label="Tags">
-      <input-tag :tags="form.tags" class="tags" :add-tag-on-blur="true" />
-    </mu-form-item>
+
     <!-- notice -->
     <mu-form-item prop="textarea" label="Notice">
       <mu-text-field multi-line :rows="3" :rows-max="6" v-model="form.missions.notice"></mu-text-field>
@@ -94,6 +94,7 @@ export default {
   mixins: [ActivityBroadcastMixins],
   data() {
     return {
+      fakerData:['See doctor'],
       labelPosition: "Left", //"Left",“Right”
       // dateFormat:"YYYY-MM-DDTHH:mm:ssZ",
       dateFormat:"",
@@ -128,6 +129,27 @@ export default {
     };
   },
   methods: {
+    makeFaker(value){
+      if(value=='See doctor')
+      this.form={
+        name: 'See doctor',
+        start_at: new Date(),
+        until_at: new Date(+new Date()+300000),
+        importance: 4,
+        estimated_time_cost: 3600,
+        missions: {
+          notice: "With insurance card"
+        },
+        tags:["life trivia"],
+        setting: {
+          location: "Kantstraße 2, 80807 München",
+          color: 'rgba(0, 0,0, .0)',
+          restart: {
+            type: 'None',
+          }
+        }
+      };
+    },
     submit() {
       let vm=this;
       axios.post('/api/v1/activity', this.form)
@@ -139,7 +161,6 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
-
     },
     cancel() {
       // this.form=this.defaultForm();
@@ -149,11 +170,11 @@ export default {
       return {
         // name: "",
         start_at: new Date(),
-        until_at: new Date(+new Date()+300000),
+        until_at: new Date(+new Date()+3600000),
         importance: 2,
-        estimated_time_cost: 300,
+        estimated_time_cost: -1,
         missions: {
-          Notice: ""
+          notice: ""
         },
         setting: {
           location: "",

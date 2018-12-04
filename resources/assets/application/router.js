@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import activity from './pages/activity/main';
+import activityBuilder from './pages/activity/attribute/builder';
 import activityNavbar from './pages/activity/navbar/navbar'
 // import ThingNavBar from './components/activity/navbar/navbar';
 // import ThingList from './components/activity/missionlist/missionlist';
@@ -32,6 +33,14 @@ export default new Router({
       name: 'Activity: Root',
       components: {
         default:activity,
+        drawer:activityNavbar,
+      }
+    },
+    {
+      path: '/activity/new',
+      name: 'Activity: new',
+      components: {
+        default:activityBuilder,
         drawer:activityNavbar,
       }
     },
