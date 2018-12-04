@@ -4,7 +4,7 @@
         <slot name="item" v-if="$slots.item" />
         <slot v-else />
       </div>
-      <div :class="`m-slide__del ${delCls}`" @click="$emit('del-click')">
+      <div :class="`m-slide__del ${delCls}`" @click="$emit('del-click')" >
         <slot name="del" v-if="$slots.del" />
         <span v-else>{{ delText }}</span>
       </div>
@@ -48,7 +48,7 @@
       delText: {
         type: String,
         default: '删除'
-      }
+      },
     },
 
     methods: {

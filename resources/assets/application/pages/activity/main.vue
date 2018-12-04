@@ -1,7 +1,7 @@
 <template>
 <article class="full" id='activity'>
   <Tabs class="fullheight">
-    <TabPane name="depend" label="depend" class="showLarge">
+    <TabPane name="depend" label="Depend" class="showLarge">
       <missionlist :id="id" :filter="filter" />
     </TabPane>
     <!-- <TabPane v-for="(module,key) in modules" :key="key" :name="key.toLowerCase()" :label="key">
@@ -10,23 +10,23 @@
      <attribute />
    </TabPane>
 
-    <TabPane name="mission" label="Mission">
+    <TabPane name="mission" label="Missions">
 
     </TabPane>
     <TabPane name="files" label="Files">
       <Files />
     </TabPane>
 
-    <TabPane name="topics" label="topics">
+    <TabPane name="topics" label="Topics">
 
     </TabPane>
 
-    <TabPane name="analysis" label="analysis">
+    <TabPane name="analysis" label="Analysis">
       <analysis />
     </TabPane>
 
-    <TabPane name="setting" label="setting">
-
+    <TabPane name="setting" label="Setting">
+      <setting/>
     </TabPane>
 
     <Button @click="toEdit" size="small" slot="extra">edit</Button>
@@ -52,7 +52,7 @@ import Mission from './missionComponent/FormViewer/FormViewer';
 // import Permissions from './permissions/main';
 import Files from '../../components/file/file'
 // import depend from '../components/depend/main';
-// import setting from '../components/setting/main';
+import setting from './setting/main';
 // import topics from '../../components/topics/main';
 import analysis from './analysis/main';
 
@@ -89,6 +89,7 @@ export default {
     Mission,
     attribute,
     analysis,
+    setting,
   },
 };
 </script>

@@ -2,7 +2,7 @@
     <article class="inline-block fullheight">
       <calendar-header/>
       <daybody class="daybody" />
-      <Button size="large" shape="circle" icon="md-add" class="newButton"></Button>
+      <Button size="large" shape="circle" icon="md-add" class="newButton" @click="create_activity"></Button>
     </article>
   </template>
 
@@ -28,6 +28,20 @@
       return {
         OpenMission:false,
       };
+    },
+    methods:{
+      create_activity() {
+        // window.app.activity.activeThingNode = this;
+        this.$router.push({
+          name: 'Activity: new',
+          query: {
+            view: 'mission',
+            lid: '0',
+            mode: this.mode
+          }
+        });
+        // console.log(window.app.activity.activity_id);
+      },
     },
     computed:{
       isCalendarActive: function() {

@@ -162,6 +162,7 @@ function treeHeight(activityTreeNode) {
   activityTreeNode['height'] = result;
   return result;
 }
+
 /*
 匹配到日历
 
@@ -190,7 +191,7 @@ function matching(activityList, startTime, endTime, pause = 5) {
         ],
         itemStyle: {
           normal: {
-            color: "#bd6d6c",
+            color:tmp[i].setting.color?tmp[i].setting.color:'#'+Math.floor(Math.random()*16777215).toString(16),
           }
         }
       });
@@ -255,7 +256,7 @@ function matching(activityList, startTime, endTime, pause = 5) {
             name: tmp[i]['name'],
             value: [
               //列数
-              1,
+              0,
               //起始时间
               +baseTime,
               //结束时间
@@ -267,7 +268,8 @@ function matching(activityList, startTime, endTime, pause = 5) {
             ],
             itemStyle: {
               normal: {
-                color: "#77bd6c",
+                // color: "#77bd6c",
+                color:tmp[i].setting.color?tmp[i].setting.color:'#'+Math.floor(Math.random()*16777215).toString(16),
               }
             }
           });
@@ -343,11 +345,16 @@ export default {
       //   }
       // }
     ];
+
     let dataCount = 10;
 
-    let categories = ['conflict', 'jobs', 'supervision'];
+    // let categories = ['conflict', 'jobs', 'supervision'];
+    let categories = ['Todo', 'Event', 'Conflict'];
+
     if (this.$root.local == "zh-CN") {
-      categories = ['冲突', '工作', '监督'];
+      // categories = ['冲突', '工作', '监督'];
+      categories = ['待办', '事件', '冲突'];
+      //
     }
     //设定任务类型
     let types = [{
@@ -408,6 +415,7 @@ export default {
     endTime.setDate(new Date().getDate() + 5);
     endTime.setHours(23, 59, 59, 999);
     return {
+      focus:null,
       data,
       categories: categories,
       chart: null,
@@ -682,13 +690,17 @@ export default {
     this.chart = echarts.init(document.getElementById('chart-container'));
     // 使用刚指定的配置项和数据显示图表。
     this.chart.on('click', function(params) {
-      $vm.$router.push({
-        name: "calendar_day",
-        query: {
-          view: 'mission',
-          tid: params.data.value[4].id,
-        }
-      });
+      if($vm.focus==params.data.value[4].id){
+        $vm.$router.push({
+          name: "calendar_day",
+          query: {
+            view: 'mission',
+            tid: params.data.value[4].id,
+          }
+        });
+      }else{
+        $vm.focus=params.data.value[4].id
+      }
     });
 
     this.synData();
