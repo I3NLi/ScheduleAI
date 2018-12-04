@@ -114,7 +114,6 @@ de-DE
 export default {
   name: 'app',
   data() {
-
     return {
       drawer:false,
     };
