@@ -2,19 +2,20 @@
 <article class="full" id='activity'>
   <Tabs class="fullheight">
     <TabPane name="depend" label="Depend" class="showLarge">
-      <missionlist :id="id" :filter="filter" />
+      <activityList :id="id" :filter="filter" />
     </TabPane>
     <!-- <TabPane v-for="(module,key) in modules" :key="key" :name="key.toLowerCase()" :label="key">
    </TabPane> -->
    <TabPane name="attribute" label="Attribute">
-     <attribute />
+     <attribute :data="data"/>
    </TabPane>
 
     <TabPane name="mission" label="Missions">
-
+      <mission :data="data" />
     </TabPane>
+
     <TabPane name="files" label="Files">
-      <Files />
+      <Files :data="data"/>
     </TabPane>
 
     <TabPane name="topics" label="Topics">
@@ -22,14 +23,14 @@
     </TabPane>
 
     <TabPane name="analysis" label="Analysis">
-      <analysis />
+      <analysis :data="data"/>
     </TabPane>
 
     <TabPane name="setting" label="Setting">
-      <setting/>
+      <setting :data="data"/>
     </TabPane>
 
-    <Button @click="toEdit" size="small" slot="extra">edit</Button>
+    <!-- <Button @click="toEdit" size="small" slot="extra">edit</Button> -->
   </Tabs>
   <hr />
 
@@ -43,10 +44,10 @@
 
 <script>
 import navbar from './navbar/navbar';
-import missionlist from './list';
+import activityList from './list';
 import attribute from './attribute/viewer';
 // import Attribute from './attribute/main';
-import Mission from './missionComponent/FormViewer/FormViewer';
+import Mission from './mission/main';
 // import Contact from '../../../chatroom/panel/panel';
 // import cInput from '../../../chatroom/input/input';
 // import Permissions from './permissions/main';
@@ -73,7 +74,16 @@ export default {
     };
   },
   computed: {
-
+    data:function(){
+      let result=[];
+      let vm=this;
+      for(let activityIndex in this.$root.activities){
+        if(this.$root.activities[activityIndex].id==vm.id){
+          return this.$root.activities[activityIndex];
+        }
+      }
+      return {};
+    },
   },
   methods: {
     toEdit() {}
@@ -84,7 +94,7 @@ export default {
   },
   components: {
     navbar,
-    missionlist,
+    activityList,
     Files,
     Mission,
     attribute,

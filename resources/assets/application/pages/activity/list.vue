@@ -20,7 +20,7 @@
   <draggable class="list-group" v-model="items" @start="drag=true" @end="drag=false" :options="draggableOptions">
     <slide-del v-for="(item, index) in  items" :key="index" ref="slipDel" del-text="" @slip-open="" delCls="ivu-btn-success">
       <div class="list-group-item justify-content-between">
-        {{item.id}}
+        {{(item.id+"").substr(-4)}}
         <Divider type="vertical" />
         {{item.name}}
         <!-- <Tag checkable color="primary">{{item.until_at}}</Tag> -->
@@ -35,7 +35,7 @@
     <!-- <item v-for="(item, index) in  items" v-bind:item="item" v-bind:index="index" :key="index" :mode="mode"></item> -->
   </draggable>
 
-  <Spin size="large" fix v-if="spinShow"></Spin>
+  <Spin size="large" fix v-if="$root.spinShow"></Spin>
 </div>
 
 <!-- <div style="width: calc(50% - 4px); " class="inline-block fullheight">
@@ -70,7 +70,7 @@ export default {
   },
   data() {
     return {
-      items: [],
+      // items: [],
       spinShow: false,
       draggableOptions:{
         delay: 300
@@ -127,9 +127,21 @@ export default {
       return;
     },
   },
+  computed:{
+    items: function(){
+      let result=[];
+      let vm=this;
+      this.$root.activities.forEach(function(activity){
+        if(activity.parent_id==vm.id){
+          result.push(activity);
+        }
+      });
+      return result;
+    },
 
+  },
   mounted() {
-    this.load_activity();
+    // this.load_activity();
   },
   watch: {
 

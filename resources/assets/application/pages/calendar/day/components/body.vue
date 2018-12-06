@@ -346,15 +346,11 @@ export default {
       // }
     ];
 
-    let dataCount = 10;
 
-    // let categories = ['conflict', 'jobs', 'supervision'];
     let categories = ['Todo', 'Event', 'Conflict'];
 
     if (this.$root.local == "zh-CN") {
-      // categories = ['冲突', '工作', '监督'];
       categories = ['待办', '事件', '冲突'];
-      //
     }
 
     let startTime = new Date();
@@ -372,6 +368,9 @@ export default {
     };
   },
   watch: {
+    "$root.activities":function(){
+      this.processData();
+    }
   },
   computed: {
     option: function() {
@@ -522,6 +521,18 @@ export default {
     },
   },
   methods: {
+    processData: function() {
+      let $vm=this;
+      $vm.list = buildList(this.$root.activities);
+      $vm.tree = buildTree(this.$root.activities);
+      calculate_weight_list($vm.list);
+      treeHeightList($vm.tree);
+      serialization_priority($vm.list);
+      $vm.data = matching($vm.list, $vm.startTime, $vm.endTime);
+      console.log($vm.data);
+      //画出有数据的图表
+      $vm.chart.setOption($vm.option);
+    },
     /*同步数据*/
     synData: function() {
       // console.log("获取数据");
@@ -574,8 +585,7 @@ export default {
           //     }
           //   }
           // ];
-          //画出无数据的图表
-          $vm.chart.setOption($vm.option);
+
 
           $vm.data = matching($vm.list, $vm.startTime, $vm.endTime);
           console.log($vm.data);
@@ -636,7 +646,10 @@ export default {
       }
     });
 
-    this.synData();
+    //画出无数据的图表
+    $vm.chart.setOption($vm.option);
+
+    this.processData();
     //当窗口改变时resize图表
     window.onresize = this.chart.resize;
     // setInterval(function() {

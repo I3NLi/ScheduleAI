@@ -24,6 +24,7 @@
     methods:{
       create_activity() {
         // window.app.activity.activeThingNode = this;
+        // this.$root.activities.push('xxx');
         this.$router.push({
           name: 'Activity: new',
           query: {

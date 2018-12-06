@@ -73,8 +73,8 @@
       <input-tag :tags="form.tags" class="tags" :add-tag-on-blur="true" />
     </mu-form-item>
     <!-- notice -->
-    <mu-form-item prop="textarea" label="Notice">
-      <mu-text-field multi-line :rows="3" :rows-max="6" v-model="form.missions.notice"></mu-text-field>
+    <mu-form-item prop="textarea" label="Description">
+      <mu-text-field multi-line :rows="3" :rows-max="6" v-model="form.description"></mu-text-field>
     </mu-form-item>
   </mu-form>
 </mu-container>
@@ -97,9 +97,8 @@ export default {
           until_at: new Date(+new Date()+300000),
           importance: 2,
           estimated_time_cost: 300,
-          missions: {
-            Notice: ""
-          },
+          description:"",
+          missions: [],
           setting: {
             location: "",
             color: 'rgba(0, 0,0, .0)',
@@ -171,9 +170,8 @@ export default {
         until_at: new Date(+new Date()+300000),
         importance: 2,
         estimated_time_cost: 300,
-        missions: {
-          Notice: ""
-        },
+        description:"",
+        missions: [],
         setting: {
           location: "",
           color: 'rgba(0, 0,0, .0)',

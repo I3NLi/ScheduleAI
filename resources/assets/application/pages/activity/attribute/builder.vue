@@ -73,8 +73,8 @@
     </mu-form-item>
 
     <!-- notice -->
-    <mu-form-item prop="textarea" label="Notice">
-      <mu-text-field multi-line :rows="3" :rows-max="6" v-model="form.missions.notice"></mu-text-field>
+    <mu-form-item prop="textarea" label="Description">
+      <mu-text-field multi-line :rows="3" :rows-max="6" v-model="form.description"></mu-text-field>
     </mu-form-item>
 
     <mu-form-item>
@@ -137,9 +137,8 @@ export default {
         until_at: new Date(+new Date()+300000),
         importance: 4,
         estimated_time_cost: 3600,
-        missions: {
-          notice: "With insurance card"
-        },
+        description:"",
+        missions: [],
         tags:["life trivia"],
         setting: {
           location: "Kantstraße 2, 80807 München",
