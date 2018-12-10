@@ -20,6 +20,8 @@ import MuseUI from 'muse-ui';
 import 'muse-ui/dist/muse-ui.css';
 import 'weui/dist/style/weui.min.css';
 
+
+
 Vue.config.productionTip = true;
 
 Vue.use(MuseUI);
@@ -56,6 +58,77 @@ const i18n = new VueI18n({ //此处定义全局词典
   }
 })
 
+
+//根据activity中的fid，组成嵌套关系
+function buildTree(list) {
+  // console.log(list);
+  for (let m = 0; m < list.length; m++) {
+    for (let n = 0; n < list.length; n++) {
+      if (list[n] != null && list[m] != null) {
+        let tmp = find_position(list[m], list[n]);
+        if (tmp != false) {
+          list[n] = tmp;
+          list[m] = null;
+          break;
+        }
+      }
+    }
+  }
+
+  let result = [];
+  for (let m = 0; m < list.length; m++) {
+    if (list[m] != null) {
+      result.push(list[m]);
+    }
+  }
+  return result;
+}
+/*buildlist 递归部分*/
+function find_position(activity, activitytree) {
+  if (activitytree.id == activity.parent_id) {
+    if (activitytree.children != undefined) {
+      activitytree.children.push(activity);
+    } else {
+      activitytree.children = [activity];
+    }
+    return activitytree;
+  }
+  if (activitytree.children != undefined) {
+    for (let i = 0; i < activitytree.children.length; i++) {
+      let tmp = find_position(activity, activitytree.children[i]);
+      if (tmp != false) {
+        activitytree.children[i] = tmp;
+        return activitytree;
+      }
+    }
+  }
+  return false;
+}
+/*获取一个list中所有节点的深度*/
+function treeHeightList(activityTreeList) {
+  for (let i = 0; i < activityTreeList.length; i++) {
+    treeHeight(activityTreeList[i]);
+  }
+  return activityTreeList;
+}
+/*
+获取一个节点的深度
+ */
+function treeHeight(activityTreeNode) {
+  let result = 0;
+  //console.log(activityTreeNode.children);
+  if (activityTreeNode.children != undefined) {
+    //console.log(activityTreeNode.children.length);
+    for (let i = 0; i < activityTreeNode.children.length; i++) {
+      let tmp = treeHeight(activityTreeNode.children[i])
+      if (tmp > result)
+        result = tmp;
+    }
+  }
+  result++;
+  activityTreeNode['height'] = result;
+  return result;
+}
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -74,7 +147,7 @@ const app = new Vue({
   },
   data() {
     return {
-      spinShow:false,
+      spinShow: false,
       settings: {
         usingLocalBus: true,
       },
@@ -89,14 +162,27 @@ const app = new Vue({
     },
     loadActivities() {
       let vm = this;
-      vm.spinShow=true;
+      vm.spinShow = true;
       axios.get('/api/v1/activity')
         .then(function(response) {
           vm.activities = response.data;
-          vm.spinShow=false;
+          vm.spinShow = false;
         });
-    }
+    },
 
+
+  },
+  computed: {
+    activitiesTree() {
+      let result={};
+      if (this.activities) {
+        result=buildTree(this.activities);
+        treeHeightList(result);
+      }
+      console.log("tree");
+      console.log(result);
+      return result;
+    }
   },
   mounted() {
     this.loadActivities();

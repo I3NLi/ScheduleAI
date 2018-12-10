@@ -8,7 +8,7 @@
   </Breadcrumb> -->
 
   <!-- <mu-sub-header>Today</mu-sub-header> -->
-  <li class="list-group-item justify-content-between" style='color:undefined;background-color:undefined;' @click="" v-if="id!=0">
+  <li class="list-group-item justify-content-between" style='color:undefined;background-color:undefined;' @click="openParent()" v-if="id!=0">
     <!-- <span>&nbsp&nbsp&nbsp&nbsp</span> -->
     ..
   </li>
@@ -18,11 +18,12 @@
   </li>
   <mu-sub-header>Include</mu-sub-header>
   <draggable class="list-group" v-model="items" @start="drag=true" @end="drag=false" :options="draggableOptions">
-    <slide-del v-for="(item, index) in  items" :key="index" ref="slipDel" del-text="" @slip-open="" delCls="ivu-btn-success">
+    <slide-del @click.native="openActivity(item.id)" v-for="(item, index) in  items" :key="index" ref="slipDel" del-text="" @slip-open="" delCls="ivu-btn-success">
       <div class="list-group-item justify-content-between">
         {{(item.id+"").substr(-4)}}
         <Divider type="vertical" />
         {{item.name}}
+        <span></span>
         <!-- <Tag checkable color="primary">{{item.until_at}}</Tag> -->
       </div>
       <span slot="del" >complete</span>
@@ -66,6 +67,9 @@ export default {
     'id': {
       type: [String],
       default: '0'
+    },
+    'data':{
+      type:Object,
     }
   },
   data() {
@@ -78,15 +82,34 @@ export default {
     };
   },
   methods: {
+    openParent(){
+      let vm=this;
+      console.log(vm.data.parent_id);
+      this.$router.push({
+          path: '/activity',
+          query: {
+            'id':vm.data.parent_id+"",
+          }
+        });
+    },
+    openActivity(id){
+      this.$router.push({
+          path: '/activity',
+          query: {
+            'id':id+"",
+            'currentTab':"depend"
+          }
+        });
+    },
     create_activity() {
       // window.app.activity.activeThingNode = this;
       this.$router.push({
         name: 'Activity: new',
-        query: {
-          view: 'mission',
-          lid: '0',
-          mode: this.mode
-        }
+        // query: {
+        //   view: 'mission',
+        //   lid: '0',
+        //   mode: this.mode
+        // }
       });
       // console.log(window.app.activity.activity_id);
     },

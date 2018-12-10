@@ -27,14 +27,21 @@ export default new Router({
   saveScrollPosition: true,
   root: '/workspace',
   routes: [
+    // {
+    //   alias: '/',
+    //   path: '/activity',
+    //   name: 'Activity',
+    //   component:activity,
+    //   props: (route)=>({id:route.query.id}),
+    // },
     {
-      alias: '/',
+      // alias: '/',
       path: '/activity',
-      name: 'Activity: Root',
+      name: 'Activity',
       components: {
         default:activity,
         drawer:activityNavbar,
-      }
+      },
     },
     {
       path: '/activity/new',
@@ -45,7 +52,7 @@ export default new Router({
       }
     },
     {
-      // alias: '/',
+      alias: '/',
       path: '/calendar',
       name: 'Calendar',
       redirect: '/calendar/day',

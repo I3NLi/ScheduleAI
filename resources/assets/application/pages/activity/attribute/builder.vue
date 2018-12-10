@@ -142,7 +142,7 @@ export default {
         tags:["life trivia"],
         setting: {
           location: "Kantstraße 2, 80807 München",
-          color: 'rgba(0, 0,0, .0)',
+          color: 'rgba(3, 3,3, .8)',
           restart: {
             type: 'None',
           }
@@ -150,16 +150,19 @@ export default {
       };
     },
     submit() {
-      let vm=this;
-      axios.post('/api/v1/activity', this.form)
-        .then(function(response) {
-          console.log(response);
-          vm.activities.push(response.data);
-          console.log(vm.$root.activities);
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      // let vm=this;
+      this.$root.activities.push(this.form);
+      this.$router.go(-1);
+      // vm.activities.push(response.data);
+      // axios.post('/api/v1/activity', this.form)
+      //   .then(function(response) {
+      //     console.log(response);
+      //     vm.activities.push(response.data);
+      //     console.log(vm.$root.activities);
+      //   })
+      //   .catch(function(error) {
+      //     console.log(error);
+      //   });
     },
     cancel() {
       // this.form=this.defaultForm();
@@ -177,7 +180,7 @@ export default {
         },
         setting: {
           location: "",
-          color: 'rgba(0, 0,0, .0)',
+          color: 'rgba(3, 3,3, .8)',
           restart: {
             type: 'None',
           }

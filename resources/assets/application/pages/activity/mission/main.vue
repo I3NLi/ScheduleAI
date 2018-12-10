@@ -1,7 +1,8 @@
 <template>
 <mu-container id="Mission">
   <mu-form :model="data" label-position="left" label-width="50">
-    <mu-form-item>
+
+    <mu-form-item >
       <Icon type="md-checkmark-circle-outline" size="24" slot="label" class="completeButton" color="data.status==2?#19be6b:#c5c8ce"/>
       <span style="width: calc(100% - 65px)">
       <mu-text-field v-model="data.name"></mu-text-field>
@@ -15,7 +16,7 @@
       <mu-text-field multi-line :rows="3" v-model="data.description"></mu-text-field>
     </mu-form-item>
 
-    <mu-form-item prop="input" label="Tage">
+    <mu-form-item  label="Tage">
       <input-tag :tags="data.tags" class="tags" :add-tag-on-blur="true" />
     </mu-form-item>
   </mu-form>

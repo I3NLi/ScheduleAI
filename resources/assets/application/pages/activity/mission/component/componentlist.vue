@@ -2,6 +2,7 @@
 </template>
 
 <script>
+
 //所有变量名必须‘m_’打头
 //变量名必须与组建内type保持一致
 import m_text from './text/text';

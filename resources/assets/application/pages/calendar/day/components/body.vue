@@ -174,7 +174,7 @@ function matching(activityList, startTime, endTime, pause = 5) {
   let tmp = activityList.slice(0);
   //将固定事件加入结果，从待排序中剔除固定事件,
   for (let i = 0; i < tmp.length; i++) {
-    if (tmp[i]['estimated_time_cost']<0) {
+    if (tmp[i]['estimated_time_cost'] < 0) {
       result.push({
         name: tmp[i]['name'],
         value: [
@@ -185,13 +185,13 @@ function matching(activityList, startTime, endTime, pause = 5) {
           //结束时间
           +new Date(tmp[i]['until_at']),
           //工作时间
-          new Date(tmp[i]['until_at'])-new Date(tmp[i]['start_at']),
+          new Date(tmp[i]['until_at']) - new Date(tmp[i]['start_at']),
           //数据节点
           tmp[i],
         ],
         itemStyle: {
           normal: {
-            color:tmp[i].setting.color?tmp[i].setting.color:'#'+Math.floor(Math.random()*16777215).toString(16),
+            color: tmp[i].setting.color ? tmp[i].setting.color : '#' + Math.floor(Math.random() * 16777215).toString(16),
           }
         }
       });
@@ -200,16 +200,16 @@ function matching(activityList, startTime, endTime, pause = 5) {
     }
   }
 
-  result.sort(function(a,b){
-    return a['value'][2]-b['value'][2];
+  result.sort(function(a, b) {
+    return a['value'][2] - b['value'][2];
   });
 
-  console.log(result);
+  // console.log(result);
   let baseTime = +new Date();
   let free = 0;
   let resultCounter = 0;
   let died = false; //用来标识是否能够将所有的任排进去
-  let fixedLength=result.length;
+  let fixedLength = result.length;
 
   while (tmp.length != 0) {
     //寻找空档
@@ -217,22 +217,22 @@ function matching(activityList, startTime, endTime, pause = 5) {
 
     while (resultCounter < fixedLength) {
       //当前时间大于结束时间
-      if(baseTime - result[resultCounter]['value'][2] > 0) {
+      if (baseTime - result[resultCounter]['value'][2] > 0) {
         resultCounter++;
-        console.log("跳过因为当前时间大于结束时间");
+        // console.log("跳过因为当前时间大于结束时间");
         continue;
       }
       //当前时间大于结束时间并且小于开始时间
-      if(baseTime - result[resultCounter]['value'][1] >= 0) {
+      if (baseTime - result[resultCounter]['value'][1] >= 0) {
         baseTime = result[resultCounter]['value'][2] + pause * 60000;
         resultCounter++;
-        console.log("跳过因为当前时间大于结束时间");
+        // console.log("跳过因为当前时间大于结束时间");
         continue;
       }
       //开始时间大于basetime
-      if (result[resultCounter]['value'][1] - baseTime > 0) {//start-base
-        free = result[resultCounter]['value'][1] - baseTime;//start-base
-        console.log("Afree:" + free / 60000 +"min");
+      if (result[resultCounter]['value'][1] - baseTime > 0) { //start-base
+        free = result[resultCounter]['value'][1] - baseTime; //start-base
+        // console.log("Afree:" + free / 60000 + "min");
         break;
       }
     }
@@ -240,7 +240,7 @@ function matching(activityList, startTime, endTime, pause = 5) {
     //如果查找了所有已存在的数据
     if (resultCounter >= fixedLength) {
       free = endTime - baseTime;
-      console.log("Bfree:" + free / 60000);
+      // console.log("Bfree:" + free / 60000);
       died = true;
       //break;
     }
@@ -248,7 +248,7 @@ function matching(activityList, startTime, endTime, pause = 5) {
     //寻找合适插入的任务
     for (let i = 0; i < tmp.length; i++) {
       //如果当前的事件需要的工作事件低于空闲时间
-      if (free - (parseInt(tmp[i]['estimated_time_cost'])* 1000 + pause*60000) > 0) {
+      if (free - (parseInt(tmp[i]['estimated_time_cost']) * 1000 + pause * 60000) > 0) {
         //检查
         if (!isInclude(tmp[i].children, tmp)) {
           //  console.log(baseTime);
@@ -260,7 +260,7 @@ function matching(activityList, startTime, endTime, pause = 5) {
               //起始时间
               +baseTime,
               //结束时间
-              parseInt(tmp[i]['estimated_time_cost']) * 1000 +baseTime,
+              parseInt(tmp[i]['estimated_time_cost']) * 1000 + baseTime,
               //工作时间
               parseInt(tmp[i]['estimated_time_cost']) * 1000,
               //数据节点
@@ -269,15 +269,15 @@ function matching(activityList, startTime, endTime, pause = 5) {
             itemStyle: {
               normal: {
                 // color: "#77bd6c",
-                color:tmp[i].setting.color?tmp[i].setting.color:'#'+Math.floor(Math.random()*16777215).toString(16),
+                color: tmp[i].setting.color ? tmp[i].setting.color : '#' + Math.floor(Math.random() * 16777215).toString(16),
               }
             }
           });
           // console.log("basetimeB1:"+ new Date(baseTime).toLocaleString());
-          baseTime = parseInt(tmp[i]['estimated_time_cost']) * 1000 + baseTime + pause*60000;
+          baseTime = parseInt(tmp[i]['estimated_time_cost']) * 1000 + baseTime + pause * 60000;
           // console.log("basetimeB:"+ new Date(baseTime).toLocaleString());
-          free = free - (parseInt(tmp[i]['estimated_time_cost'])* 1000 + pause*60000) ;
-          console.log('free-'+tmp[i]['name']+':' + free / 60000);
+          free = free - (parseInt(tmp[i]['estimated_time_cost']) * 1000 + pause * 60000);
+          // console.log('free-' + tmp[i]['name'] + ':' + free / 60000);
           tmp.splice(i, 1); //删除元素
           i--; //校准index
           died = false;
@@ -291,13 +291,13 @@ function matching(activityList, startTime, endTime, pause = 5) {
     }
 
 
-    if(resultCounter < fixedLength){
-    baseTime = result[resultCounter]['value'][2] + pause * 60000;
-    resultCounter++;
+    if (resultCounter < fixedLength) {
+      baseTime = result[resultCounter]['value'][2] + pause * 60000;
+      resultCounter++;
     }
   }
-  console.log("result");
-  console.log(result);
+  // console.log("result");
+  // console.log(result);
   return result;
 }
 
@@ -359,7 +359,7 @@ export default {
     endTime.setDate(new Date().getDate() + 5);
     endTime.setHours(23, 59, 59, 999);
     return {
-      focus:null,
+      focus: null,
       data,
       categories: categories,
       chart: null,
@@ -368,8 +368,11 @@ export default {
     };
   },
   watch: {
-    "$root.activities":function(){
-      this.processData();
+    "$root.activities": {
+      handler() {
+        this.processData();
+      },
+      deep: false,
     }
   },
   computed: {
@@ -478,6 +481,26 @@ export default {
               opacity: 0.8
             }
           },
+          label: {
+            normal: {
+              show: true,
+              position: 'inside',
+
+              // rich: {
+              //   a: {
+              //       width: '100%',
+              //   },
+              // },
+              formatter: function(val) {
+                return val.name + "\n";
+
+                // + "Start:" + new Date(val.value[1]).toLocaleString() + "\n" +
+                //   "End  :" + new Date(val.value[2]).toLocaleTimeString() + "\n" +
+                //   "Use  :" + (val.value[3] / 1000 / 60).toFixed(0) + " min \n";
+              },
+
+            }
+          },
           encode: {
             x: 0,
             y: [1, 2]
@@ -521,15 +544,24 @@ export default {
     },
   },
   methods: {
+    openActivity(id){
+      this.$router.push({
+          path: '/activity',
+          query: {
+            'id':id+"",
+            'currentTab':"attribute"
+          }
+        });
+    },
     processData: function() {
-      let $vm=this;
+      let $vm = this;
       $vm.list = buildList(this.$root.activities);
-      $vm.tree = buildTree(this.$root.activities);
+      // $vm.tree = buildTree(this.$root.activities);
       calculate_weight_list($vm.list);
-      treeHeightList($vm.tree);
+      // treeHeightList($vm.tree);
       serialization_priority($vm.list);
       $vm.data = matching($vm.list, $vm.startTime, $vm.endTime);
-      console.log($vm.data);
+      // console.log($vm.data);
       //画出有数据的图表
       $vm.chart.setOption($vm.option);
     },
@@ -588,7 +620,7 @@ export default {
 
 
           $vm.data = matching($vm.list, $vm.startTime, $vm.endTime);
-          console.log($vm.data);
+          // console.log($vm.data);
           //画出有数据的图表
           $vm.chart.setOption($vm.option);
           //打开任务详情视图
@@ -606,9 +638,9 @@ export default {
     },
     fillIin: function(activityList) {
       //this.data = [];
-      console.log(this);
+      // console.log(this);
       for (let i = 0; i < activityList.length; i++) {
-        if (activityList[i]['estimated_time_cost']<0) { //固定事件
+        if (activityList[i]['estimated_time_cost'] < 0) { //固定事件
           this.data.push({
             name: activityList[i]['name'],
             value: [
@@ -633,16 +665,10 @@ export default {
     this.chart = echarts.init(document.getElementById('chart-container'));
     // 使用刚指定的配置项和数据显示图表。
     this.chart.on('click', function(params) {
-      if($vm.focus==params.data.value[4].id){
-        $vm.$router.push({
-          name: "calendar_day",
-          query: {
-            view: 'mission',
-            tid: params.data.value[4].id,
-          }
-        });
-      }else{
-        $vm.focus=params.data.value[4].id
+      if ($vm.focus == params.data.value[4].id) {
+        $vm.openActivity(params.data.value[4].id)
+      } else {
+        $vm.focus = params.data.value[4].id
       }
     });
 
