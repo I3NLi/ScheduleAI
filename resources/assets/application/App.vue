@@ -64,7 +64,7 @@
     </keep-alive>
   </Drawer>
 
-  <mu-bottom-nav>
+  <mu-bottom-nav v-model="currentView">
     <mu-bottom-nav-item title="Calendar" icon="calendar_today" to='/calendar'></mu-bottom-nav-item>
     <mu-bottom-nav-item title="Activities" icon="assignment" to='/activity'></mu-bottom-nav-item>
     <mu-bottom-nav-item title="More" icon="more_horiz" to='view'></mu-bottom-nav-item>
@@ -116,6 +116,7 @@ export default {
   data() {
     return {
       drawer:false,
+      currentView:null,
     };
   },
   methods: {
@@ -151,6 +152,7 @@ export default {
   },
   computed: {
     routeName(){
+      console.log(this.$route);
       return this.$route.name;
     }
   },

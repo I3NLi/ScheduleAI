@@ -191,30 +191,8 @@ function matching(activityList, startTime, endTime, pause = 5) {
         ],
         itemStyle: {
           normal: {
-            label: {
-              show: true,
-              position: 'inside',
-              formatter: '{a}',
-              // function(val) {
-              //   return "xxx";
-              //   return val.name + "<br/>" + "<center>\<Fixed\></center><br/>"
-              //     "Start:" + new Date(val.value[1]).toLocaleString() + "<br/>" +
-              //     "End  :" + new Date(val.value[2]).toLocaleTimeString() + "<br/>" +
-              //     "Use  :" + (val.value[3] / 1000 / 60).toFixed(0) + " min <br/>";
-              // },
-              // textStyle: {
-              //   color: < 各异 > ,
-              //   align: < 各异 > ,
-              //   baseline: < 各异 > ,
-              //   fontFamily: 'Arial, Verdana, sans...',
-              //   fontSize: 12,
-              //   fontStyle: 'normal',
-              //   fontWeight: 'normal',
-              // },
-            },
             color: tmp[i].setting.color ? tmp[i].setting.color : '#' + Math.floor(Math.random() * 16777215).toString(16),
-
-          },
+          }
         }
       });
       tmp.splice(i, 1);
@@ -226,7 +204,7 @@ function matching(activityList, startTime, endTime, pause = 5) {
     return a['value'][2] - b['value'][2];
   });
 
-  console.log(result);
+  // console.log(result);
   let baseTime = +new Date();
   let free = 0;
   let resultCounter = 0;
@@ -241,20 +219,20 @@ function matching(activityList, startTime, endTime, pause = 5) {
       //当前时间大于结束时间
       if (baseTime - result[resultCounter]['value'][2] > 0) {
         resultCounter++;
-        console.log("跳过因为当前时间大于结束时间");
+        // console.log("跳过因为当前时间大于结束时间");
         continue;
       }
       //当前时间大于结束时间并且小于开始时间
       if (baseTime - result[resultCounter]['value'][1] >= 0) {
         baseTime = result[resultCounter]['value'][2] + pause * 60000;
         resultCounter++;
-        console.log("跳过因为当前时间大于结束时间");
+        // console.log("跳过因为当前时间大于结束时间");
         continue;
       }
       //开始时间大于basetime
       if (result[resultCounter]['value'][1] - baseTime > 0) { //start-base
         free = result[resultCounter]['value'][1] - baseTime; //start-base
-        console.log("Afree:" + free / 60000 + "min");
+        // console.log("Afree:" + free / 60000 + "min");
         break;
       }
     }
@@ -262,7 +240,7 @@ function matching(activityList, startTime, endTime, pause = 5) {
     //如果查找了所有已存在的数据
     if (resultCounter >= fixedLength) {
       free = endTime - baseTime;
-      console.log("Bfree:" + free / 60000);
+      // console.log("Bfree:" + free / 60000);
       died = true;
       //break;
     }
@@ -291,15 +269,7 @@ function matching(activityList, startTime, endTime, pause = 5) {
             itemStyle: {
               normal: {
                 // color: "#77bd6c",
-                formatter: '{a}',
                 color: tmp[i].setting.color ? tmp[i].setting.color : '#' + Math.floor(Math.random() * 16777215).toString(16),
-
-                // function(val) {
-                //   return val.name + "<br/>" +
-                //     "Start:" + new Date(val.value[1]).toLocaleString() + "<br/>" +
-                //     "End  :" + new Date(val.value[2]).toLocaleTimeString() + "<br/>" +
-                //     "Use  :" + (val.value[3] / 1000 / 60).toFixed(0) + " min <br/>";
-                // }
               }
             }
           });
@@ -307,7 +277,7 @@ function matching(activityList, startTime, endTime, pause = 5) {
           baseTime = parseInt(tmp[i]['estimated_time_cost']) * 1000 + baseTime + pause * 60000;
           // console.log("basetimeB:"+ new Date(baseTime).toLocaleString());
           free = free - (parseInt(tmp[i]['estimated_time_cost']) * 1000 + pause * 60000);
-          console.log('free-' + tmp[i]['name'] + ':' + free / 60000);
+          // console.log('free-' + tmp[i]['name'] + ':' + free / 60000);
           tmp.splice(i, 1); //删除元素
           i--; //校准index
           died = false;
@@ -326,8 +296,8 @@ function matching(activityList, startTime, endTime, pause = 5) {
       resultCounter++;
     }
   }
-  console.log("result");
-  console.log(result);
+  // console.log("result");
+  // console.log(result);
   return result;
 }
 
@@ -398,8 +368,11 @@ export default {
     };
   },
   watch: {
-    "$root.activities": function() {
-      this.processData();
+    "$root.activities": {
+      handler() {
+        this.processData();
+      },
+      deep: false,
     }
   },
   computed: {
@@ -508,6 +481,26 @@ export default {
               opacity: 0.8
             }
           },
+          label: {
+            normal: {
+              show: true,
+              position: 'inside',
+
+              // rich: {
+              //   a: {
+              //       width: '100%',
+              //   },
+              // },
+              formatter: function(val) {
+                return val.name + "\n";
+
+                // + "Start:" + new Date(val.value[1]).toLocaleString() + "\n" +
+                //   "End  :" + new Date(val.value[2]).toLocaleTimeString() + "\n" +
+                //   "Use  :" + (val.value[3] / 1000 / 60).toFixed(0) + " min \n";
+              },
+
+            }
+          },
           encode: {
             x: 0,
             y: [1, 2]
@@ -551,15 +544,24 @@ export default {
     },
   },
   methods: {
+    openActivity(id){
+      this.$router.push({
+          path: '/activity',
+          query: {
+            'id':id+"",
+            'currentTab':"attribute"
+          }
+        });
+    },
     processData: function() {
       let $vm = this;
       $vm.list = buildList(this.$root.activities);
-      $vm.tree = buildTree(this.$root.activities);
+      // $vm.tree = buildTree(this.$root.activities);
       calculate_weight_list($vm.list);
-      treeHeightList($vm.tree);
+      // treeHeightList($vm.tree);
       serialization_priority($vm.list);
       $vm.data = matching($vm.list, $vm.startTime, $vm.endTime);
-      console.log($vm.data);
+      // console.log($vm.data);
       //画出有数据的图表
       $vm.chart.setOption($vm.option);
     },
@@ -618,7 +620,7 @@ export default {
 
 
           $vm.data = matching($vm.list, $vm.startTime, $vm.endTime);
-          console.log($vm.data);
+          // console.log($vm.data);
           //画出有数据的图表
           $vm.chart.setOption($vm.option);
           //打开任务详情视图
@@ -636,7 +638,7 @@ export default {
     },
     fillIin: function(activityList) {
       //this.data = [];
-      console.log(this);
+      // console.log(this);
       for (let i = 0; i < activityList.length; i++) {
         if (activityList[i]['estimated_time_cost'] < 0) { //固定事件
           this.data.push({
@@ -664,13 +666,7 @@ export default {
     // 使用刚指定的配置项和数据显示图表。
     this.chart.on('click', function(params) {
       if ($vm.focus == params.data.value[4].id) {
-        $vm.$router.push({
-          name: "calendar_day",
-          query: {
-            view: 'mission',
-            tid: params.data.value[4].id,
-          }
-        });
+        $vm.openActivity(params.data.value[4].id)
       } else {
         $vm.focus = params.data.value[4].id
       }

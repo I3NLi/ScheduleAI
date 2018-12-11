@@ -195,14 +195,14 @@ export default {
           start_at: new Date(activity[1][7][3]),
           until_at: new Date(activity[1][8][3]),
           importance: 3,
-          parent_id:vm.id?vm.id:0,
+          parent_id:vm.data.id?vm.data.id:0,
           estimated_time_cost: vevent?-1:300,
           missions: {
             Notice: activity[1][4][3]
           },
           setting: {
             location: activity[1][9][3],
-            color: 'rgba(0, 0,0, .0)',
+            color: 'rgba(3, 3,3, .8)',
             restart: {
               type: 'None',
             }

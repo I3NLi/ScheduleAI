@@ -1,33 +1,33 @@
 <template>
 <article class="full" id='activity'>
-  <Tabs class="fullheight">
+  <Tabs class="fullheight" v-model="currentTab">
     <TabPane name="depend" label="Depend" class="showLarge">
-      <activityList :id="id" :filter="filter" />
+      <activityList :id="id" :data="data" :filter="filter" />
     </TabPane>
     <!-- <TabPane v-for="(module,key) in modules" :key="key" :name="key.toLowerCase()" :label="key">
    </TabPane> -->
-   <TabPane name="attribute" label="Attribute">
-     <attribute :data="data"/>
-   </TabPane>
-
-    <TabPane name="mission" label="Missions">
-      <mission :data="data" />
+    <TabPane name="attribute" :disabled="id=='0'" label="Attribute">
+      <attribute v-if="id!='0'" :form="data" />
     </TabPane>
 
-    <TabPane name="files" label="Files">
-      <Files :data="data"/>
+    <TabPane name="mission" :disabled="id=='0'" label="Missions">
+      <mission v-if="id!='0'" :data="data" />
     </TabPane>
 
-    <TabPane name="topics" label="Topics">
+    <TabPane name="files" :disabled="id=='0'" label="Files">
+      <Files v-if="id!='0'" :data="data" />
+    </TabPane>
+
+    <TabPane name="topics" :disabled="id=='0'" label="Topics">
 
     </TabPane>
 
     <TabPane name="analysis" label="Analysis">
-      <analysis :data="data"/>
+      <analysis :data="data" />
     </TabPane>
 
     <TabPane name="setting" label="Setting">
-      <setting :data="data"/>
+      <setting :data="data" />
     </TabPane>
 
     <!-- <Button @click="toEdit" size="small" slot="extra">edit</Button> -->
@@ -60,10 +60,13 @@ import analysis from './analysis/main';
 export default {
   name: 'Activity',
   props: {
-    id: {
-      type: String,
-      default: '0',
-    },
+    // id: {
+    //   type: String,
+    //   default: '0',
+    // },
+    // currentTab:{
+    //   type:String,
+    // }
   },
   // props:{
   // },
@@ -71,14 +74,17 @@ export default {
     return {
       filter: [],
       split: 0.5,
+      id: '0',
+      currentTab: "depend",
     };
   },
   computed: {
-    data:function(){
-      let result=[];
-      let vm=this;
-      for(let activityIndex in this.$root.activities){
-        if(this.$root.activities[activityIndex].id==vm.id){
+    data: function() {
+      console.log("data"+this.id);
+      let result = [];
+      let vm = this;
+      for (let activityIndex in this.$root.activities) {
+        if (this.$root.activities[activityIndex].id == vm.id) {
           return this.$root.activities[activityIndex];
         }
       }
@@ -88,7 +94,17 @@ export default {
   methods: {
     toEdit() {}
   },
-  watch: {},
+  watch: {
+    '$route': {
+      handler() {
+        this.$route.query.id ? this.id = this.$route.query.id : this.id = '0';
+        // this.$route.query.currentTab ? this.id = this.$route.query.currentTab : this.currentTab = "attribute";
+        if(this.$route.query.currentTab ) this.currentTab = this.$route.query.currentTab ;
+
+      },
+      immediate: true,
+    }
+  },
   mounted() {
 
   },
@@ -121,13 +137,15 @@ export default {
 #activity .ivu-tabs-bar {
   margin-bottom: 0px;
 }
-#activity .ivu-tabs-content{
+
+#activity .ivu-tabs-content {
   /* overflow:auto; */
-  height:  calc(100% - 36px);
+  height: calc(100% - 36px);
 }
-#activity .ivu-tabs-content>div{
+
+#activity .ivu-tabs-content>div {
   /* height:  calc(100% - 36px); */
-  overflow:auto;
+  overflow: auto;
 }
 </style>
 <style>
