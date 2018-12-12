@@ -26,7 +26,7 @@
     </mu-form-item>
     <!-- events?todo -->
     <mu-form-item prop="input" label="Flexible">
-      <mu-switch v-model="isFixed" @change="setWorkTime" :label="isFixed?'Event':'Todo'"></mu-switch>
+      <mu-switch v-model="isFixed" @change="setWorkTime" :label="isFixed?'Stable':'Flexible'"></mu-switch>
       <!-- <mu-text-field :value="getWorkTimeWithoutUnit" ref="workTime" type="number" placeholder="Event" @change="setWorkTime" > -->
       <mu-text-field  v-model="workTime.hours" @change="setWorkTime" ref="workTimeHours" type="number" placeholder="" suffix="Hours"  class="workTimeInput" :min='0'/>
       <mu-text-field  v-model="workTime.minutes" @change="setWorkTime" ref="workTimeMinutes" type="number" placeholder="" suffix="Minutes" class="workTimeInput" :min='0'/>
@@ -135,14 +135,13 @@ export default {
         "Minute",
         "Hour"
       ],
-      isFixed:false,
       workTime:{
         "hours":0,
         "minutes":5,
         "seconds":0,
       },
       wokrTimeUnit:2,
-
+      isFixed:this.form.estimated_time_cost<0?true:false,
     };
   },
   methods: {
