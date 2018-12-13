@@ -1,6 +1,6 @@
 <template>
 <div id='app' class="">
-  <!-- <Menu mode="horizontal" :theme="'primary'" active-name="currentView" @on-select="setCurrentView" class="top-navbar">
+  <!-- <Menu mode="horizontal" :theme="'primary'" active-name="currentView" @on-select="setCurrentView" class="top-navbar only-pc">
     <MenuItem name="calendar">
     <Icon type="md-calendar" />
     <span class="option-name">&nbsp&nbsp{{$t('Calendar')}}</span>
@@ -38,16 +38,26 @@
         <MenuItem name="settings">{{$t('Settings')}}</MenuItem>
         <MenuItem name="logout">{{$t('Logout')}}</MenuItem>
       </MenuGroup>
-    </Submenu>
+    </Submenu> -->
 
-  </Menu> -->
+  </Menu>
   <mu-appbar color="teal">
     <mu-button  icon slot="left" v-on:click="drawer=true">
       <mu-icon value="menu" >
 
       </mu-icon>
     </mu-button>
+
     {{routeName}}
+
+
+
+      <!-- <mu-list-item button>
+         <mu-list-item-content>
+           <mu-list-item-title>Menu Item 2</mu-list-item-title>
+         </mu-list-item-content>
+       </mu-list-item> -->
+
     <mu-button icon slot="right" @click="refresh()">
       <mu-icon value="refresh"></mu-icon>
     </mu-button>

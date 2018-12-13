@@ -20,11 +20,11 @@
       </mu-select>
     </mu-form-item>
     <!-- Start time -->
-    <mu-form-item prop="date" label="From" >
+    <mu-form-item prop="date" :label="isFixed?'From':'Begin'"  >
       <mu-date-input :valueFormat="dateFormat" :format="dateFormat" v-model="form.start_at" type="dateTime" actions ok-label="Ok" cancel-label="Cancel"></mu-date-input>
     </mu-form-item>
     <!-- Deadline -->
-    <mu-form-item prop="date" label="To" >
+    <mu-form-item prop="date" :label="isFixed?'To':'Deadline'">
       <mu-date-input :valueFormat="dateFormat" @change="setWorkTime" v-model="form.until_at" type="dateTime" actions ok-label="Ok" cancel-label="Cancel"></mu-date-input>
     </mu-form-item>
     <!-- events?todo -->
@@ -100,11 +100,11 @@ export default {
       // dateFormat:"YYYY-MM-DDTHH:mm:ssZ",
       dateFormat:"",
       importanceOptions: [
-        "Insignificant",
-        "unimportant",
-        "Normal",
+        "Fatal",
         "Important",
-        "Fatal"
+        "Normal",
+        "unimportant",
+        "Insignificant",
       ],
       restartTypeOptions: [
         "None",
