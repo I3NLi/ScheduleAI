@@ -42,7 +42,8 @@ Route::group(['https'=>true,'middleware' => 'auth'], function () {
                 });
                 Route::any('/logout', function () {
                     Auth::logout();
-                    return Redirect::route('welcome');
+                    return redirect('welcome');
+                    //return Redirect::route('welcome');
                 });
             });
 

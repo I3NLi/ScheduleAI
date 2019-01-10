@@ -430,6 +430,7 @@ export default {
           scale: true,
           min: +this.startTime,
           max: +this.endTime,
+          interval:3600000,// one day
           axisLabel: {
             formatter: function(val) {
               let date = new Date(val);

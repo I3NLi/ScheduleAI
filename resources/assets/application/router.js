@@ -15,6 +15,7 @@ import activityNavbar from './pages/activity/navbar/navbar'
 
 import calendar from './pages/calendar/calendar';
 import calendarDay from './pages/calendar/day/day';
+import calendarWeek from './pages/calendar/day0/main';
 import calendarMonth from './pages/calendar/month/month';
 //
 // import organization from './components/organization/organization';
@@ -57,7 +58,8 @@ export default new Router({
       name: 'Calendar',
       redirect: '/calendar/day',
       component: calendar,
-      children: [{
+      children: [
+        {
           alias: ['/calendar'],
           path: 'day',
           name:"Calendar: Day",
@@ -67,56 +69,16 @@ export default new Router({
              tid: route.query.tid,
            }),
           children: [
-            // {
-            //   path: 'creator/:id',
-            //   name:"calendar_day_creator",
-            //   component: MissionCreator,
-            //   props: true,
-            // },
-            // {
-            //   path: 'editor/:id',
-            //   name:"calendar_day_editor",
-            //   component: MissionEditor,
-            //   props: true,
-            // },
-
-            // {
-            //   path: 'viewer',
-            //   name:"calendar_day_viewer",
-            //   component: MissionViewer,
-            //   props: (route) => ({
-            //      id: route.query.tid,
-            //    }),
-            //   meta: {
-            //     keepAlive: false, //此组件不需要被缓存
-            //   }
-            // },
           ],
         },
         {
-          path: 'month',
-          name:"calendar_month",
-          component: calendarMonth,
-          props: true,
-          // children: [{
-          //     path: 'creator/:id',
-          //     name:"calendar_month_creator",
-          //     component: MissionCreator,
-          //     props: true,
-          //   },
-          //   {
-          //     path: 'editor/:id',
-          //     name:"calendar_month_editor",
-          //     component: MissionEditor,
-          //     props: true,
-          //   },
-          //   {
-          //     path: 'viewer/:id',
-          //     name:"calendar_month_viewer",
-          //     component: MissionViewer,
-          //     props: true,
-          //   },
-          // ],
+          path: 'week',
+          name:"Calendar: Week",
+          component: calendarWeek,
+          props: (route) => ({
+           }),
+          children: [
+          ],
         },
       ],
     },
