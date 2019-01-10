@@ -103,8 +103,13 @@ export default {
     },
     create_activity() {
       // window.app.activity.activeThingNode = this;
+      let vm=this;
       this.$router.push({
         name: 'Activity: new',
+        query: {
+          'id':vm.data.id+"",
+          // 'currentTab':"depend"
+        }
         // query: {
         //   view: 'mission',
         //   lid: '0',

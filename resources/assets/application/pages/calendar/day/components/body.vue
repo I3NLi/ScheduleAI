@@ -286,7 +286,7 @@ function matching(activityList, startTime, endTime, pause = 5) {
     }
     //未能在截至时间前将所有任务排进去
     if (died == true) {
-      alert("未能在截至事件前将所有任务排进去")
+      alert("result not find");
       return false;
     }
 
