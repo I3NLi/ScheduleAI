@@ -42,17 +42,15 @@
 
   </Menu>
   <mu-appbar color="teal">
-    <mu-button  icon slot="left" v-on:click="drawer=true">
-      <mu-icon value="menu" >
+    <mu-button icon slot="left" v-on:click="drawer=true">
+      <mu-icon value="menu">
 
       </mu-icon>
     </mu-button>
 
     {{routeName}}
 
-
-
-      <!-- <mu-list-item button>
+    <!-- <mu-list-item button>
          <mu-list-item-content>
            <mu-list-item-title>Menu Item 2</mu-list-item-title>
          </mu-list-item-content>
@@ -63,15 +61,15 @@
     </mu-button>
   </mu-appbar>
 
-  <keep-alive>
-    <router-view class="content"></router-view>
-  </keep-alive>
+  <!-- <keep-alive> -->
+  <router-view class="content"></router-view>
+  <!-- </keep-alive> -->
 
   <Drawer placement="left" :closable="false" v-model="drawer">
-    <keep-alive>
-      <router-view name="drawer">
-      </router-view>
-    </keep-alive>
+    <!-- <keep-alive> -->
+    <router-view name="drawer">
+    </router-view>
+    <!-- </keep-alive> -->
   </Drawer>
 
   <mu-bottom-nav v-model="currentView">
@@ -120,25 +118,23 @@ de-DE
 </i18n>
 
 <script>
-
 export default {
   name: 'app',
   data() {
     return {
-      drawer:false,
-      currentView:null,
+      drawer: false,
+      currentView: null,
     };
   },
   methods: {
     setCurrentView(view) {
       // console.log(view);
-      if (view == "logout") {//注销
+      if (view == "logout") { //注销
         this.logout();
-      } else if (view.indexOf('lang')==0){//修改语言
-          this.$root.$i18n.locale = view.substr(5);
-          console.log(this.$root.$i18n.locale);
-      }
-      else if (view != '#') {//跳转
+      } else if (view.indexOf('lang') == 0) { //修改语言
+        this.$root.$i18n.locale = view.substr(5);
+        console.log(this.$root.$i18n.locale);
+      } else if (view != '#') { //跳转
         this.$router.push({
           name: view
         });
@@ -156,12 +152,12 @@ export default {
           console.log(error);
         });
     },
-    refresh(){
+    refresh() {
       location.reload();
     }
   },
   computed: {
-    routeName(){
+    routeName() {
       console.log(this.$route);
       return this.$route.name;
     }
@@ -185,6 +181,7 @@ export default {
     height: calc(100% - 60px);
     margin: 0px;
   }
+
   .only-mobile {
     display: none;
   }
@@ -197,6 +194,7 @@ export default {
     height: calc(100% - 60px);
     margin: 0px;
   }
+
   .only-mobile {
     display: none;
   }
@@ -211,20 +209,24 @@ export default {
     bottom: 0;
     height: 32px;
   }
+
   .top-navbar .option-name {
     display: none;
     text-align: center;
   }
+
   .top-navbar .ivu-menu-item {
     line-height: 36px;
     width: 20%;
     text-align: center;
   }
+
   .content {
     height: calc(100% - 112px);
     margin: 0px;
 
   }
+
   .only-pc {
     display: none;
   }
@@ -234,19 +236,13 @@ export default {
 <style >
 /* 中等屏幕（桌面显示器，大于等于 992px） */
 /* @media (min-width:993px)and (max-width: 1200px) { */
-@media only screen and (min-width:992px){
+@media only screen and (min-width:992px) {}
 
-}
 /* 小屏幕（平板，大于等于 768px） */
-@media only screen and (max-width: 991px) and (min-width:768px) {
-
-}
+@media only screen and (max-width: 991px) and (min-width:768px) {}
 
 /* 超小屏幕（手机，小于 768px） */
-@media only screen and (max-width: 767px) {
-
-}
-
+@media only screen and (max-width: 767px) {}
 </style>
 
 
@@ -312,11 +308,11 @@ body,
   -webkit-transform: rotate3d(0, 0, 0, 0);
   transform: rotate3d(0, 0, 0, 0);
   -webkit-transition: background-color 100ms ease-out,
-  margin 100ms ease-out,
-  height 100ms ease-out;
+    margin 100ms ease-out,
+    height 100ms ease-out;
   transition: background-color 100ms ease-out,
-  margin 100ms ease-out,
-  height 100ms ease-out;
+    margin 100ms ease-out,
+    height 100ms ease-out;
   background-color: rgba(48, 121, 244, .1);
   margin: 5px 5px 5px 0;
   border-radius: 20px;

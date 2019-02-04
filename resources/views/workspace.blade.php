@@ -14,7 +14,7 @@
 
     <!-- iphone设备中的safari私有meta标签，它表示：允许全屏模式浏览 -->
     <meta content="yes" name="apple-mobile-web-app-capable">
-
+    <link rel ="apple-touch-startup-image" href ="/logo.png">
     <!-- iphone的私有标签，它指定的iphone中safari顶端的状态条的样式；
     默认值为default（白色），可以定为black（黑色）和black-translucent（灰色半透明）。
     注意：若值为“black-translucent”将会占据页面px位置，浮在页面上方

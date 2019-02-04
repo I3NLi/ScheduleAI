@@ -81,9 +81,9 @@ export default {
   computed: {
     data: function() {
       console.log("data"+this.id);
-      let result = [];
       let vm = this;
       for (let activityIndex in this.$root.activities) {
+        console.log(activityIndex);
         if (this.$root.activities[activityIndex].id == vm.id) {
           return this.$root.activities[activityIndex];
         }
@@ -98,9 +98,10 @@ export default {
     '$route': {
       handler() {
         this.$route.query.id ? this.id = this.$route.query.id : this.id = '0';
+
         // this.$route.query.currentTab ? this.id = this.$route.query.currentTab : this.currentTab = "attribute";
         if(this.$route.query.currentTab ) this.currentTab = this.$route.query.currentTab ;
-
+        if(this.$route.query.id==0)this.$route.query.currentTab="depend";
       },
       immediate: true,
     }

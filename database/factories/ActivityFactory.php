@@ -12,7 +12,7 @@ $factory->define(App\Activity::class, function (Faker $faker) {
   if ($fixed){$TmpEndTime->addSeconds(rand(1,60)*300);}
     return [
     "parent_id"=> 0,
-    "name"=>  "ToDo" . rand(1,300),
+    "name"=>  "ToDo " . rand(1,300),
     "start_at"=> $TmpStartTime,
     "until_at"=> $TmpEndTime,
     "estimated_time_cost"=> $fixed?-1:$worktime,

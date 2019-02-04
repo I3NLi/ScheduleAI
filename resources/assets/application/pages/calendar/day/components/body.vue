@@ -30,7 +30,8 @@ function buildList(list) {
   return result;
 }
 //根据activity中的fid，组成嵌套关系
-function buildTree(list) {
+function buildTree(buildlist) {
+  let list=buildlist.slice(0);
   // console.log(list);
   for (let m = 0; m < list.length; m++) {
     for (let n = 0; n < list.length; n++) {
@@ -58,10 +59,15 @@ function find_position(activity, activitytree) {
   // console.log("activitytree");
   // console.log(activitytree);
   if (activitytree.id == activity.parent_id) {
+    //提高子节点的重要性到父节点
+    if (activitytree.importance > activity.importance) {
+      activity['calculateWeight'] = activitytree.importance;
+    }
     // console.log("has father");
     if (activitytree.children != undefined) {
       // console.log("child exist");
       activitytree.children.push(activity);
+
       //console.log(activitytree.children);
     } else {
       // console.log("child no exist");
@@ -100,25 +106,26 @@ function calculate_weight_list(activityList) {
 计算一个activity的权重
  */
 function calculate_weight(activity) { //计算事件的权重
-  activity['calculateWeight'] = activity['importance'];
-
-  if (activity['estimated_time_cost'] == 0) {
-    activity['calculateWeight'] = parseFloat(activity['calculateWeight']) + 0.5;
-  } else {
-    let startTime = new Date(activity['start_at']);
-    let endTime = new Date(activity['until_at']);
-    let a = (endTime - startTime) / 60000; //可工作事件-分钟
-    if (activity['estimated_time_cost'] * 3 > a) {
-      activity['calculateWeight'] = parseFloat(activity['calculateWeight']) + 0.5;
-    }
-    if (activity['estimated_time_cost'] * 5 > a) {
-      activity['calculateWeight'] = parseFloat(activity['calculateWeight']) + 0.5;
-    }
-    if (activity['estimated_time_cost'] * 10 > a) {
-      activity['calculateWeight'] = parseFloat(activity['calculateWeight']) + 0.5;
-    }
+  if (typeof activity['calculateWeight']=="undefined"){
+    activity['calculateWeight'] = activity['importance'];
   }
-  return activity;
+if (activity['estimated_time_cost'] == 0) {
+  activity['calculateWeight'] = parseFloat(activity['calculateWeight']) + 0.5;
+} else {
+  let startTime = new Date(activity['start_at']);
+  let endTime = new Date(activity['until_at']);
+  let a = (endTime - startTime) / 60000; //可工作事件-分钟
+  if (activity['estimated_time_cost'] * 3 > a) {
+    activity['calculateWeight'] = parseFloat(activity['calculateWeight']) + 0.5;
+  }
+  if (activity['estimated_time_cost'] * 5 > a) {
+    activity['calculateWeight'] = parseFloat(activity['calculateWeight']) + 0.5;
+  }
+  if (activity['estimated_time_cost'] * 10 > a) {
+    activity['calculateWeight'] = parseFloat(activity['calculateWeight']) + 0.5;
+  }
+}
+return activity;
 }
 
 /*排序*/
@@ -129,12 +136,16 @@ function serialization_priority(activityList) {
   });
   //对重要性排序
   activityList.sort(function(a, b) {
-    return parseFloat(a['calculateWeight']) - parseFloat(b['calculateWeight']);
+    if (parseFloat(b['calculateWeight']) - parseFloat(a['calculateWeight']) == 0) {
+      //对截止时间
+      return new Date(a['until_at']) - new Date(b['until_at']);
+    }
+    return  parseFloat(a['calculateWeight'])- parseFloat(b['calculateWeight']);
   });
   //对截止时间
-  activityList.sort(function(a, b) {
-    return new Date(a['until_at']) - new Date(b['until_at']);
-  });
+  // activityList.sort(function(a, b) {
+  //   return new Date(a['until_at']) - new Date(b['until_at']);
+  // });
 }
 
 /*获取一个list中所有节点的深度*/
@@ -301,6 +312,15 @@ function matching(activityList, startTime, endTime, pause = 5) {
   return result;
 }
 
+function hasId(id, list) {
+  for (let i = 0; i < list.length; i++) {
+    if (list[i].id == id) {
+      return list[i];
+    }
+  }
+  return false;
+}
+
 function checkMin(i) {
   if (i < 10)
     return "0" + i;
@@ -308,20 +328,31 @@ function checkMin(i) {
 }
 /*检查两个数组是否存在交集*/
 function isInclude(array1, array2) {
-  if (array1 == undefined)
+  if (array1 == undefined) {
+    console.log("array1 == undefined");
     return false;
-  if (array2 == undefined)
+  }
+  if (array2 == undefined) {
+    console.log("array2 == undefined");
     return false;
+  }
   for (let m = 0; m < array1.length; m++) {
     for (let n = 0; n < array2.length; n++) {
-      if (array1[m] == array2[n]) {
+      if (array1[m].id == array2[n].id) {
         return true;
       }
     }
   }
   return false;
 }
-
+//鼠标滑过
+function tooltipFunction(val) {
+  return val.name + "<br/>" +
+    "Start:" + new Date(val.value[1]).toLocaleString() + "<br/>" +
+    "End  :" + new Date(val.value[2]).toLocaleTimeString() + "<br/>" +
+    "Use  :" + (val.value[3] / 1000 / 60).toFixed(0) + " min <br/>"+
+    "Weight:"+ val.value[4].calculateWeight+"<br/>";
+}
 export default {
   name: 'daybody',
   data() {
@@ -430,7 +461,7 @@ export default {
           scale: true,
           min: +this.startTime,
           max: +this.endTime,
-          interval:3600000,// one day
+          interval: 3600000, // one day
           axisLabel: {
             formatter: function(val) {
               let date = new Date(val);
@@ -531,12 +562,7 @@ export default {
           },
           tooltip: {
             trigger: 'item',
-            formatter: function(val) {
-              return val.name + "<br/>" +
-                "Start:" + new Date(val.value[1]).toLocaleString() + "<br/>" +
-                "End  :" + new Date(val.value[2]).toLocaleTimeString() + "<br/>" +
-                "Use  :" + (val.value[3] / 1000 / 60).toFixed(0) + " min <br/>";
-            }
+            formatter: tooltipFunction,
 
           },
           data: this.data,
@@ -545,19 +571,20 @@ export default {
     },
   },
   methods: {
-    openActivity(id){
+    openActivity(id) {
       this.$router.push({
-          path: '/activity',
-          query: {
-            'id':id+"",
-            'currentTab':"attribute"
-          }
-        });
+        path: '/activity',
+        query: {
+          'id': id + "",
+          'currentTab': "attribute"
+        }
+      });
     },
     processData: function() {
+      console.log("calendar processData");
       let $vm = this;
       $vm.list = buildList(this.$root.activities);
-      // $vm.tree = buildTree(this.$root.activities);
+      $vm.tree = buildTree(this.$root.activities);
       calculate_weight_list($vm.list);
       // treeHeightList($vm.tree);
       serialization_priority($vm.list);
@@ -565,6 +592,7 @@ export default {
       // console.log($vm.data);
       //画出有数据的图表
       $vm.chart.setOption($vm.option);
+      console.log(this.$root.activities);
     },
     /*同步数据*/
     synData: function() {

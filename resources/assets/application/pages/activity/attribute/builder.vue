@@ -100,11 +100,11 @@ export default {
       // dateFormat:"YYYY-MM-DDTHH:mm:ssZ",
       dateFormat:"",
       importanceOptions: [
-        "Fatal",
-        "Important",
-        "Normal",
-        "unimportant",
         "Insignificant",
+        "Unimportant",
+        "Normal",
+        "Important",
+        "Fatal",
       ],
       restartTypeOptions: [
         "None",
@@ -153,11 +153,21 @@ export default {
     },
     submit() {
       // let vm=this;
-      this.form.parent_id=this.$route.query.id?this.$route.query.id:'0';
+      // this.form.parent_id=parseInt(this.$route.query.id);
+      this.form.parent_id=isNaN(parseInt(this.$route.query.id))?'0':this.$route.query.id;
       this.form.id=this.form.id?this.form.id:Math.floor(Math.random()*1000+1000);
       this.$root.activities.push(this.form);
+      console.log(this.$root.activities);
       this.form=this.defaultForm();
       this.$router.go(-1);
+      // let vm=this;
+      // this.$router.push({
+      //   path: '/activity',
+      //   query: {
+      //     'id': vm.form.id,
+      //     'currentTab': "attribute"
+      //   }
+      // });
       // vm.activities.push(response.data);
       // axios.post('/api/v1/activity', this.form)
       //   .then(function(response) {

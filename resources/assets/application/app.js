@@ -157,6 +157,9 @@ const app = new Vue({
   methods: {
     /*
     用于通知其他用到tivities的组件更新视图*/
+    logActivities(){
+      console.log(this.activities);
+    },
     updateActivities() {
       this.activitiesUpdate = !this.activitiesUpdate;
     },
@@ -167,6 +170,7 @@ const app = new Vue({
         .then(function(response) {
           vm.activities = response.data;
           vm.spinShow = false;
+          console.log(vm.activities);
         });
     },
 

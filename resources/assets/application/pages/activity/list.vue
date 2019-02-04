@@ -18,7 +18,7 @@
   </li>
   <mu-sub-header>Include</mu-sub-header>
   <draggable class="list-group" v-model="items" @start="drag=true" @end="drag=false" :options="draggableOptions">
-    <slide-del @click.native="openActivity(item.id)" v-for="(item, index) in  items" :key="index" ref="slipDel" del-text="" @slip-open="" delCls="ivu-btn-success">
+    <slide-del @click.native="openActivity(item.id)" v-for="(item, index) in  items" :key="index" ref="slipDel" del-text="" @slip-open="" @del-click="" delCls="ivu-btn-success">
       <div class="list-group-item justify-content-between">
         {{(item.id+"").substr(-4)}}
         <Divider type="vertical" />
@@ -26,7 +26,7 @@
         <span></span>
         <!-- <Tag checkable color="primary">{{item.until_at}}</Tag> -->
       </div>
-      <span slot="del" >complete</span>
+      <span slot="del" @click.stop="complateActivity(item)" >complete</span>
     </slide-del>
     <mu-sub-header>Extends</mu-sub-header>
     <!-- <li class="list-group-item justify-content-between" style='color:undefined;background-color:undefined;' @click="" v-for="(item, index) in  items">
@@ -82,6 +82,15 @@ export default {
     };
   },
   methods: {
+    complateActivity(activity){
+      activity.complete_at=new Date();
+      console.log(this.$refs.slipDel);
+      this.$refs.slipDel.forEach(
+        function (item){
+          item.setOpen(false);
+      });
+      console.log(activity);
+    },
     openParent(){
       let vm=this;
       console.log(vm.data.parent_id);
@@ -157,10 +166,12 @@ export default {
   },
   computed:{
     items: function(){
+      console.log("list items refresh");
+      console.log(this.$root.activities);
       let result=[];
       let vm=this;
       this.$root.activities.forEach(function(activity){
-        if(activity.parent_id==vm.id){
+        if((activity.parent_id==vm.id)&&(activity.complete_at==null)){
           result.push(activity);
         }
       });

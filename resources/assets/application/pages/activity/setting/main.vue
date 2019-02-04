@@ -110,15 +110,16 @@
 
   <mu-expansion-panel>
     <div slot="header">Operat</div>
-    <mu-list>
+    <mu-list class="ImExportList">
       <Upload
-            :before-upload="handleImport"
-            action=""
-            accept="ics">
-            <Button type="info" long>Import</Button>
+        :before-upload="handleImport"
+        action=""
+        accept="ics">
+          <Button type="info" long>Import</Button>
       </Upload>
-
+      <div>
       <Button type="primary" long>Export</Button>
+      </div>
       <Button type="warning" long>Clear</Button>
       <Button type="error" long>DELETE</Button>
     </mu-list>
@@ -223,6 +224,9 @@ export default {
 </script>
 
 <!-- Add "scoped" Attribute to limit CSS to this component only -->
-<style scoped lang="less">
+<style scoped>
+>>>div.ivu-upload.ivu-upload-select{
+  width:100%;
+}
 
 </style>

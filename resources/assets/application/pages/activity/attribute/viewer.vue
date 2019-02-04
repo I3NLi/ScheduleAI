@@ -116,11 +116,11 @@ export default {
       // dateFormat:"YYYY-MM-DDTHH:mm:ssZ",
       dateFormat:"",
       importanceOptions: [
-        "Fatal",
-        "Important",
-        "Normal",
-        "unimportant",
         "Insignificant",
+        "Unimportant",
+        "Normal",
+        "Important",
+        "Fatal",
       ],
       restartTypeOptions: [
         "None",
