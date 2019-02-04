@@ -7,13 +7,14 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    
     <!-- 强制让文档的宽度与设备的宽度保持1:1，并且文档最大的宽度比例是1.0，且不允许用户点击屏幕放大浏览； -->
-    <!-- <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">      -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" >
 
     <!-- iphone设备中的safari私有meta标签，它表示：允许全屏模式浏览 -->
-    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta name="apple-mobile-web-app-capable" content="yes" >
+
+    <link rel ="apple-touch-startup-image" href ="/logo.png">
 
     <!-- iphone的私有标签，它指定的iphone中safari顶端的状态条的样式；
     默认值为default（白色），可以定为black（黑色）和black-translucent（灰色半透明）。
