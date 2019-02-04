@@ -43,9 +43,6 @@ export default new Router({
         default:activity,
         drawer:activityNavbar,
       },
-      beforeEnter: (to, from, next) => {
-
-      }
     },
     {
       path: '/activity/new',
