@@ -329,11 +329,11 @@ function checkMin(i) {
 /*检查两个数组是否存在交集*/
 function isInclude(array1, array2) {
   if (array1 == undefined) {
-    console.log("array1 == undefined");
+    // console.log("array1 == undefined");
     return false;
   }
   if (array2 == undefined) {
-    console.log("array2 == undefined");
+    // console.log("array2 == undefined");
     return false;
   }
   for (let m = 0; m < array1.length; m++) {
@@ -592,79 +592,79 @@ export default {
       // console.log($vm.data);
       //画出有数据的图表
       $vm.chart.setOption($vm.option);
-      console.log(this.$root.activities);
+      // console.log(this.$root.activities);
     },
     /*同步数据*/
-    synData: function() {
-      // console.log("获取数据");
-      let $vm = this;
-      // this.spinShow=true;
-      let url = "/api/v1/activity";
-      // console.log(url);
-      //因axios 不支持同步，选中ajax
-      $.ajax({
-        method: "get",
-        url: url,
-        async: true,
-        success: function(data, textStatus, jqXHR) {
-          //console.log("data");
-          //console.log(data);
-          $vm.list = buildList(data);
-
-          $vm.tree = buildTree(data);
-          // console.log("$vm.tree");
-          // console.log($vm.tree);
-          calculate_weight_list($vm.list);
-          treeHeightList($vm.tree);
-          serialization_priority($vm.list);
-          // console.log("$vm.list");
-          // console.log($vm.list);
-          // $vm.spinShow=false;
-          // for (let i = 0; i < $vm.list.length; i++) {
-          //   console.log($vm.list[i]['until_at'] + " " + $vm.list[i]['calculateWeight'] + " " + $vm.list[i]['height'])
-          // }
-          //
-          //          $vm.fillIin($vm.list);
-          // $vm.data=[
-          //     {
-          //     name: "typeItem.name",
-          //     value: [
-          //       1,
-          //       // 1529480424000,
-          //       +new Date(),
-          //       // 1529485464000,
-          //       +new Date()+5040000,
-          //       5040000,
-          //       {
-          //         id:0,
-          //       }
-          //     ],
-          //     itemStyle: {
-          //       normal: {
-          //         color: "#bd6d6c",
-          //       }
-          //     }
-          //   }
-          // ];
-
-
-          $vm.data = matching($vm.list, $vm.startTime, $vm.endTime);
-          // console.log($vm.data);
-          //画出有数据的图表
-          $vm.chart.setOption($vm.option);
-          //打开任务详情视图
-          // if ($vm.data != false) {
-          //   $vm.$router.push({
-          //     name: "calendar_day",
-          //     query: {
-          //       view: 'calendar',
-          //       tid: $vm.data[0].value[4].id
-          //     }
-          //   });
-          // }
-        },
-      });
-    },
+    // synData: function() {
+    //   // console.log("获取数据");
+    //   let $vm = this;
+    //   // this.spinShow=true;
+    //   let url = "/api/v1/activity";
+    //   // console.log(url);
+    //   //因axios 不支持同步，选中ajax
+    //   $.ajax({
+    //     method: "get",
+    //     url: url,
+    //     async: true,
+    //     success: function(data, textStatus, jqXHR) {
+    //       //console.log("data");
+    //       //console.log(data);
+    //       $vm.list = buildList(data);
+    //
+    //       $vm.tree = buildTree(data);
+    //       // console.log("$vm.tree");
+    //       // console.log($vm.tree);
+    //       calculate_weight_list($vm.list);
+    //       treeHeightList($vm.tree);
+    //       serialization_priority($vm.list);
+    //       // console.log("$vm.list");
+    //       // console.log($vm.list);
+    //       // $vm.spinShow=false;
+    //       // for (let i = 0; i < $vm.list.length; i++) {
+    //       //   console.log($vm.list[i]['until_at'] + " " + $vm.list[i]['calculateWeight'] + " " + $vm.list[i]['height'])
+    //       // }
+    //       //
+    //       //          $vm.fillIin($vm.list);
+    //       // $vm.data=[
+    //       //     {
+    //       //     name: "typeItem.name",
+    //       //     value: [
+    //       //       1,
+    //       //       // 1529480424000,
+    //       //       +new Date(),
+    //       //       // 1529485464000,
+    //       //       +new Date()+5040000,
+    //       //       5040000,
+    //       //       {
+    //       //         id:0,
+    //       //       }
+    //       //     ],
+    //       //     itemStyle: {
+    //       //       normal: {
+    //       //         color: "#bd6d6c",
+    //       //       }
+    //       //     }
+    //       //   }
+    //       // ];
+    //
+    //
+    //       $vm.data = matching($vm.list, $vm.startTime, $vm.endTime);
+    //       // console.log($vm.data);
+    //       //画出有数据的图表
+    //       $vm.chart.setOption($vm.option);
+    //       //打开任务详情视图
+    //       // if ($vm.data != false) {
+    //       //   $vm.$router.push({
+    //       //     name: "calendar_day",
+    //       //     query: {
+    //       //       view: 'calendar',
+    //       //       tid: $vm.data[0].value[4].id
+    //       //     }
+    //       //   });
+    //       // }
+    //     },
+    //   });
+    // },
     fillIin: function(activityList) {
       //this.data = [];
       // console.log(this);

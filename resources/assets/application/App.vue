@@ -72,10 +72,10 @@
     <!-- </keep-alive> -->
   </Drawer>
 
-  <mu-bottom-nav v-model="currentView">
-    <mu-bottom-nav-item title="Calendar" icon="calendar_today" to='/calendar'></mu-bottom-nav-item>
-    <mu-bottom-nav-item title="Activities" icon="assignment" to='/activity'></mu-bottom-nav-item>
-    <mu-bottom-nav-item title="More" icon="more_horiz" to='view'></mu-bottom-nav-item>
+  <mu-bottom-nav value="$route.meta.title">
+    <mu-bottom-nav-item title="Calendar" value="Calendar" icon="calendar_today" to='/calendar' ></mu-bottom-nav-item>
+    <mu-bottom-nav-item title="Activities" value="Activities" icon="assignment" to='/activity'></mu-bottom-nav-item>
+    <mu-bottom-nav-item title="More" value="More" icon="more_horiz" to='view'></mu-bottom-nav-item>
   </mu-bottom-nav>
 
 </div>
@@ -157,14 +157,14 @@ export default {
     }
   },
   computed: {
-    routeName() {
-      console.log(this.$route);
-      return this.$route.name;
-    }
+
   },
   components: {
 
   },
+  // created:{
+  //
+  // }
 
 
 
@@ -190,12 +190,39 @@ export default {
 /* 小屏幕（平板，大于等于 768px） */
 
 @media only screen and (max-width: 991px) and (min-width:768px) {
-  .content {
+  /* .content {
     height: calc(100% - 60px);
     margin: 0px;
   }
 
   .only-mobile {
+    display: none;
+  } */
+  .top-navbar {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    height: 32px;
+  }
+
+  .top-navbar .option-name {
+    display: none;
+    text-align: center;
+  }
+
+  .top-navbar .ivu-menu-item {
+    line-height: 36px;
+    width: 20%;
+    text-align: center;
+  }
+
+  .content {
+    height: calc(100% - 112px);
+    margin: 0px;
+
+  }
+
+  .only-pc {
     display: none;
   }
 }
@@ -233,7 +260,7 @@ export default {
 }
 </style>
 
-<style >
+<style>
 /* 中等屏幕（桌面显示器，大于等于 992px） */
 /* @media (min-width:993px)and (max-width: 1200px) { */
 @media only screen and (min-width:992px) {}

@@ -23,10 +23,18 @@ import 'weui/dist/style/weui.min.css';
 
 
 Vue.config.productionTip = true;
+Vue.config.onlineStorage = false;
+
 
 Vue.use(MuseUI);
 Vue.use(Vuebar);
 Vue.use(iView);
+
+import offlineActivityController from './mixins/offlineActivityController';
+import onlineActivityController from './mixins/onlineActivityController';
+
+Vue.mixin(onlineActivityController);
+Vue.config.onlineStorage?true:Vue.mixin(offlineActivityController);
 
 /*
 i18n 语言编码使用 RFC 3066 标准 {ISO 639-1}/{ISO 3166-1}
@@ -155,26 +163,6 @@ const app = new Vue({
     }
   },
   methods: {
-    /*
-    用于通知其他用到tivities的组件更新视图*/
-    logActivities(){
-      console.log(this.activities);
-    },
-    updateActivities() {
-      this.activitiesUpdate = !this.activitiesUpdate;
-    },
-    loadActivities() {
-      let vm = this;
-      vm.spinShow = true;
-      axios.get('/api/v1/activity')
-        .then(function(response) {
-          vm.activities = response.data;
-          vm.spinShow = false;
-          console.log(vm.activities);
-        });
-    },
-
-
   },
   computed: {
     activitiesTree() {
@@ -189,7 +177,7 @@ const app = new Vue({
     }
   },
   mounted() {
-    this.loadActivities();
+    this.$loadActivities();
   },
 
 });

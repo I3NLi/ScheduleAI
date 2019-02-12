@@ -80,10 +80,10 @@ export default {
   },
   computed: {
     data: function() {
-      console.log("data"+this.id);
+      console.log("ParentId: "+this.id);
       let vm = this;
       for (let activityIndex in this.$root.activities) {
-        console.log(activityIndex);
+        // console.log(activityIndex);
         if (this.$root.activities[activityIndex].id == vm.id) {
           return this.$root.activities[activityIndex];
         }

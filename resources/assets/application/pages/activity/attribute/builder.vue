@@ -91,7 +91,7 @@ import ActivityBroadcastMixins from './mixins/ActivityBroadcastMixins'
 
 export default {
   name: 'activity-builder',
-  mixins: [ActivityBroadcastMixins],
+  // mixins: [ActivityBroadcastMixins],
   data() {
     let form=this.defaultForm();
     return {
@@ -155,9 +155,7 @@ export default {
       // let vm=this;
       // this.form.parent_id=parseInt(this.$route.query.id);
       this.form.parent_id=isNaN(parseInt(this.$route.query.id))?'0':this.$route.query.id;
-      this.form.id=this.form.id?this.form.id:Math.floor(Math.random()*1000+1000);
-      this.$root.activities.push(this.form);
-      console.log(this.$root.activities);
+      this.$createActivity(this.form);
       this.form=this.defaultForm();
       this.$router.go(-1);
       // let vm=this;

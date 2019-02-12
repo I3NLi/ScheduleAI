@@ -26,7 +26,7 @@
         <span></span>
         <!-- <Tag checkable color="primary">{{item.until_at}}</Tag> -->
       </div>
-      <span slot="del" @click.stop="complateActivity(item)" >complete</span>
+      <span slot="del" @click.stop="complateActivity(item)">complete</span>
     </slide-del>
     <mu-sub-header>Extends</mu-sub-header>
     <!-- <li class="list-group-item justify-content-between" style='color:undefined;background-color:undefined;' @click="" v-for="(item, index) in  items">
@@ -68,55 +68,58 @@ export default {
       type: [String],
       default: '0'
     },
-    'data':{
-      type:Object,
+    'data': {
+      type: Object,
     }
   },
   data() {
     return {
-      // items: [],
+      items: [],
       spinShow: false,
-      draggableOptions:{
-        delay: 300
+      draggableOptions: {
+        delay: 300,
+        ghostClass: 'ghost',  //原始占位样式
+        dragClass: "drag",  //跟随鼠标样式
+        chosenClass:"chosen"  //目标占位样式
       }
     };
   },
   methods: {
-    complateActivity(activity){
-      activity.complete_at=new Date();
+    complateActivity(activity) {
+      activity.complete_at = new Date();
       console.log(this.$refs.slipDel);
       this.$refs.slipDel.forEach(
-        function (item){
+        function(item) {
           item.setOpen(false);
-      });
+        });
       console.log(activity);
     },
-    openParent(){
-      let vm=this;
+    openParent() {
+      let vm = this;
       console.log(vm.data.parent_id);
       this.$router.push({
-          path: '/activity',
-          query: {
-            'id':vm.data.parent_id+"",
-          }
-        });
+        path: '/activity',
+        query: {
+          'id': vm.data.parent_id + "",
+        }
+      });
     },
-    openActivity(id){
+    openActivity(id) {
       this.$router.push({
-          path: '/activity',
-          query: {
-            'id':id+"",
-            'currentTab':"depend"
-          }
-        });
+        path: '/activity',
+        query: {
+          'id': id + "",
+          'currentTab': "depend"
+        }
+      });
     },
     create_activity() {
       // window.app.activity.activeThingNode = this;
-      let vm=this;
+      let vm = this;
       this.$router.push({
         name: 'Activity: new',
         query: {
-          'id':vm.data.id+"",
+          'id': vm.data.id + "",
           // 'currentTab':"depend"
         }
         // query: {
@@ -132,60 +135,69 @@ export default {
     //   console.log(data);
     //   Vue.set(this.item, 'children', data);
     // },
-    load_activity() {
-      let vm = this;
-      this.spinShow = true;
-      let url = "/api/v1/activity/" + vm.id + "/list";
-      console.log(url);
-      //因axios 不支持同步，选中ajax
-      $.ajax({
-        method: "get",
-        url: url,
-        async: true,
-        success: function(data, textStatus, jqXHR) {
-          vm.items = data;
-          vm.spinShow = false;
-          console.log(vm.items);
-        },
-      });
-    },
-    refresh(id) {
-      this.spinShow = true;
-      this.load_activity();
-      if (id) {
-        for (let key in this.$children) {
-          if (this.$children[key]._id == id) {
-            // window.app.activity.activeThingNode=this.$children[key];
-            break;
-          }
-        }
-      }
-      this.spinShow = false;
-      return;
-    },
-  },
-  computed:{
-    items: function(){
-      console.log("list items refresh");
+    // load_activity() {
+    //   let vm = this;
+    //   this.spinShow = true;
+    //   let url = "/api/v1/activity/" + vm.id + "/list";
+    //   console.log(url);
+    //   //因axios 不支持同步，选中ajax
+    //   $.ajax({
+    //     method: "get",
+    //     url: url,
+    //     async: true,
+    //     success: function(data, textStatus, jqXHR) {
+    //       vm.items = data;
+    //       vm.spinShow = false;
+    //       console.log(vm.items);
+    //     },
+    //   });
+    // },
+    // refresh(id) {
+    //   this.spinShow = true;
+    //   this.load_activity();
+    //   if (id) {
+    //     for (let key in this.$children) {
+    //       if (this.$children[key]._id == id) {
+    //         // window.app.activity.activeThingNode=this.$children[key];
+    //         break;
+    //       }
+    //     }
+    //   }
+    //   this.spinShow = false;
+    //   return;
+    // },
+    freshItems() {
+      console.log("freshItems");
       console.log(this.$root.activities);
-      let result=[];
-      let vm=this;
-      this.$root.activities.forEach(function(activity){
-        if((activity.parent_id==vm.id)&&(activity.complete_at==null)){
+      let result = [];
+      let vm = this;
+      this.$root.activities.forEach(function(activity) {
+        if ((activity.parent_id == vm.id) && (activity.complete_at == null)) {
           result.push(activity);
         }
       });
-      return result;
+      this.items = result;
+    }
+  },
+  computed: {
+    // items: function() {
+    //   return result;
+    // },
+  },
+  watch: {
+    "$root.activities": {
+      handler(newVal) {
+        this.freshItems();
+      },
+      // deep: true,
+      immediate: true,
+
     },
 
   },
   mounted() {
-    // this.load_activity();
+    // this.freshItems();
   },
-  watch: {
-
-  },
-
   components: {
     // item,
     draggable,
@@ -200,16 +212,39 @@ export default {
   font-size: 20px;
   border-bottom: 1px solid #ccc;
 }
-#activity_list .list-group-item{
-  border:0px;
+
+#activity_list .list-group-item {
+  border: 0px;
   border-bottom: 1px solid #ccc;
   margin-bottom: 0px;
 }
-#activity_list{
+
+#activity_list {
   /* overflow:auto; */
 }
-</style>
 
+</style>
+<style>
+.ghost {
+
+}
+
+.chosen{
+  opacity: .7;
+  /* color:  #C8EBFB; */
+  /* background: #C8EBFB; */
+  /* background-color: #c00; */
+}
+.chosen .list-group-item{
+  /* color:  #C8EBFB; */
+  background: #C8EBFB;
+  /* background-color: #c00; */
+}
+.drag{
+  opacity: .0;
+  display: none;
+}
+</style>
 <!-- Add "scoped" Attribute to limit CSS to this component only -->
 <style scoped lang="sass">
   // @import "~bootstrap/scss/bootstrap";

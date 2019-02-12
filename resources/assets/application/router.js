@@ -20,6 +20,7 @@ import calendarMonth from './pages/calendar/month/month';
 //
 // import organization from './components/organization/organization';
 
+
 Vue.use(Router)
 
 export default new Router({
@@ -38,6 +39,7 @@ export default new Router({
     {
       // alias: '/',
       path: '/activity',
+      meta: {title:'Activity', },
       name: 'Activity',
       components: {
         default:activity,
@@ -46,6 +48,7 @@ export default new Router({
     },
     {
       path: '/activity/new',
+      meta: {title:'Activity', },
       name: 'Activity: new',
       components: {
         default:activityBuilder,
@@ -55,6 +58,7 @@ export default new Router({
     {
       alias: '/',
       path: '/calendar',
+      meta: {title:'Calendar', },
       name: 'Calendar',
       redirect: '/calendar/day',
       component: calendar,
