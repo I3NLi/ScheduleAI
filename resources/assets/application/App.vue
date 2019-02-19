@@ -38,10 +38,10 @@
         <MenuItem name="settings">{{$t('Settings')}}</MenuItem>
         <MenuItem name="logout">{{$t('Logout')}}</MenuItem>
       </MenuGroup>
-    </Submenu> -->
+    </Submenu>
 
-  </Menu>
-  <mu-appbar color="teal">
+  </Menu>-->
+  <mu-appbar color="teal" id="appbar">
     <mu-button icon slot="left" v-on:click="drawer=true">
       <mu-icon value="menu">
 
@@ -56,7 +56,7 @@
          </mu-list-item-content>
        </mu-list-item> -->
 
-    <mu-button icon slot="right" @click="refresh()">
+    <mu-button icon slot="right" @click="refresh()" id="buttonbar">
       <mu-icon value="refresh"></mu-icon>
     </mu-button>
   </mu-appbar>
@@ -73,7 +73,7 @@
   </Drawer>
 
   <mu-bottom-nav value="$route.meta.title">
-    <mu-bottom-nav-item title="Calendar" value="Calendar" icon="calendar_today" to='/calendar' ></mu-bottom-nav-item>
+    <mu-bottom-nav-item title="Calendar" value="Calendar" icon="calendar_today" to='/calendar'></mu-bottom-nav-item>
     <mu-bottom-nav-item title="Activities" value="Activities" icon="assignment" to='/activity'></mu-bottom-nav-item>
     <mu-bottom-nav-item title="More" value="More" icon="more_horiz" to='view'></mu-bottom-nav-item>
   </mu-bottom-nav>
@@ -162,6 +162,15 @@ export default {
   components: {
 
   },
+  mounted(){
+    //检查是否由webapp运行
+    let isInWebAppiOS = (window.navigator.standalone == true);
+    let isInWebAppChrome = (window.matchMedia('(display-mode: standalone)').matches);
+
+    if(isInWebAppiOS){
+      document.getElementsByTagName('body')[0].classList.add('fixedFrame')
+    }
+  }
   // created:{
   //
   // }
@@ -172,6 +181,23 @@ export default {
 </script>
 
 <style scoped>
+/* .content {
+  height: calc(100% - 60px);
+  margin: 0px;
+  margin-top: 56px;
+}
+
+#appbar {
+  position: absolute;
+  width: 100%;
+}
+
+#buttonbar {
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+} */
+
 /* 中等屏幕（桌面显示器，大于等于 992px） */
 
 /* @media (min-width:993px)and (max-width: 1200px) { */
@@ -180,6 +206,7 @@ export default {
   .content {
     height: calc(100% - 60px);
     margin: 0px;
+    margin-top: 56px;
   }
 
   .only-mobile {
@@ -190,6 +217,7 @@ export default {
 /* 小屏幕（平板，大于等于 768px） */
 
 @media only screen and (max-width: 991px) and (min-width:768px) {
+
   /* .content {
     height: calc(100% - 60px);
     margin: 0px;
@@ -274,13 +302,20 @@ export default {
 
 
 <style>
+/*防止safari橡皮筋效果*/
 html,
 body,
 #app {
   height: 100%;
   margin: 0px;
   overflow: hidden;
+
 }
+
+.fixedFrame{position:fixed;}
+
+
+
 
 /*载入中*/
 

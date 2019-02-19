@@ -106,3 +106,7 @@ axios.interceptors.response.use(
 //   .listen('News', (e) => {
 //     console.log(e);
 //   });
+
+setInterval(function(){
+        window.scrollTo(0,0);
+   },500);
