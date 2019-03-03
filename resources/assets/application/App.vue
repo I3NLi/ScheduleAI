@@ -1,12 +1,12 @@
 <template>
 <div id='app' class="">
-  <!-- <Menu mode="horizontal" :theme="'primary'" active-name="currentView" @on-select="setCurrentView" class="top-navbar only-pc">
-    <MenuItem name="calendar">
+  <Menu mode="horizontal" :theme="'light'" class="top-navbar only-show-on-pc">
+    <MenuItem name="calendar" to='/calendar'>
     <Icon type="md-calendar" />
     <span class="option-name">&nbsp&nbsp{{$t('Calendar')}}</span>
     </MenuItem>
-    <MenuItem name="activity">
-    <Icon type="md-clipboard" />
+    <MenuItem name="activity" to='/activity'>
+    <Icon type="md-clipboard"  />
     <span class="option-name">&nbsp&nbsp{{$t('Activities')}}</span>
     </MenuItem>
     <MenuItem name="organization">
@@ -18,12 +18,12 @@
     <span class="option-name">&nbsp&nbsp{{$t('Contact')}}</span>
     </MenuItem>
 
-    <MenuItem name="config" class="only-mobile">
+    <MenuItem name="config" class="only-show-on-mobile">
     <Icon type="ios-construct" />
     <span class="option-name">{{$t('Config')}}</span>
     </MenuItem>
 
-    <Submenu name="Config" style="float:right" class="only-pc">
+    <Submenu name="Config" style="float:right" class="only-show-on-pc">
       <template slot="title">
         <Icon type="stats-bars"></Icon>
         <span class="option-name">{{$t('Config')}}</span>
@@ -40,11 +40,11 @@
       </MenuGroup>
     </Submenu>
 
-  </Menu>-->
-  <mu-appbar color="teal" id="appbar">
+  </Menu>
+
+  <mu-appbar color="teal" id="appbar" class="only-show-on-mobile">
     <mu-button icon slot="left" v-on:click="drawer=true">
       <mu-icon value="menu">
-
       </mu-icon>
     </mu-button>
 
@@ -65,9 +65,16 @@
   <router-view class="content"></router-view>
   <!-- </keep-alive> -->
 
-  <Drawer placement="left" :closable="false" v-model="drawer">
+  <Drawer placement="left" :closable="false" v-model="leftDrawer">
     <!-- <keep-alive> -->
-    <router-view name="drawer">
+    <router-view name="leftdrawer">
+    </router-view>
+    <!-- </keep-alive> -->
+  </Drawer>
+
+  <Drawer placement="right" :closable="true" v-model="rightDrawer">
+    <!-- <keep-alive> -->
+    <router-view name="rightdrawer">
     </router-view>
     <!-- </keep-alive> -->
   </Drawer>
@@ -75,7 +82,7 @@
   <mu-bottom-nav value="$route.meta.title">
     <mu-bottom-nav-item title="Calendar" value="Calendar" icon="calendar_today" to='/calendar'></mu-bottom-nav-item>
     <mu-bottom-nav-item title="Activities" value="Activities" icon="assignment" to='/activity'></mu-bottom-nav-item>
-    <mu-bottom-nav-item title="More" value="More" icon="more_horiz" to='view'></mu-bottom-nav-item>
+    <mu-bottom-nav-item title="More" value="More" icon="more_horiz" to='/settings'></mu-bottom-nav-item>
   </mu-bottom-nav>
 
 </div>
@@ -122,7 +129,8 @@ export default {
   name: 'app',
   data() {
     return {
-      drawer: false,
+      leftDrawer: false,
+      rightDrawer:false,
       currentView: null,
     };
   },
@@ -157,7 +165,7 @@ export default {
     }
   },
   computed: {
-
+    routeName(){return this.$route.meta.title;}
   },
   components: {
 
@@ -206,11 +214,15 @@ export default {
   .content {
     height: calc(100% - 60px);
     margin: 0px;
-    margin-top: 56px;
+    /* margin-top: 56px; */
   }
 
-  .only-mobile {
+  .only-show-on-mobile {
     display: none;
+  }
+
+  .only-show-on-pc{
+    /* display: flex; */
   }
 }
 
@@ -223,7 +235,7 @@ export default {
     margin: 0px;
   }
 
-  .only-mobile {
+  .only-show-on-mobile {
     display: none;
   } */
   .top-navbar {
@@ -247,10 +259,9 @@ export default {
   .content {
     height: calc(100% - 112px);
     margin: 0px;
-
   }
 
-  .only-pc {
+  .only-show-on-pc {
     display: none;
   }
 }
@@ -282,7 +293,7 @@ export default {
 
   }
 
-  .only-pc {
+  .only-show-on-pc {
     display: none;
   }
 }

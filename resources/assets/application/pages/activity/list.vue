@@ -88,6 +88,7 @@ export default {
     complateActivity(activity) {
       activity.complete_at = new Date();
       console.log(this.$refs.slipDel);
+      //关闭所有
       this.$refs.slipDel.forEach(
         function(item) {
           item.setOpen(false);

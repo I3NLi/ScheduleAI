@@ -17,6 +17,8 @@ import calendar from './pages/calendar/calendar';
 import calendarDay from './pages/calendar/day/day';
 import calendarWeek from './pages/calendar/day0/main';
 import calendarMonth from './pages/calendar/month/month';
+
+import setting from './pages/settings/setting';
 //
 // import organization from './components/organization/organization';
 
@@ -29,13 +31,10 @@ export default new Router({
   saveScrollPosition: true,
   root: '/workspace',
   routes: [
-    // {
-    //   alias: '/',
-    //   path: '/activity',
-    //   name: 'Activity',
-    //   component:activity,
-    //   props: (route)=>({id:route.query.id}),
-    // },
+    {
+      path: '/',
+      redirect: '/calendar'
+    },
     {
       // alias: '/',
       path: '/activity',
@@ -56,7 +55,6 @@ export default new Router({
       }
     },
     {
-      alias: '/',
       path: '/calendar',
       meta: {title:'Calendar', },
       name: 'Calendar',
@@ -67,6 +65,9 @@ export default new Router({
           alias: ['/calendar'],
           path: 'day',
           name:"Calendar: Day",
+          meta: {
+            title:'Calendar: Day',
+          },
           component: calendarDay,
           props: (route) => ({
              view: route.query.view,
@@ -78,6 +79,9 @@ export default new Router({
         {
           path: 'week',
           name:"Calendar: Week",
+          meta: {
+            title:'Calendar: Week',
+          },
           component: calendarWeek,
           props: (route) => ({
            }),
@@ -175,5 +179,13 @@ export default new Router({
     //   name: 'tempusers',
     //   component: tempusers,
     // }
+    {
+      path: '/settings',
+      meta: {title:'Settings', },
+      name: 'Settings',
+      components: {
+        default:setting,
+      },
+    },
   ]
 })
