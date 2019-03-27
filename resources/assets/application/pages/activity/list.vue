@@ -88,6 +88,7 @@ export default {
     complateActivity(activity) {
       activity.complete_at = new Date();
       console.log(this.$refs.slipDel);
+      this.$updateActivity(activity);
       //关闭所有
       this.$refs.slipDel.forEach(
         function(item) {
@@ -190,11 +191,9 @@ export default {
       handler(newVal) {
         this.freshItems();
       },
-      // deep: true,
+      deep: true,
       immediate: true,
-
     },
-
   },
   mounted() {
     // this.freshItems();

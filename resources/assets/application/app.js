@@ -23,7 +23,7 @@ import 'weui/dist/style/weui.min.css';
 
 
 Vue.config.productionTip = true;
-Vue.config.onlineStorage = false;
+Vue.config.onlineStorage = true;
 
 
 Vue.use(MuseUI);
@@ -33,8 +33,8 @@ Vue.use(iView);
 import offlineActivityController from './mixins/offlineActivityController';
 import onlineActivityController from './mixins/onlineActivityController';
 
-Vue.mixin(onlineActivityController);
-Vue.config.onlineStorage?true:Vue.mixin(offlineActivityController);
+
+Vue.config.onlineStorage?Vue.mixin(onlineActivityController):Vue.mixin(offlineActivityController);
 
 /*
 i18n 语言编码使用 RFC 3066 标准 {ISO 639-1}/{ISO 3166-1}

@@ -47,7 +47,7 @@ class ActivityController extends Controller
         $request['start_at']=new Carbon($request['start_at']);
         $request['until_at']=new Carbon($request['until_at']);
         // \Debugbar::info($request->all());
-         return Activity::create($request->all());
+        return Activity::create($request->all());
 
     }
 
@@ -86,6 +86,14 @@ class ActivityController extends Controller
     public function update(Request $request, Activity $activity)
     {
         //
+        $activity=Activity::findOrFail($request->id);
+        // return $activity;
+        // return $request;
+        // $tmp=array_only($request->all(),key($activity));
+        // return key($activity->toJson());
+        // $tmp=array_except($request->all(),['updated_at','created_at']);
+        $activity->update(['complete_at'=>$request->complete_at]);
+        return $activity;
     }
 
     /**

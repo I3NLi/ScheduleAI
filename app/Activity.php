@@ -12,9 +12,11 @@ class Activity extends Model
     // protected $dateFormat = 'U';
 
     protected $ImportanceOptions=["Insignificant","unimportant","Normal","Important","Fatal"];
+
     protected $casts = [
         'start_at'=>"datetime:c",
         'until_at'=>"datetime:c",
+        'complete_at'=>"datetime:c",
         'missions' => 'json',
         'permission'=>'json',
         'setting'=>'json',
@@ -23,6 +25,14 @@ class Activity extends Model
         'deleted_at'=>"datetime:c",
     ];
 
+    // protected $dates = [
+    //   'start_at'=>"datetime:c",
+    //   'until_at'=>"datetime:c",
+    //   'complete_at'=>"datetime:c",
+    //   'created_at'=>"datetime:c",
+    //   'updated_at'=>"datetime:c",
+    //   'deleted_at'=>"datetime:c",
+    // ];
     // public function getImportanceAttribute($value)
     // {
     //     return $this->ImportanceOptions[$value];
