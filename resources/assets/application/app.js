@@ -13,18 +13,16 @@ import 'iview/dist/styles/iview.css';
 // import "bootstrap-sass";
 import Vuebar from 'vuebar';
 import Vuerouter from 'vue-router';
-import router from './router.js';
 import VueI18n from 'vue-i18n'
-
 import MuseUI from 'muse-ui';
 import 'muse-ui/dist/muse-ui.css';
 import 'weui/dist/style/weui.min.css';
 
-
+import router from './router.js';
+import store from './store';
 
 Vue.config.productionTip = true;
 Vue.config.onlineStorage = true;
-
 
 Vue.use(MuseUI);
 Vue.use(Vuebar);
@@ -148,6 +146,7 @@ const app = new Vue({
   el: '#app',
   name: 'appjs',
   template: '<App />',
+  store,
   router,
   i18n,
   components: {
