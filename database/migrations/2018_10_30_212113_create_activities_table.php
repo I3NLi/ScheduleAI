@@ -30,8 +30,8 @@ class CreateActivitiesTable extends Migration
           $table->string('tags')->nullable();
           $table->string('description')->nullable();
 
-          $table->json('missions')->nullable();//事件详情
-          $table->json('permission')->nullable();//权限，可见性
+          // $table->json('missions')->nullable();//事件详情
+          // $table->json('permission')->nullable();//权限，可见性
           // $table->json('setting')->nullable();//设置
           $table->timestamps();
           $table->softDeletes();
