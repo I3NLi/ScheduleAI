@@ -1,2 +1,2 @@
 cd ../laradock
-docker-compose exec workspace bash
+docker compose exec workspace bash

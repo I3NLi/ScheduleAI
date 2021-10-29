@@ -63,6 +63,7 @@
     "laravel-echo": "^1.5.2",
     "material-design-icons": "^3.0.1",
     "muse-ui": "^3.0.2",
+    "node-sass": "^6.0.1",
     "npm": "^6.7.0",
     "socket.io-client": "^2.2.0",
     "vue-fullcalendar": "^1.0.9",
