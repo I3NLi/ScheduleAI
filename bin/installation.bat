@@ -4,7 +4,7 @@ copy .env.example .env
 copy laradock.env laradock\.env
 call npm install
 cd laradock
-docker compose up up -d workspace apache2 redis mysql phpmyadmin laravel-echo-server
+docker compose up -d apache2 redis mysql phpmyadmin laravel-echo-server
 call docker compose exec workspace composer install
 call docker compose exec workspace php artisan migrate --seed
 cd ../bin
