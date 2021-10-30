@@ -1,5 +1,5 @@
 cd ../laradock
-docker compose up -d workspace apache2 redis mysql phpmyadmin laravel-echo-server
+docker compose up -d apache2 redis mysql phpmyadmin laravel-echo-server
 
 echo  PrivateSecretary Started,now you can open http://localhost to use it
 REM 启动一个workspace内部命令行
